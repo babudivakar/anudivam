@@ -157,7 +157,13 @@ function App() {
   const isAdmin = params.get('mode') === 'admin'
   const from = params.get('from')
   const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
+  const by = params.get('by') || ''
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
+  const inviterName = side && by === 'parents' ? side.invitedBy
+    : side && by === 'grandparents' ? side.blessingsOf
+    : side && by === 'family' ? side.familyName
+    : by && by !== 'parents' && by !== 'grandparents' && by !== 'family' ? decodeURIComponent(by)
+    : side ? side.familyName : ''
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   const openDoors = () => {
@@ -250,13 +256,13 @@ function App() {
           <LotusMark className="ganesh-lotus" />
           {guestName && <p className="ganesh-guest">Dear {guestName},</p>}
           <div className="ganesh-families">
-            {side ? <span>{side.familyName}</span> : <>
+            {inviterName ? <span>{inviterName}</span> : <>
               <span>{wedding.welcomeFamilies[0]}</span>
               <i>&amp;</i>
               <span>{wedding.welcomeFamilies[1]}</span>
             </>}
           </div>
-          <span className="ganesh-invite-label">Cordially invite you to</span>
+          <span className="ganesh-invite-label">{inviterName ? 'Cordially invites you to' : 'Cordially invite you to'}</span>
           <h1 className="ganesh-monogram"><span className="mono-letter">A</span><span className="mono-heart">♥</span><span className="mono-letter">D</span></h1>
           <span className="ganesh-theme">{wedding.title}</span>
           <span className="ganesh-tagline">A celebration of love</span>

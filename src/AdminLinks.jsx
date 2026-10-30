@@ -5,15 +5,26 @@ const STORE_KEY = 'anudivam-guest-lists'
 const BASE = window.location.origin + window.location.pathname
 
 function load() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { anusha: '', divakar: '' } }
-  catch { return { anusha: '', divakar: '' } }
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { anusha: '', divakar: '', anushaBy: 'family', divakarBy: 'family' } }
+  catch { return { anusha: '', divakar: '', anushaBy: 'family', divakarBy: 'family' } }
 }
 function save(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)) }
 
-function makeUrl(name, side) {
+const inviterOptions = (side) => {
+  const s = wedding.sides[side]
+  return [
+    { value: 'family', label: `Family name — ${s.familyName}` },
+    { value: 'parents', label: `Parents — ${s.invitedBy}` },
+    { value: 'grandparents', label: `Grandparents — ${s.blessingsOf}` },
+    { value: 'custom', label: 'Custom name…' },
+  ]
+}
+
+function makeUrl(name, side, by) {
   const p = new URLSearchParams()
   p.set('guest', name)
   if (side) p.set('from', side)
+  if (by && by !== 'family') p.set('by', by)
   return BASE + '?' + p.toString()
 }
 
@@ -26,33 +37,42 @@ export default function AdminLinks() {
   const [stored] = useState(load)
   const [anushaText, setAnushaText] = useState(stored.anusha)
   const [divakarText, setDivakarText] = useState(stored.divakar)
+  const [anushaBy, setAnushaBy] = useState(stored.anushaBy || 'family')
+  const [divakarBy, setDivakarBy] = useState(stored.divakarBy || 'family')
+  const [anushaCustom, setAnushaCustom] = useState(stored.anushaCustom || '')
+  const [divakarCustom, setDivakarCustom] = useState(stored.divakarCustom || '')
   const [links, setLinks] = useState([])
   const [copied, setCopied] = useState(null)
   const [lastSaved, setLastSaved] = useState(null)
 
-  // Auto-save as you type
   useEffect(() => {
     const timer = setTimeout(() => {
-      save({ anusha: anushaText, divakar: divakarText })
+      save({ anusha: anushaText, divakar: divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom })
       setLastSaved(new Date().toLocaleTimeString())
     }, 500)
     return () => clearTimeout(timer)
-  }, [anushaText, divakarText])
+  }, [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom])
 
-  // Auto-generate on load if there's saved data
   useEffect(() => {
-    if (stored.anusha || stored.divakar) generateLinks(stored.anusha, stored.divakar)
+    if (stored.anusha || stored.divakar) generateLinks(stored.anusha, stored.divakar, stored.anushaBy, stored.divakarBy, stored.anushaCustom, stored.divakarCustom)
   }, [])
 
-  const generateLinks = (aText, dText) => {
+  const resolveBy = (side, byVal, customVal) => {
+    if (byVal === 'custom' && customVal) return customVal
+    return byVal || 'family'
+  }
+
+  const generateLinks = (aText, dText, aBy, dBy, aCust, dCust) => {
     const parse = t => t.split('\n').map(n => n.trim()).filter(Boolean)
     const result = []
-    parse(aText || anushaText).forEach(name => result.push({ name, side: 'anusha', url: makeUrl(name, 'anusha') }))
-    parse(dText || divakarText).forEach(name => result.push({ name, side: 'divakar', url: makeUrl(name, 'divakar') }))
+    const aBySend = resolveBy('anusha', aBy || anushaBy, aCust || anushaCustom)
+    const dBySend = resolveBy('divakar', dBy || divakarBy, dCust || divakarCustom)
+    parse(aText || anushaText).forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend) }))
+    parse(dText || divakarText).forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend) }))
     setLinks(result)
   }
 
-  const generate = useCallback(() => generateLinks(), [anushaText, divakarText])
+  const generate = useCallback(() => generateLinks(), [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom])
   const flash = (id) => { setCopied(id); setTimeout(() => setCopied(null), 1800) }
   const copyOne = (i) => { navigator.clipboard.writeText(links[i].url); flash(`link-${i}`) }
   const sendWA = (i) => { window.open('https://wa.me/?text=' + encodeURIComponent(waMessage(links[i].name, links[i].url, links[i].side)), '_blank') }
@@ -60,7 +80,7 @@ export default function AdminLinks() {
   const copyAllWA = () => { navigator.clipboard.writeText(links.map(l => waMessage(l.name, l.url, l.side)).join('\n\n---\n\n')); flash('wa') }
 
   const exportData = () => {
-    const data = { anusha: anushaText, divakar: divakarText, exportedAt: new Date().toISOString() }
+    const data = { anusha: anushaText, divakar: divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, exportedAt: new Date().toISOString() }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
     const a = document.createElement('a')
     a.href = URL.createObjectURL(blob); a.download = `anudivam-guests-${new Date().toISOString().slice(0, 10)}.json`; a.click()
@@ -77,8 +97,12 @@ export default function AdminLinks() {
         const data = JSON.parse(text)
         if (data.anusha !== undefined) setAnushaText(data.anusha)
         if (data.divakar !== undefined) setDivakarText(data.divakar)
-        save({ anusha: data.anusha || '', divakar: data.divakar || '' })
-        generateLinks(data.anusha, data.divakar)
+        if (data.anushaBy) setAnushaBy(data.anushaBy)
+        if (data.divakarBy) setDivakarBy(data.divakarBy)
+        if (data.anushaCustom) setAnushaCustom(data.anushaCustom)
+        if (data.divakarCustom) setDivakarCustom(data.divakarCustom)
+        save(data)
+        generateLinks(data.anusha, data.divakar, data.anushaBy, data.divakarBy, data.anushaCustom, data.divakarCustom)
       } catch { alert('Invalid file format') }
     }
     input.click()
@@ -87,11 +111,23 @@ export default function AdminLinks() {
   const clearAll = () => {
     if (!confirm('Clear all guest names? This cannot be undone.')) return
     setAnushaText(''); setDivakarText(''); setLinks([])
-    save({ anusha: '', divakar: '' })
+    setAnushaBy('family'); setDivakarBy('family')
+    setAnushaCustom(''); setDivakarCustom('')
+    save({ anusha: '', divakar: '', anushaBy: 'family', divakarBy: 'family', anushaCustom: '', divakarCustom: '' })
   }
 
   const anushaCount = links.filter(l => l.side === 'anusha').length
   const divakarCount = links.filter(l => l.side === 'divakar').length
+
+  const InviterSelect = ({ side, value, onChange, customValue, onCustomChange }) => (
+    <div className="inviter-select">
+      <label>Who is inviting?</label>
+      <select value={value} onChange={e => onChange(e.target.value)}>
+        {inviterOptions(side).map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+      </select>
+      {value === 'custom' && <input type="text" value={customValue} onChange={e => onCustomChange(e.target.value)} placeholder="Enter inviter name…" className="custom-inviter" />}
+    </div>
+  )
 
   return <div className="admin-page">
     <div className="admin-container">
@@ -111,12 +147,14 @@ export default function AdminLinks() {
         <div className="admin-side">
           <h2>🌸 Anusha's Side</h2>
           <p className="side-desc">Invited by {wedding.family.bride}</p>
+          <InviterSelect side="anusha" value={anushaBy} onChange={setAnushaBy} customValue={anushaCustom} onCustomChange={setAnushaCustom} />
           <textarea value={anushaText} onChange={e => setAnushaText(e.target.value)}
             placeholder={"Rajesh Uncle\nPriya Aunty\nSrinivas & Family\nKavitha Madam"} rows={7} />
         </div>
         <div className="admin-side">
           <h2>💙 Divakar's Side</h2>
           <p className="side-desc">Invited by {wedding.family.groom}</p>
+          <InviterSelect side="divakar" value={divakarBy} onChange={setDivakarBy} customValue={divakarCustom} onCustomChange={setDivakarCustom} />
           <textarea value={divakarText} onChange={e => setDivakarText(e.target.value)}
             placeholder={"Ramesh Anna\nSunitha Aunty\nVenkat & Family\nNarayana Garu"} rows={7} />
         </div>
@@ -143,11 +181,12 @@ export default function AdminLinks() {
 
         <div className="admin-table-wrap">
           <table className="admin-table">
-            <thead><tr><th>#</th><th>Guest</th><th>Side</th><th>Personalized Link</th><th>Actions</th></tr></thead>
+            <thead><tr><th>#</th><th>Guest</th><th>Side</th><th>Invited by</th><th>Personalized Link</th><th>Actions</th></tr></thead>
             <tbody>{links.map((l, i) => <tr key={i}>
               <td className="num">{i + 1}</td>
               <td className="name">{l.name}</td>
               <td><span className={`badge ${l.side}`}>{l.side === 'anusha' ? "Anusha" : "Divakar"}</span></td>
+              <td className="inviter">{l.by === 'family' ? 'Family' : l.by === 'parents' ? 'Parents' : l.by === 'grandparents' ? 'Grandparents' : l.by}</td>
               <td className="link-cell"><a href={l.url} target="_blank" rel="noreferrer">{l.url}</a></td>
               <td className="acts">
                 <button className="btn-sm" onClick={() => copyOne(i)}>{copied === `link-${i}` ? '✓' : 'Copy'}</button>
