@@ -285,6 +285,24 @@ a { color: inherit; }
   content: ''; display: inline-block; vertical-align: middle;
   width: 20px; height: 1px; background: #e5c48c; margin: 0 10px;
 }
+.hero-blessings {
+  text-align: center; margin-bottom: 6px;
+}
+.hero-blessings-label {
+  display: block; color: #d4b980; font-size: 10px;
+  letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px;
+  font-style: italic;
+}
+.hero-blessings-elders {
+  margin: 0 0 4px; color: #f0dfb4;
+  font: 500 clamp(16px, 2.8vw, 22px)/1.2 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 12px #1a0f0c90;
+}
+.hero-blessings-parents {
+  margin: 0; color: #fff0ce;
+  font: 600 clamp(20px, 3.5vw, 28px)/1.2 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 14px #1a0f0c90;
+}
 .hero-families {
   display: flex; flex-direction: column; align-items: center; gap: 1px;
   margin: 10px 0 0; color: #fff0d3;

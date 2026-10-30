@@ -270,7 +270,11 @@ function App() {
         {/* COUPLE REVEAL — visible after doors open */}
         {revealed && <motion.div key="couple-reveal" className="hero-title hero-revealed"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
-          <span className="hero-overline">{side ? `With the blessings of ${side.invitedBy}` : 'Together with our families'}</span>
+          {side ? <div className="hero-blessings">
+            <span className="hero-blessings-label">With the blessings of</span>
+            <p className="hero-blessings-elders">{side.blessingsOf}</p>
+            <p className="hero-blessings-parents">{side.invitedBy}</p>
+          </div> : <span className="hero-overline">Together with our families</span>}
           <h1>{from === 'divakar' ? <>{wedding.groom} &amp; {wedding.bride}</> : <>{wedding.bride} &amp; {wedding.groom}</>}</h1>
           <div className="hero-couple-grid">
             {from === 'divakar' ? <>

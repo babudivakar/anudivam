@@ -12,8 +12,10 @@ export const wedding = {
   muhurtham: '9:00 a.m. to 10:00 a.m. IST',
   message: 'With the blessings of our families, we invite you to celebrate our wedding.',
   family: {
-    bride: 'Smt. Shivamma & Sri Shiva Reddy',
+    bride: 'Smt. Shivamma & Sri Shivareddy',
     groom: 'Smt. Sunitha & Sri Babu Reddy',
+    brideGrandparents: 'Late Smt. Adilakshmamma & Sri Narasimhareddy',
+    groomGrandparents: 'Smt. Parvathamma & Late Sri Vankayilu Rama Reddy',
   },
   photos: { bride: '', groom: '' },
   gallery: [],
@@ -32,8 +34,10 @@ export const wedding = {
     anusha: {
       label: 'Anusha’s family',
       familyName: 'Kullakunta Addamma Gari family',
-      invitedBy: 'Smt. Shivamma & Sri Shiva Reddy',
+      invitedBy: 'Smt. Shivamma & Sri Shivareddy',
+      blessingsOf: 'Late Smt. Adilakshmamma & Sri Narasimhareddy',
       otherFamily: 'Smt. Sunitha & Sri Babu Reddy',
+      otherBlessings: 'Smt. Parvathamma & Late Sri Vankayilu Rama Reddy',
       message: 'With the blessings of Smt. Shivamma and Sri Shiva Reddy, we invite you to celebrate Anusha’s wedding with Divakar.',
       shareMessage: 'Anusha’s family invites you to celebrate Anusha and Divakar’s wedding — AnuDivam.',
       venue: {
@@ -50,7 +54,9 @@ export const wedding = {
       label: 'Divakar’s family',
       familyName: 'Vankayilu Ram Reddy family',
       invitedBy: 'Smt. Sunitha & Sri Babu Reddy',
-      otherFamily: 'Smt. Shivamma & Sri Shiva Reddy',
+      blessingsOf: 'Smt. Parvathamma & Late Sri Vankayilu Rama Reddy',
+      otherFamily: 'Smt. Shivamma & Sri Shivareddy',
+      otherBlessings: 'Late Smt. Adilakshmamma & Sri Narasimhareddy',
       message: 'With the blessings of Smt. Sunitha and Sri Babu Reddy, we invite you to celebrate Divakar’s wedding with Anusha.',
       shareMessage: 'Divakar’s family invites you to celebrate Divakar and Anusha’s wedding — AnuDivam.',
       venue: {
