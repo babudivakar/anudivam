@@ -539,6 +539,11 @@ a { color: inherit; }
   background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; animation: shimmer 4s ease-in-out infinite;
 }
+.ganesh-amp {
+  display: block; font-size: .35em; color: #dbb868;
+  font-style: italic; font-weight: 400; letter-spacing: 0;
+  margin: 4px 0;
+}
 .ganesh-date {
   display: block; margin-top: 12px; color: #e8d0a0;
   font-size: 11px; letter-spacing: .16em; text-transform: uppercase;

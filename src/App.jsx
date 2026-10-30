@@ -257,7 +257,7 @@ function App() {
             </>}
           </div>
           <span className="ganesh-invite-label">Invite you to celebrate the wedding of</span>
-          <h1>{wedding.title}</h1>
+          <h1>{from === 'divakar' ? <>{wedding.groom}<span className="ganesh-amp">&amp;</span>{wedding.bride}</> : <>{wedding.bride}<span className="ganesh-amp">&amp;</span>{wedding.groom}</>}</h1>
           <span className="ganesh-date">{wedding.weddingDate}</span>
           <motion.p className="ganesh-tap" animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 2, repeat: Infinity }}>
