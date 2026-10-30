@@ -3,7 +3,7 @@ import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles } from 'lucide-react'
 import { wedding } from './data/wedding.js'
 import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, useDayNight } from './effects.jsx'
-import { EnvelopeOpening, AddToCalendar, PhotoGallery, BlessingsWall, TriviaQuiz, ConfettiButton } from './features.jsx'
+import { AddToCalendar, PhotoGallery, BlessingsWall, TriviaQuiz, ConfettiButton } from './features.jsx'
 import AdminLinks from './AdminLinks.jsx'
 
 const fadeUp = {
@@ -143,7 +143,6 @@ function Countdown() {
 
 /* ── MAIN APP ─────────────────────────────────────────── */
 function App() {
-  const [envelopeDone, setEnvelopeDone] = useState(false)
   const [opened, setOpened] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const [active, setActive] = useState(false)
@@ -217,17 +216,12 @@ function App() {
     <ParticleCanvas active={active} triggerBurst={burstCount} triggerConfetti={confettiCount} triggerFireworks={fireworksCount} />
     <SparkleTrail />
 
-    {/* ── ENVELOPE ── */}
-    <AnimatePresence>
-      {!envelopeDone && <EnvelopeOpening guestName={guestName} onOpen={() => setEnvelopeDone(true)} />}
-    </AnimatePresence>
-
     {/* ── HERO (fixed behind everything) ── */}
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
       <div className="hero-shade" />
       <AnimatePresence mode="wait">
-        {!opened && envelopeDone && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
+        {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
           {guestName && <span className="hero-guest-name">Dear {guestName},</span>}
           <span className="hero-invocation">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
           <div className="hero-families"><span>{wedding.welcomeFamilies[0]}</span><i>&amp;</i><span>{wedding.welcomeFamilies[1]}</span></div>
@@ -248,7 +242,7 @@ function App() {
             <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
           </div>
           <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
-          <a className="open-invitation hero-next" href="#story"><span>Explore invitation</span><ArrowDown size={16}/></a>
+          <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>
         </motion.div>}
       </AnimatePresence>
       <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
