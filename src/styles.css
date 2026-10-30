@@ -912,6 +912,7 @@ a { color: inherit; }
 }
 .inviter-row input:focus { border-color: #ffd78a; outline: none; box-shadow: 0 0 0 2px #dbb86830; }
 .inviter-row input::placeholder { color: #6b5a40; }
+.side-hint { color: #7a6a50; font-size: 11px; margin: 0 0 6px; font-style: italic; }
 .inviter { color: #c9a665; font-size: 12px; }
 .admin-side textarea {
   width: 100%; padding: 10px 12px; background: #1a1210; border: 1px solid #6b4a30;

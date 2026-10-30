@@ -23,10 +23,11 @@ const inviterOptions = (side) => {
 
 function makeUrl(name, side, by) {
   const p = new URLSearchParams()
-  p.set('guest', name)
+  if (name) p.set('guest', name)
   if (side) p.set('from', side)
   if (by && by !== 'family') p.set('by', by)
-  return BASE + '?' + p.toString()
+  const qs = p.toString()
+  return qs ? BASE + '?' + qs : BASE
 }
 
 function waMessage(name, url, side) {
@@ -65,8 +66,12 @@ export default function AdminLinks() {
     const dByVal = dBy || divakarBy || 'family'
     const aBySend = aByVal === 'custom' ? (aCust || anushaCustom || 'family') : aByVal
     const dBySend = dByVal === 'custom' ? (dCust || divakarCustom || 'family') : dByVal
-    parse(aText || anushaText).forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend) }))
-    parse(dText || divakarText).forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend) }))
+    const aNames = parse(aText || anushaText)
+    const dNames = parse(dText || divakarText)
+    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend) }))
+    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend) })
+    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend) }))
+    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend) })
     setLinks(result)
   }
 
@@ -148,15 +153,17 @@ export default function AdminLinks() {
           <h2>🌸 Anusha's Side</h2>
           <p className="side-desc">Invited by {wedding.family.bride}</p>
           <InviterSelect side="anusha" value={anushaBy} onChange={setAnushaBy} customValue={anushaCustom} onCustomChange={setAnushaCustom} />
+          <p className="side-hint">Guest names (one per line). Leave empty for a generic link.</p>
           <textarea value={anushaText} onChange={e => setAnushaText(e.target.value)}
-            placeholder={"Rajesh Uncle\nPriya Aunty\nSrinivas & Family\nKavitha Madam"} rows={7} />
+            placeholder={"Rajesh Uncle\nPriya Aunty\nSrinivas & Family\n(leave empty for generic link)"} rows={7} />
         </div>
         <div className="admin-side">
           <h2>💙 Divakar's Side</h2>
           <p className="side-desc">Invited by {wedding.family.groom}</p>
           <InviterSelect side="divakar" value={divakarBy} onChange={setDivakarBy} customValue={divakarCustom} onCustomChange={setDivakarCustom} />
+          <p className="side-hint">Guest names (one per line). Leave empty for a generic link.</p>
           <textarea value={divakarText} onChange={e => setDivakarText(e.target.value)}
-            placeholder={"Ramesh Anna\nSunitha Aunty\nVenkat & Family\nNarayana Garu"} rows={7} />
+            placeholder={"Ramesh Anna\nSunitha Aunty\nVenkat & Family\n(leave empty for generic link)"} rows={7} />
         </div>
       </div>
 
@@ -184,7 +191,7 @@ export default function AdminLinks() {
             <thead><tr><th>#</th><th>Guest</th><th>Side</th><th>Invited by</th><th>Personalized Link</th><th>Actions</th></tr></thead>
             <tbody>{links.map((l, i) => <tr key={i}>
               <td className="num">{i + 1}</td>
-              <td className="name">{l.name}</td>
+              <td className="name">{l.name || <em style={{color:'#9a8a70'}}>Generic</em>}</td>
               <td><span className={`badge ${l.side}`}>{l.side === 'anusha' ? "Anusha" : "Divakar"}</span></td>
               <td className="inviter">{l.by === 'family' ? 'Family' : l.by === 'parents' ? 'Parents' : l.by === 'grandparents' ? 'Grandparents' : l.by}</td>
               <td className="link-cell"><a href={l.url} target="_blank" rel="noreferrer">{l.url}</a></td>
