@@ -256,7 +256,8 @@ a { color: inherit; }
 }
 .door-leaf::before, .door-leaf::after { display: none; }
 .hero-shade {
-  background: linear-gradient(180deg, #29170fae 0%, #3320188b 35%, #26160f1d 60%, #1c100962 100%);
+  background: radial-gradient(ellipse at 50% 45%, #1a0f0c50 0%, #1a0f0ccc 100%),
+              linear-gradient(180deg, #29170fc0 0%, #3320189a 35%, #26160f60 55%, #1c1009a0 100%);
 }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
@@ -500,9 +501,7 @@ a { color: inherit; }
 .ganesh-welcome {
   cursor: pointer; user-select: none;
   display: flex; flex-direction: column; align-items: center;
-  padding: 24px 20px; border-radius: 18px;
-  background: radial-gradient(ellipse at 50% 40%, #1a0f0cd0 0%, #1a0f0cb0 50%, #1a0f0c80 100%);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  padding: 24px 20px;
 }
 .ganesh-invocation {
   display: block; color: #ffe8a8;
@@ -588,7 +587,6 @@ a { color: inherit; }
 }
 
 @media (max-width: 600px) {
-  .ganesh-welcome { padding: 20px 16px; }
   .ganesh-invocation { font-size: 16px; }
   .ganesh-blessing { font-size: 18px; }
   .ganesh-families { font-size: 18px; }
