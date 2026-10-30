@@ -371,3 +371,344 @@ a { color: inherit; }
   .is-open .wedding-scene { opacity: 1; animation: none; }
   .is-open .door-leaf { display: none; animation: none; }
 }
+
+/* ================================================================
+   NEW FEATURES — Effects, Envelope, Gallery, Blessings, Trivia
+   ================================================================ */
+
+/* ── Day/Night Theme ── */
+.night-mode { --paper: #1a1428; --paper-deep: #130f20; --ink: #e8dcc8; --wine: #2d1833; --wine-dark: #1a0f22; }
+.night-mode .paper-section { background: radial-gradient(ellipse at 50% 8%, #221a30, #1a1428 62%, #130f20); }
+.night-mode .story-section { border-color: #6b5a8a; }
+.night-mode .section-heading h2 { color: #f0dfb4; }
+.night-mode .invitation-message, .night-mode .section-intro { color: #c8b89a; }
+.night-mode .person-card h3, .night-mode .ceremony-copy h3, .night-mode .venue-card h3 { color: #f0dfb4; }
+.night-mode .portrait-frame { background: #2a2038; border-color: #7a6998; }
+.night-mode .venue-card { background: linear-gradient(145deg, #221a30, #1a1428); border-color: #6b5a8a; }
+.night-mode .venue-card::before { border-color: #5a4878; }
+.night-mode .celebrations-section { background: #1a1428; }
+.night-mode .celebrations-section::before, .night-mode .celebrations-section::after { background: linear-gradient(transparent, #6b5a8a 10%, #6b5a8a 90%, transparent); }
+.night-mode .event-art { border-color: #7a6998; background: linear-gradient(145deg, #2a2038, #1a1428); }
+.night-mode .family-note { border-color: #6b5a8a; }
+.night-mode .blessings-section { background: radial-gradient(ellipse at 50% 8%, #221a30, #1a1428 62%, #130f20); }
+
+/* ── Particle & Sparkle Canvases ── */
+.particle-canvas, .sparkle-canvas { position: fixed; inset: 0; z-index: 15; pointer-events: none; }
+.sparkle-canvas { z-index: 16; }
+
+/* ── Envelope Screen ── */
+.envelope-screen {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+  background: radial-gradient(ellipse at 50% 40%, #5a3425, #2c1814 55%, #1a0f0c);
+  color: #f6e6b9; overflow: hidden;
+}
+.envelope-stars { position: absolute; inset: 0; }
+.estar {
+  position: absolute; color: #d4b06a; opacity: 0;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+}
+@keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.8; transform: scale(1.2); } }
+.envelope-content { position: relative; z-index: 1; text-align: center; padding: 20px; }
+.envelope-mandala-bg {
+  position: absolute; left: 50%; top: 50%; width: min(90vw, 500px); height: min(90vw, 500px);
+  transform: translate(-50%, -50%); opacity: 0.07; pointer-events: none;
+}
+.envelope-mandala-svg { width: 100%; height: 100%; stroke: #d4b06a; stroke-width: 0.6; fill: none; }
+.envelope-greeting {
+  font: 500 clamp(22px, 4vw, 32px)/1.2 'Cormorant Garamond', serif;
+  color: #ffd78a; margin: 0 0 8px;
+}
+.envelope-subtext {
+  color: #c9a665; font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  margin: 0 0 28px;
+}
+.envelope-card {
+  position: relative; width: min(340px, 85vw); margin: 0 auto;
+  perspective: 800px;
+}
+.envelope-inner {
+  position: relative; background: linear-gradient(145deg, #c5956a, #8b5e3c);
+  border: 2px solid #dbb868; padding: 0; min-height: 200px; overflow: hidden;
+  box-shadow: 0 20px 60px #0a0604a0;
+}
+.envelope-flap {
+  position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(135deg, #a8714a, #c99b6a); border-bottom: 2px solid #dbb868;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center; transition: transform 0.8s ease-in-out;
+}
+.envelope-card.opened .envelope-flap { transform: rotateX(180deg); }
+.envelope-body-card {
+  position: relative; z-index: 1; margin: 20px 18px 18px; padding: 28px 16px;
+  background: linear-gradient(135deg, #faf3e6, #e8dcc6); border: 1px solid #c9ad78;
+  text-align: center; color: #42251e; transition: transform 0.8s 0.3s ease;
+}
+.envelope-card.opened .envelope-body-card { transform: translateY(-10px); }
+.ec-names {
+  font: 500 clamp(26px, 5vw, 36px)/1 'Cormorant Garamond', serif; margin: 0;
+}
+.ec-names span { display: block; color: #ad8748; font-style: italic; font-size: 0.65em; margin: 6px 0; }
+.ec-date { margin: 10px 0 0; color: #7d6544; font-size: 11px; letter-spacing: .14em; }
+.ec-ornament { color: #ad8748; margin-top: 12px; letter-spacing: .3em; font-size: 12px; }
+.wax-seal {
+  position: absolute; left: 50%; bottom: -22px; transform: translateX(-50%);
+  width: 58px; height: 58px; border-radius: 50%; border: 3px solid #e8c678;
+  background: radial-gradient(circle at 40% 35%, #c9453e, #8b2a25 60%, #5a1a17);
+  box-shadow: 0 4px 18px #1a0c08a0, inset 0 2px 6px #ff9a8a30;
+  cursor: pointer; display: grid; place-items: center; z-index: 5;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.wax-seal:hover { transform: translateX(-50%) scale(1.12); box-shadow: 0 6px 25px #1a0c08c0; }
+.seal-emboss {
+  color: #f6d48c; font: 500 14px/1 'Cormorant Garamond', serif;
+  letter-spacing: .06em; text-shadow: 0 1px 2px #3a1410;
+}
+.envelope-tap { margin: 36px 0 0; color: #c9a665; font-size: 11px; letter-spacing: .12em; }
+
+/* ── Guest Name on Hero ── */
+.hero-guest-name {
+  display: block; margin-bottom: 14px; color: #ffd78a;
+  font: italic 500 clamp(18px, 3vw, 25px)/1.2 'Cormorant Garamond', serif;
+}
+
+/* ── Self-Drawing Rangoli ── */
+.rangoli { position: absolute; width: min(180px, 22vw); height: auto; opacity: 0.18; z-index: 0; }
+.section-rangoli.left { left: -2%; top: 15%; }
+.section-rangoli.right { right: -2%; bottom: 15%; transform: scaleX(-1); }
+.rp { fill: none; stroke: #ad8748; stroke-width: 1; stroke-dasharray: 600; stroke-dashoffset: 600; }
+.rangoli.draw .rp { animation: drawPath 2.2s ease forwards; }
+.rangoli.draw .rp.d2 { animation-delay: .2s; }
+.rangoli.draw .rp.d3 { animation-delay: .5s; }
+.rangoli.draw .rp.d4 { animation-delay: .8s; }
+.rangoli.draw .rp.d5 { animation-delay: 1.1s; }
+.rangoli.draw .rp.d6 { animation-delay: 1.3s; }
+@keyframes drawPath { to { stroke-dashoffset: 0; } }
+.rangoli-dot { fill: #ad8748; opacity: 0; }
+.rangoli.draw .rangoli-dot { animation: popDot 0.4s ease forwards; }
+@keyframes popDot { to { opacity: 0.7; } }
+
+/* ── Floating Diyas ── */
+.floating-diyas {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+  z-index: 3; overflow: hidden; pointer-events: none;
+}
+.diya-water {
+  position: absolute; bottom: 0; left: -5%; right: -5%; height: 50px;
+  background: linear-gradient(0deg, #1a355a40, #2a557a20, transparent);
+  border-radius: 50% 50% 0 0;
+}
+.floating-diya {
+  position: absolute; bottom: 18px; width: 28px; text-align: center;
+  animation: diyaFloat 4s ease-in-out infinite alternate;
+}
+@keyframes diyaFloat {
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-8px) rotate(2deg); }
+}
+.diya-flame {
+  width: 8px; height: 14px; margin: 0 auto 1px;
+  background: linear-gradient(#fff5c8, #ff9500); border-radius: 50% 0 50% 50%;
+  transform: rotate(45deg); box-shadow: 0 0 12px #ffc05a, 0 0 25px #ff8a00;
+  animation: flicker 0.8s ease-in-out infinite alternate;
+}
+@keyframes flicker { 0% { opacity: 0.85; transform: rotate(45deg) scale(0.92); } 100% { opacity: 1; transform: rotate(45deg) scale(1.08); } }
+.diya-body {
+  width: 24px; height: 10px; margin: 0 auto; border-radius: 0 0 50% 50%;
+  background: linear-gradient(#d4a055, #8b5e2f); border: 1px solid #e8c678;
+}
+.diya-glow {
+  position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  background: radial-gradient(#ffc86030, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite alternate;
+}
+@keyframes glowPulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+/* ── Animated Telugu Characters ── */
+.telugu-anim { display: inline-block; }
+.tchar {
+  display: inline-block; opacity: 0; transform: translateY(10px);
+  font-family: 'Noto Serif Telugu', serif;
+}
+.telugu-anim.reveal .tchar { animation: charReveal 0.5s ease forwards; }
+@keyframes charReveal { to { opacity: 1; transform: translateY(0); } }
+
+/* ── Photo Gallery ── */
+.gallery-section { background: #eae1d0; position: relative; overflow: hidden; }
+.gallery-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px; max-width: 900px; margin: 30px auto 0;
+}
+.gallery-thumb {
+  position: relative; aspect-ratio: 1; overflow: hidden; cursor: pointer;
+  border: 1px solid #c9ad78; background: #d9c8a6;
+}
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-cap {
+  position: absolute; bottom: 0; left: 0; right: 0; padding: 6px 8px;
+  background: linear-gradient(transparent, #1a0f0ccc); color: #f6e6b9;
+  font-size: 9px; text-transform: uppercase; letter-spacing: .1em;
+}
+.lightbox {
+  position: fixed; inset: 0; z-index: 60; background: #0a0604ee;
+  display: grid; place-items: center; padding: 20px;
+}
+.lightbox img { max-width: 90vw; max-height: 80vh; object-fit: contain; border: 2px solid #c9ad78; }
+.lb-close {
+  position: absolute; top: 16px; right: 16px; background: none; border: none;
+  color: #f6e6b9; cursor: pointer; z-index: 2;
+}
+.lb-arr {
+  position: absolute; top: 50%; transform: translateY(-50%); background: #f6e6b920;
+  border: 1px solid #c9ad78; color: #f6e6b9; width: 44px; height: 44px;
+  border-radius: 50%; cursor: pointer; display: grid; place-items: center;
+}
+.lb-prev { left: 12px; } .lb-next { right: 12px; }
+.lb-caption { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); color: #f6e6b9; font-size: 13px; }
+.lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #c9a665; font-size: 10px; letter-spacing: .15em; }
+
+/* ── Blessings Wall ── */
+.blessings-section { position: relative; overflow: hidden; }
+.blessings-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
+.blessings { max-width: 700px; margin: 30px auto 0; }
+.bless-wall {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px; margin-bottom: 30px;
+}
+.bless-empty { text-align: center; color: #9a8a75; grid-column: 1 / -1; font-size: 14px; padding: 30px 0; }
+.bless-card {
+  position: relative; padding: 18px 16px; border: 1px solid #c9ad78;
+  background: linear-gradient(135deg, #fbf7ec, #ece2ce);
+  box-shadow: 0 6px 18px #50371a0a;
+}
+.bless-card::before { content: ''; position: absolute; inset: 5px; border: 1px solid #d8c99a; pointer-events: none; }
+.bless-heart { position: absolute; top: 8px; right: 10px; color: #c94337; }
+.bless-msg { margin: 0 0 8px; font: italic 16px/1.4 'Cormorant Garamond', serif; color: #4b3427; }
+.bless-who { color: #9a7a41; font-size: 10px; letter-spacing: .1em; }
+.bless-form {
+  display: flex; flex-direction: column; gap: 10px; padding: 22px;
+  border: 1px solid #c9ad78; background: linear-gradient(135deg, #fbf7ec, #ece2ce);
+}
+.bless-form input, .bless-form textarea {
+  padding: 10px 12px; border: 1px solid #c9ad78; background: #fff8ee;
+  color: #42251e; font: 13px 'Manrope', sans-serif; resize: vertical;
+}
+.bless-form input:focus, .bless-form textarea:focus { outline: 2px solid #ad8748; outline-offset: 2px; }
+.bless-form button {
+  align-self: flex-end; display: flex; align-items: center; gap: 7px;
+  padding: 10px 18px; border: 1px solid #c9ad78; background: #42251e; color: #f6e6b9;
+  font-size: 10px; text-transform: uppercase; letter-spacing: .14em; cursor: pointer;
+}
+.bless-form button:hover { background: #5a3425; }
+.bless-form button:disabled { opacity: 0.6; cursor: default; }
+.night-mode .bless-card { background: linear-gradient(135deg, #2a2038, #1e1730); border-color: #6b5a8a; }
+.night-mode .bless-card::before { border-color: #5a4878; }
+.night-mode .bless-msg { color: #e8dcc8; }
+.night-mode .bless-form { background: linear-gradient(135deg, #2a2038, #1e1730); border-color: #6b5a8a; }
+.night-mode .bless-form input, .night-mode .bless-form textarea { background: #1a1428; border-color: #5a4878; color: #e8dcc8; }
+
+/* ── Trivia Quiz ── */
+.trivia-section {
+  position: relative; overflow: hidden; color: #f0dfb4;
+  background: radial-gradient(ellipse at 50% 38%, #5a3828, #3a211c 51%, #211514);
+  border-top: 1px solid #a58046;
+}
+.trivia-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
+.trivia-intro { color: #d6c29b !important; }
+.trivia { max-width: 520px; margin: 30px auto 0; }
+.trivia-card {
+  padding: 28px 24px; border: 1px solid #a58046;
+  background: linear-gradient(135deg, #4a2620e8, #63392acc); text-align: center;
+}
+.trivia-card::before { content: none; }
+.trivia-prog { color: #c9a665; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; }
+.trivia-card h4 {
+  margin: 16px 0 22px; font: 500 clamp(20px, 4vw, 26px)/1.2 'Cormorant Garamond', serif; color: #f6e6b9;
+}
+.trivia-opts { display: flex; flex-direction: column; gap: 9px; }
+.trivia-opts button {
+  padding: 12px 16px; border: 1px solid #a58046; background: transparent;
+  color: #f0dfb4; font-size: 13px; cursor: pointer; text-align: left;
+  transition: background 0.2s, border-color 0.2s;
+}
+.trivia-opts button:hover:not(:disabled) { background: #a5804630; }
+.trivia-opts button.correct { background: #2d6a3080; border-color: #6bcb77; color: #a8e6a8; }
+.trivia-opts button.wrong { background: #6a2d2d80; border-color: #ff6b6b; color: #ffb4b4; }
+.trivia-result { text-align: center; padding: 30px 20px; }
+.trivia-emoji { font-size: 48px; display: block; margin-bottom: 12px; }
+.trivia-result h4 { font: 500 28px 'Cormorant Garamond', serif; color: #f6e6b9; margin: 0 0 8px; }
+.trivia-result p { color: #d6c29b; font-size: 14px; margin: 0 0 18px; }
+.trivia-result button {
+  padding: 10px 20px; border: 1px solid #dbb868; background: transparent;
+  color: #f0dfb4; cursor: pointer; font-size: 10px; text-transform: uppercase;
+  letter-spacing: .14em;
+}
+.trivia-result button:hover { background: #dbb86830; }
+
+/* ── Add to Calendar ── */
+.cal-widget { text-align: center; margin-top: 28px; position: relative; z-index: 4; }
+.cal-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px;
+  border: 1px solid #dbb868; background: #f6e6c920; color: #f0dfb4;
+  font-size: 10px; text-transform: uppercase; letter-spacing: .16em; cursor: pointer;
+  transition: background 0.2s;
+}
+.cal-btn:hover { background: #dbb86850; }
+.cal-opts {
+  position: absolute; left: 50%; transform: translateX(-50%); margin-top: 8px;
+  background: #3c211be8; border: 1px solid #aa8448; padding: 8px;
+  display: flex; flex-direction: column; gap: 5px; min-width: 200px;
+}
+.cal-opts a, .cal-opts button {
+  display: block; padding: 9px 12px; color: #f0dfb4; text-decoration: none;
+  font-size: 12px; border: 0; background: transparent; cursor: pointer; text-align: left;
+}
+.cal-opts a:hover, .cal-opts button:hover { background: #aa844830; }
+
+/* ── Confetti Button ── */
+.confetti-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px;
+  border: 1px solid #d5b874; background: transparent; color: #f0deb5;
+  text-transform: uppercase; letter-spacing: .14em; font-size: 9px; cursor: pointer;
+}
+.confetti-btn:hover { background: #d5b87430; }
+.closing-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ── Micro-animations ── */
+.venue-card { transition: transform 0.3s, box-shadow 0.3s; }
+.venue-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px #50371a18; }
+.ceremony-card .event-art { transition: transform 0.3s; }
+.ceremony-card:hover .event-art { transform: scale(1.03); }
+.portrait-frame { transition: transform 0.4s, box-shadow 0.4s; }
+.portrait-frame:hover { transform: translateY(-3px); box-shadow: 0 18px 40px #50371a20; }
+.bless-card { transition: transform 0.2s; }
+.bless-card:hover { transform: translateY(-2px); }
+.open-invitation { transition: background 0.2s, color 0.2s, transform 0.2s; }
+.open-invitation:hover { transform: scale(1.05); }
+.scroll-cue a { transition: background 0.2s, transform 0.2s; }
+.scroll-cue a:hover { background: #c9ae7920; transform: scale(1.1); }
+
+/* ── Pulse animation for countdown ── */
+.count-unit strong { animation: countPulse 1s ease-in-out infinite; }
+.count-unit:nth-child(2) strong { animation-delay: 0.25s; }
+.count-unit:nth-child(3) strong { animation-delay: 0.5s; }
+.count-unit:nth-child(4) strong { animation-delay: 0.75s; }
+@keyframes countPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+/* ── Responsive for new features ── */
+@media (max-width: 600px) {
+  .section-rangoli { display: none; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .bless-wall { grid-template-columns: 1fr; }
+  .trivia-card { padding: 22px 16px; }
+  .trivia-card h4 { font-size: 18px; }
+  .trivia-opts button { font-size: 12px; padding: 10px 12px; }
+  .closing-actions { flex-direction: column; align-items: center; }
+  .envelope-greeting { font-size: 22px; }
+  .floating-diyas { height: 80px; }
+  .floating-diya { width: 20px; }
+  .diya-flame { width: 6px; height: 10px; }
+  .diya-body { width: 18px; height: 8px; }
+  .lb-arr { width: 36px; height: 36px; }
+}

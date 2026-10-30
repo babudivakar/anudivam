@@ -16,6 +16,7 @@ export const wedding = {
     groom: 'Smt. Sunitha & Sri Babu Reddy',
   },
   photos: { bride: '', groom: '' },
+  gallery: [],
   musicTrack: '',
   venue: {
     name: 'D.C. Anjaneyulu Convention Center',

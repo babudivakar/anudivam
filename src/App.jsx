@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
-import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles } from 'lucide-react'
 import { wedding } from './data/wedding.js'
+import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, useDayNight } from './effects.jsx'
+import { EnvelopeOpening, AddToCalendar, PhotoGallery, BlessingsWall, TriviaQuiz, ConfettiButton } from './features.jsx'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -71,12 +73,12 @@ function EntranceArtwork({ open }) {
   </div>
 }
 
-function SectionHeading({ eyebrow, title, telugu, light = false }) {
+function SectionHeading({ eyebrow, title, telugu, light = false, animateTelugu = false }) {
   return <motion.div className={`section-heading${light ? ' light' : ''}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
     <span className="eyebrow">{eyebrow}</span>
     <LotusMark className="heading-lotus" />
     <h2>{title}</h2>
-    {telugu && <span className="telugu-heading">{telugu}</span>}
+    {telugu && (animateTelugu ? <AnimatedTelugu text={telugu} className="telugu-heading" /> : <span className="telugu-heading">{telugu}</span>)}
   </motion.div>
 }
 
@@ -138,45 +140,76 @@ function Countdown() {
   </div>
 }
 
+/* ── MAIN APP ─────────────────────────────────────────── */
 function App() {
+  const [envelopeDone, setEnvelopeDone] = useState(false)
   const [opened, setOpened] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const [active, setActive] = useState(false)
   const [music, setMusic] = useState(false)
   const [musicNotice, setMusicNotice] = useState(false)
-  const from = new URLSearchParams(window.location.search).get('from')
+  const [burstCount, setBurstCount] = useState(0)
+  const [confettiCount, setConfettiCount] = useState(0)
+  const [fireworksCount, setFireworksCount] = useState(0)
+  const isNight = useDayNight()
+
+  const params = new URLSearchParams(window.location.search)
+  const from = params.get('from')
+  const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   useEffect(() => {
     if (!opened) return
+    setBurstCount(c => c + 1)
     const timer = window.setTimeout(() => {
-      setRevealed(true)
-      setActive(true)
+      setRevealed(true); setActive(true)
     }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1900)
     return () => window.clearTimeout(timer)
   }, [opened])
+
+  /* Fireworks when scrolling to celebrations */
+  useEffect(() => {
+    if (!active) return
+    const target = document.getElementById('celebrations')
+    if (!target) return
+    let fired = false
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !fired) { fired = true; setFireworksCount(c => c + 1) }
+    }, { threshold: 0.15 })
+    obs.observe(target); return () => obs.disconnect()
+  }, [active])
 
   const whatsappText = `${side ? side.shareMessage : `Join us to celebrate ${wedding.bride} & ${wedding.groom} — ${wedding.title}.`} ${window.location.href}`
 
   const toggleMusic = async () => {
     const audio = document.getElementById('wedding-audio')
     if (!wedding.musicTrack || !audio) {
-      setMusicNotice(true)
-      window.setTimeout(() => setMusicNotice(false), 4200)
-      return
+      setMusicNotice(true); window.setTimeout(() => setMusicNotice(false), 4200); return
     }
     if (music) { audio.pause(); setMusic(false); return }
     try { await audio.play(); setMusic(true) } catch { setMusicNotice(true); window.setTimeout(() => setMusicNotice(false), 4200) }
   }
 
-  return <MotionConfig reducedMotion="user"><main>
+  return <MotionConfig reducedMotion="user"><main className={isNight ? 'night-mode' : 'day-mode'}>
     {wedding.musicTrack && <audio id="wedding-audio" src={wedding.musicTrack} loop preload="none" />}
+
+    {/* ── PARTICLE EFFECTS ── */}
+    <ParticleCanvas active={active} triggerBurst={burstCount} triggerConfetti={confettiCount} triggerFireworks={fireworksCount} />
+    <SparkleTrail />
+
+    {/* ── ENVELOPE ── */}
+    <AnimatePresence>
+      {!envelopeDone && <EnvelopeOpening guestName={guestName} onOpen={() => setEnvelopeDone(true)} />}
+    </AnimatePresence>
+
+    {/* ── HERO ── */}
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
       <div className="hero-shade" />
       <AnimatePresence mode="wait">
-        {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
+        {!opened && envelopeDone && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
+          {guestName && <span className="hero-guest-name">Dear {guestName},</span>}
           <span className="hero-invocation">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
           <div className="hero-families"><span>{wedding.welcomeFamilies[0]}</span><i>&amp;</i><span>{wedding.welcomeFamilies[1]}</span></div>
           <span className="hero-welcome-label">Wedding Invitation</span>
@@ -202,16 +235,23 @@ function App() {
       <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
     </section>
 
+    {/* ── NAV ── */}
     <AnimatePresence>{active && <motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
-      <a className="nav-brand" href="#home">A<span>✧</span>D</a><div><a href="#story">Our story</a><a href="#celebrations">Celebrations</a><a href="#venue">Venue</a></div>
+      <a className="nav-brand" href="#home">A<span>✧</span>D</a>
+      <div><a href="#story">Our story</a><a href="#celebrations">Celebrations</a><a href="#venue">Venue</a><a href="#blessings">Blessings</a></div>
       <button className="music-button" onClick={toggleMusic} aria-label={music ? 'Turn music off' : 'Turn music on'} title={music ? 'Music on' : 'Music off'}>{music ? <Volume2 size={17}/> : <VolumeX size={17}/>}<span>{music ? 'Music on' : 'Music off'}</span></button>
     </motion.nav>}</AnimatePresence>
 
+    {/* ── STORY ── */}
     <section className="story-section paper-section" id="story">
       <div className="paper-ornament top"/><div className="paper-ornament bottom"/>
+      <SelfDrawingRangoli className="section-rangoli left" />
+      <SelfDrawingRangoli className="section-rangoli right" />
       <div className="section-wrap">
-        <SectionHeading eyebrow="Two hearts, one forever" title="A story written in the stars" telugu="మంగళం భగవాన్ విష్ణుః" />
-        <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>{side?.message || wedding.message}</motion.p>
+        <SectionHeading eyebrow="Two hearts, one forever" title="A story written in the stars" telugu="మంగళం భగవాన్ విష్ణుః" animateTelugu />
+        <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          {guestName ? `Dear ${guestName}, ` : ''}{side?.message || wedding.message}
+        </motion.p>
         <div className="couple-grid">
           <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
           <div className="ampersand">&amp;</div>
@@ -224,9 +264,18 @@ function App() {
       </div>
     </section>
 
+    {/* ── GALLERY ── */}
+    {wedding.gallery && wedding.gallery.length > 0 && <section className="gallery-section" id="gallery">
+      <div className="section-wrap">
+        <SectionHeading eyebrow="Captured moments" title="Our photo gallery" telugu="మధుర జ్ఞాపకాలు" animateTelugu />
+        <PhotoGallery photos={wedding.gallery} />
+      </div>
+    </section>}
+
+    {/* ── CELEBRATIONS ── */}
     <section className="celebrations-section" id="celebrations">
       <div className="section-wrap">
-        <SectionHeading eyebrow="A gathering of joy" title="Wedding celebrations" telugu="శుభ ఘడియలు" />
+        <SectionHeading eyebrow="A gathering of joy" title="Wedding celebrations" telugu="శుభ ఘడియలు" animateTelugu />
         <p className="section-intro">Every ritual, a blessing. Every gathering, a memory.</p>
         <div className="timeline">
           <div className="timeline-rail" />
@@ -235,10 +284,12 @@ function App() {
       </div>
     </section>
 
+    {/* ── MANDAP ── */}
     <section className="mandap-section">
       <div className="mandap-backdrop"><Mandala className="mandap-mandala"/><div className="mandap-spotlight"/></div>
+      <FloatingDiyas count={7} />
       <div className="mandap-content section-wrap">
-        <SectionHeading eyebrow="The sacred moment" title="Beneath the mandap" telugu={wedding.ceremonies.find(c => c.style === 'wedding')?.telugu || 'శుభ వివాహం'} light />
+        <SectionHeading eyebrow="The sacred moment" title="Beneath the mandap" telugu={wedding.ceremonies.find(c => c.style === 'wedding')?.telugu || 'శుభ వివాహం'} light animateTelugu />
         <motion.div className="full-mandap-art" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
           <div className="mandap-garland garland-left"/><div className="mandap-garland garland-right"/>
           <div className="mandap-arch"><div className="arch-top"><span>✥</span><i/><span>✥</span><i/><span>✥</span></div>
@@ -252,13 +303,15 @@ function App() {
         <motion.div className="muhurtham-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
           <span className="muhurtham-label">The auspicious hour</span><div className="muhurtham-date">{wedding.weddingDate}</div><span className="muhurtham-divider">✧</span><p>{wedding.muhurtham}</p><span className="muhurtham-venue">{wedding.venue.name}</span>
         </motion.div>
+        <AddToCalendar />
       </div>
     </section>
 
+    {/* ── VENUE ── */}
     <section className="venue-section paper-section" id="venue">
       <div className="section-wrap">
-        <SectionHeading eyebrow="Find your way to us" title="Where we celebrate" telugu="సుస్వాగతం" />
-        <p className="section-intro">We can’t wait to welcome you.</p>
+        <SectionHeading eyebrow="Find your way to us" title="Where we celebrate" telugu="సుస్వాగతం" animateTelugu />
+        <p className="section-intro">We can't wait to welcome you.</p>
         <div className="venue-grid">
           <VenueCard title="Wedding ceremony" data={wedding.venue} icon="wedding"/>
           <VenueCard title="Reception" data={wedding.receptionVenue} icon="reception"/>
@@ -271,12 +324,34 @@ function App() {
       </div>
     </section>
 
+    {/* ── BLESSINGS ── */}
+    <section className="blessings-section paper-section" id="blessings">
+      <div className="section-wrap">
+        <SectionHeading eyebrow="Your love means the world" title="Send your blessings" telugu="ఆశీర్వాదములు" animateTelugu />
+        <p className="section-intro">Leave a heartfelt wish for the couple.</p>
+        <BlessingsWall />
+      </div>
+    </section>
+
+    {/* ── TRIVIA ── */}
+    <section className="trivia-section">
+      <div className="section-wrap">
+        <SectionHeading eyebrow="A little fun" title="How well do you know us?" telugu="ఆటలు పాటలు" light animateTelugu />
+        <p className="section-intro trivia-intro">Test your knowledge about Anusha & Divakar!</p>
+        <TriviaQuiz />
+      </div>
+    </section>
+
+    {/* ── FOOTER ── */}
     <footer className="closing-section">
       <div className="closing-sparkles">✧ &nbsp; ✦ &nbsp; ✧</div>
       <LotusMark className="closing-lotus" />
       <p className="closing-eyebrow">With love,</p><h2>{wedding.bride}<span>&amp;</span>{wedding.groom}</h2>
       <p className="closing-message">We look forward to celebrating this beautiful beginning with you.</p>
-      <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Share on WhatsApp</a>
+      <div className="closing-actions">
+        <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Share on WhatsApp</a>
+        <ConfettiButton onTrigger={() => setConfettiCount(c => c + 1)} />
+      </div>
       <div className="closing-footer"><span>Made with love for {wedding.title}</span><span>శుభమస్తు</span></div>
     </footer>
     {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
