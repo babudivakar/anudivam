@@ -1,7 +1,14 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { wedding } from './data/wedding.js'
 
+const STORE_KEY = 'anudivam-guest-lists'
 const BASE = window.location.origin + window.location.pathname
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { anusha: '', divakar: '' } }
+  catch { return { anusha: '', divakar: '' } }
+}
+function save(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)) }
 
 function makeUrl(name, side) {
   const p = new URLSearchParams()
@@ -16,30 +23,71 @@ function waMessage(name, url, side) {
 }
 
 export default function AdminLinks() {
-  const [anushaText, setAnushaText] = useState('')
-  const [divakarText, setDivakarText] = useState('')
+  const [stored] = useState(load)
+  const [anushaText, setAnushaText] = useState(stored.anusha)
+  const [divakarText, setDivakarText] = useState(stored.divakar)
   const [links, setLinks] = useState([])
   const [copied, setCopied] = useState(null)
+  const [lastSaved, setLastSaved] = useState(null)
 
-  const generate = useCallback(() => {
-    const parse = t => t.split('\n').map(n => n.trim()).filter(Boolean)
-    const result = []
-    parse(anushaText).forEach(name => result.push({ name, side: 'anusha', url: makeUrl(name, 'anusha') }))
-    parse(divakarText).forEach(name => result.push({ name, side: 'divakar', url: makeUrl(name, 'divakar') }))
-    setLinks(result)
+  // Auto-save as you type
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      save({ anusha: anushaText, divakar: divakarText })
+      setLastSaved(new Date().toLocaleTimeString())
+    }, 500)
+    return () => clearTimeout(timer)
   }, [anushaText, divakarText])
 
-  const flash = (id) => { setCopied(id); setTimeout(() => setCopied(null), 1800) }
+  // Auto-generate on load if there's saved data
+  useEffect(() => {
+    if (stored.anusha || stored.divakar) generateLinks(stored.anusha, stored.divakar)
+  }, [])
 
+  const generateLinks = (aText, dText) => {
+    const parse = t => t.split('\n').map(n => n.trim()).filter(Boolean)
+    const result = []
+    parse(aText || anushaText).forEach(name => result.push({ name, side: 'anusha', url: makeUrl(name, 'anusha') }))
+    parse(dText || divakarText).forEach(name => result.push({ name, side: 'divakar', url: makeUrl(name, 'divakar') }))
+    setLinks(result)
+  }
+
+  const generate = useCallback(() => generateLinks(), [anushaText, divakarText])
+  const flash = (id) => { setCopied(id); setTimeout(() => setCopied(null), 1800) }
   const copyOne = (i) => { navigator.clipboard.writeText(links[i].url); flash(`link-${i}`) }
   const sendWA = (i) => { window.open('https://wa.me/?text=' + encodeURIComponent(waMessage(links[i].name, links[i].url, links[i].side)), '_blank') }
-  const copyAll = () => {
-    navigator.clipboard.writeText(links.map(l => `${l.name}\t${l.url}`).join('\n'))
-    flash('all')
+  const copyAll = () => { navigator.clipboard.writeText(links.map(l => `${l.name}\t${l.url}`).join('\n')); flash('all') }
+  const copyAllWA = () => { navigator.clipboard.writeText(links.map(l => waMessage(l.name, l.url, l.side)).join('\n\n---\n\n')); flash('wa') }
+
+  const exportData = () => {
+    const data = { anusha: anushaText, divakar: divakarText, exportedAt: new Date().toISOString() }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob); a.download = `anudivam-guests-${new Date().toISOString().slice(0, 10)}.json`; a.click()
+    URL.revokeObjectURL(a.href)
   }
-  const copyAllWA = () => {
-    navigator.clipboard.writeText(links.map(l => waMessage(l.name, l.url, l.side)).join('\n\n---\n\n'))
-    flash('wa')
+
+  const importData = () => {
+    const input = document.createElement('input')
+    input.type = 'file'; input.accept = '.json'
+    input.onchange = async (e) => {
+      const file = e.target.files?.[0]; if (!file) return
+      try {
+        const text = await file.text()
+        const data = JSON.parse(text)
+        if (data.anusha !== undefined) setAnushaText(data.anusha)
+        if (data.divakar !== undefined) setDivakarText(data.divakar)
+        save({ anusha: data.anusha || '', divakar: data.divakar || '' })
+        generateLinks(data.anusha, data.divakar)
+      } catch { alert('Invalid file format') }
+    }
+    input.click()
+  }
+
+  const clearAll = () => {
+    if (!confirm('Clear all guest names? This cannot be undone.')) return
+    setAnushaText(''); setDivakarText(''); setLinks([])
+    save({ anusha: '', divakar: '' })
   }
 
   const anushaCount = links.filter(l => l.side === 'anusha').length
@@ -54,8 +102,9 @@ export default function AdminLinks() {
       </header>
 
       <div className="admin-tip">
-        <strong>How it works:</strong> Enter one guest name per line in each box. Click <strong>Generate</strong> to create personalized URLs.
-        Each guest will see <em>"Dear [Name],"</em> on the envelope & invitation, with the correct family's Haldi & Mehendi details.
+        <strong>✅ Auto-saved:</strong> Your guest lists are <strong>automatically saved</strong> in this browser.
+        Come back anytime and your names will still be here.
+        {lastSaved && <span className="save-status"> Last saved: {lastSaved}</span>}
       </div>
 
       <div className="admin-sides">
@@ -79,6 +128,12 @@ export default function AdminLinks() {
           <button className="btn-copy" onClick={copyAll}>{copied === 'all' ? '✓ Copied!' : '📋 Copy All Links'}</button>
           <button className="btn-wa" onClick={copyAllWA}>{copied === 'wa' ? '✓ Copied!' : '💬 Copy All WhatsApp Messages'}</button>
         </>}
+      </div>
+
+      <div className="admin-tools">
+        <button className="btn-tool" onClick={exportData}>📥 Export Guest List</button>
+        <button className="btn-tool" onClick={importData}>📤 Import Guest List</button>
+        <button className="btn-tool btn-danger" onClick={clearAll}>🗑️ Clear All</button>
       </div>
 
       {links.length > 0 && <>
