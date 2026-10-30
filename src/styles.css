@@ -194,7 +194,7 @@ a { color: inherit; }
 /* Opening scene: let the temple artwork lead the invitation. */
 .hero { background: #805537; }
 .entrance-art {
-  background: #ad7d4b url('/images/temple-courtyard.webp') center center / cover no-repeat;
+  background: #ad7d4b url('/images/temple-divine-wedding.webp') center center / cover no-repeat;
 }
 .entrance-art::after {
   content: '';
@@ -291,20 +291,13 @@ a { color: inherit; }
 .hero-title {
   top: clamp(100px, 13vh, 150px); bottom: auto;
 }
-.hero-divine-art {
-  position: absolute; z-index: 7; bottom: -2px; left: 0; right: 0; margin: auto;
-  width: min(98%, 860px); height: min(38svh, 430px);
-  object-fit: contain; object-position: center bottom;
-  filter: drop-shadow(0 -8px 25px #28160975);
-  pointer-events: none;
-}
 .blessing-section {
   position: relative; isolation: isolate; overflow: hidden;
   min-height: 100svh; padding: 9vh 20px 43vh;
   display: flex; justify-content: center; text-align: center;
   background:
-    linear-gradient(180deg, #fff7e8ed 0%, #fff1d9d9 56%, #f1dfc0c9 100%),
-    url('/images/temple-courtyard.webp') center center / cover no-repeat;
+    linear-gradient(180deg, #fff7e8e6 0%, #fff1d9ca 43%, #f1dfc077 65%, transparent 79%),
+    url('/images/temple-ganesh.webp') center center / cover no-repeat;
   color: #652632;
   scroll-margin-top: 0;
 }
@@ -344,24 +337,14 @@ a { color: inherit; }
   color: #6e3340;
 }
 .blessing-continue:hover { color: #a26532; }
-.blessing-art {
-  position: absolute; bottom: 0; left: 50%; z-index: 1;
-  transform: translateX(-50%); width: min(100%, 950px);
-  height: min(43svh, 430px); object-fit: contain; object-position: center bottom;
-  filter: drop-shadow(0 8px 12px #68321a26);
-}
 @media (max-width: 600px) {
   .hero-title { top: max(80px, 11svh); bottom: auto; }
   .hero-title h1 { font-size: clamp(59px, 15vw, 79px); }
-  .hero-divine-art { width: 100%; height: 34svh; }
   .blessing-section { padding: 11vh 22px 38vh; }
   .blessing-section::before { inset: 10px; }
-  .blessing-art { width: 110%; height: 39svh; }
   .blessing-copy h2 { font-size: 35px; }
   .blessing-names { font-size: clamp(43px, 11vw, 63px); }
 }
 @media (max-height: 700px) {
   .hero-title { top: max(58px, 8svh); }
-  .hero-divine-art { height: 28svh; }
-  .blessing-art { height: 33svh; }
 }
