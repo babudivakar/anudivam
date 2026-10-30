@@ -212,6 +212,7 @@ function App() {
       <div className={`hero-shade${opened ? ' fade' : ''}`} />
       <div className="hero-topline"><span className="hero-kicker">A <span aria-hidden="true">✦</span> D</span><span className="hero-sanskrit">శుభమస్తు</span></div>
       <motion.div className="hero-title" animate={opened ? { opacity: 0, y: -16 } : { opacity: 1, y: 0 }} transition={{ duration: .7 }}>
+        <span className="hero-invocation">Shree Ganeshaya Namah</span>
         <span className="hero-overline">{side ? `${side.label} invites you` : 'The wedding celebration of'}</span>
         <h1>{wedding.title}</h1>
         <LotusMark className="hero-lotus" />
@@ -224,11 +225,11 @@ function App() {
       <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
     </section>
 
-    <section className="blessing-section" id="blessing" aria-label="A blessing for our wedding">
+    <section className="blessing-section" id="blessing" aria-label="The sacred wedding">
       <div className="blessing-copy">
         <LotusMark className="blessing-lotus" />
-        <span className="blessing-kicker">An auspicious beginning</span>
-        <h2>Shree Ganeshaya Namah</h2>
+        <span className="blessing-kicker">With blessings from our families</span>
+        <h2>A Sacred Union</h2>
         <span className="blessing-rule" aria-hidden="true">✦</span>
         <p className="blessing-names">{wedding.bride.split(' ')[0]} <i>&amp;</i> {wedding.groom.split(' ')[0]}</p>
         <p className="blessing-date">{wedding.weddingDate} <span aria-hidden="true">·</span> Hindupura</p>

@@ -194,7 +194,7 @@ a { color: inherit; }
 /* Opening scene: let the temple artwork lead the invitation. */
 .hero { background: #805537; }
 .entrance-art {
-  background: #ad7d4b url('/images/temple-divine-wedding.webp') center center / cover no-repeat;
+  background: #ad7d4b url('/images/temple-ganesh.webp') center center / cover no-repeat;
 }
 .entrance-art::after {
   content: '';
@@ -241,6 +241,11 @@ a { color: inherit; }
 }
 .hero-overline {
   color: #f3dfb7; font-size: 10px; letter-spacing: .3em;
+}
+.hero-invocation {
+  display: block; margin-bottom: 12px;
+  color: #ffedc9; font: 500 clamp(18px, 2.7vw, 25px)/1 'Cormorant Garamond', serif;
+  letter-spacing: .07em;
 }
 .hero-overline::before, .hero-overline::after {
   content: ''; display: inline-block; vertical-align: middle;
@@ -297,7 +302,7 @@ a { color: inherit; }
   display: flex; justify-content: center; text-align: center;
   background:
     linear-gradient(180deg, #fff7e8e6 0%, #fff1d9ca 43%, #f1dfc077 65%, transparent 79%),
-    url('/images/temple-ganesh.webp') center center / cover no-repeat;
+    url('/images/temple-divine-wedding.webp') center center / cover no-repeat;
   color: #652632;
   scroll-margin-top: 0;
 }
@@ -340,6 +345,7 @@ a { color: inherit; }
 @media (max-width: 600px) {
   .hero-title { top: max(80px, 11svh); bottom: auto; }
   .hero-title h1 { font-size: clamp(59px, 15vw, 79px); }
+  .hero-invocation { font-size: 19px; }
   .blessing-section { padding: 11vh 22px 38vh; }
   .blessing-section::before { inset: 10px; }
   .blessing-copy h2 { font-size: 35px; }
