@@ -250,11 +250,7 @@ function App() {
           <LotusMark className="ganesh-lotus" />
           <span className="ganesh-blessing">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
           <div className="ganesh-families">
-            {side ? <>
-              <span>{side.familyName}</span>
-              <i>&amp;</i>
-              <span>{from === 'anusha' ? wedding.sides.divakar.familyName : wedding.sides.anusha.familyName}</span>
-            </> : <>
+            {side ? <span>{side.familyName}</span> : <>
               <span>{wedding.welcomeFamilies[0]}</span>
               <i>&amp;</i>
               <span>{wedding.welcomeFamilies[1]}</span>
