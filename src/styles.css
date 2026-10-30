@@ -903,12 +903,6 @@ a { color: inherit; }
   border-radius: 6px; color: #f0dfb4; font-size: 13px; font-family: inherit;
 }
 .inviter-select select:focus { border-color: #dbb868; outline: none; }
-.custom-inviter {
-  width: 100%; margin-top: 6px; padding: 8px 10px; background: #1a1210;
-  border: 1px solid #6b4a30; border-radius: 6px; color: #f0dfb4;
-  font-size: 13px; font-family: inherit;
-}
-.custom-inviter:focus { border-color: #dbb868; outline: none; }
 .inviter { color: #c9a665; font-size: 12px; }
 .admin-side textarea {
   width: 100%; padding: 10px 12px; background: #1a1210; border: 1px solid #6b4a30;
