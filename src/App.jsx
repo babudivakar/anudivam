@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'motion/react'
-import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, Heart, MapPin, Music2, Share2, Volume2, VolumeX } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, Heart, MapPin, MessageCircle, Music2, Volume2, VolumeX } from 'lucide-react'
 import { wedding } from './data/wedding.js'
 
 const fadeUp = {
@@ -185,17 +185,7 @@ function App() {
     return () => window.clearTimeout(timer)
   }, [opened])
 
-  const share = async () => {
-    const message = `Join us to celebrate ${wedding.bride} & ${wedding.groom} — ${wedding.title}. ${window.location.href}`
-    if (navigator.share) {
-      try { await navigator.share({ title: wedding.title, text: message, url: window.location.href }) } catch { /* user dismissed share sheet */ }
-    } else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(message)
-      window.alert('Invitation link copied. Share it with your loved ones!')
-    } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
-    }
-  }
+  const whatsappText = `Join us to celebrate ${wedding.bride} & ${wedding.groom} — ${wedding.title}. ${window.location.href}`
 
   const toggleMusic = async () => {
     const audio = document.getElementById('wedding-audio')
@@ -301,7 +291,7 @@ function App() {
       <LotusMark className="closing-lotus" />
       <p className="closing-eyebrow">With love,</p><h2>{wedding.bride}<span>&amp;</span>{wedding.groom}</h2>
       <p className="closing-message">We look forward to celebrating this beautiful beginning with you.</p>
-      <button className="share-button" onClick={share}><Share2 size={16}/> Share the invitation</button>
+      <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Share on WhatsApp</a>
       <div className="closing-footer"><span>Made with love for {wedding.title}</span><span>శుభమస్తు</span></div>
     </footer>
     {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
