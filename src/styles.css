@@ -191,55 +191,95 @@ a { color: inherit; }
   *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
 
-/* Opening scene: illustrated courtyard with softly transparent carved doors. */
-.hero { background: #8a5b38; }
+/* Opening scene: let the temple artwork lead the invitation. */
+.hero { background: #805537; }
 .entrance-art {
   background: #ad7d4b url('/images/temple-courtyard.webp') center center / cover no-repeat;
 }
 .entrance-art::after {
   content: '';
   position: absolute; z-index: 3; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, #35201a70 0%, transparent 23%, #27161028 54%, #24120eb5 100%);
+  background: linear-gradient(180deg, #25150e40 0%, transparent 30%, #26140d2e 60%, #1e110bd6 100%);
   transition: opacity 1.2s ease;
 }
-.entrance-art.is-open::after { opacity: .38; }
+.entrance-art.is-open::after { opacity: .18; }
 .gopuram, .courtyard, .entrance-pillar, .toran { display: none; }
 .door-pair {
-  top: 15%; bottom: 8%; left: 11%; right: 11%;
-  filter: drop-shadow(0 18px 30px #27130e85);
+  inset: 0; justify-content: space-between; pointer-events: none;
+  filter: none;
 }
 .door-leaf {
-  background: repeating-linear-gradient(90deg, #7445229e 0 11%, #9c6936aa 12% 18%, #58341f9e 19% 21%), linear-gradient(115deg,#704322a1,#3c211aa1);
-  border: 2px solid #e5bc70;
-  box-shadow: inset 0 0 0 5px #57301d8a, inset 0 0 0 7px #d2a25d, inset 0 0 30px #21110e72, 0 6px 24px #26140d80;
-  backdrop-filter: blur(1.5px);
+  width: min(11%, 105px); height: 100%;
+  background: linear-gradient(90deg, #372117a8, #69412958);
+  border: 0; border-right: 1px solid #dfba7299;
+  box-shadow: inset -12px 0 18px #170e0c30;
+  backdrop-filter: blur(1px); opacity: .52;
 }
-.door-carving { opacity: .9; }
-.hero-shade { background: linear-gradient(180deg, #1d110d83 0%, transparent 24%, #210f0b20 53%, #1c0e0acc 100%); }
+.right-door {
+  border-right: 0; border-left: 1px solid #dfba7299;
+  background: linear-gradient(90deg, #69412958, #372117a8);
+  box-shadow: inset 12px 0 18px #170e0c30;
+}
+.door-leaf::after { display: none; }
+.door-carving { opacity: .38; }
+.hero-shade {
+  background: linear-gradient(180deg, #1b100e40 0%, transparent 30%, #1e120c36 56%, #21120bc9 78%, #160c08ed 100%);
+}
+.hero-shade.fade { opacity: .16; }
+.hero-topline {
+  left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
+  color: #fff0cf; font-size: 12px; letter-spacing: .23em;
+  text-shadow: 0 2px 12px #1e100c8a;
+}
+.hero-kicker span { color: #edc981; padding: 0 5px; font-size: 9px; }
+.hero-sanskrit { font-size: 14px; }
 .hero-title {
-  width: min(89vw, 680px); margin-top: 9vh;
-  padding: clamp(24px, 4vw, 43px) 20px;
-  background: radial-gradient(ellipse at center, #321b17cb 0%, #321b17af 62%, #321b1780 100%);
-  border: 1px solid #ecd09780;
-  box-shadow: 0 14px 54px #20110dc0, inset 0 0 0 5px #caa4651c;
-  backdrop-filter: blur(2px);
-  text-shadow: 0 2px 12px #1c0b08;
+  position: absolute; bottom: clamp(28px, 5.5vh, 65px);
+  width: min(100%, 760px); margin: 0; padding: 0 20px;
+  background: none; border: 0; box-shadow: none; backdrop-filter: none;
+  text-shadow: 0 3px 22px #160906b5;
 }
-.hero-title h1 { font-size: clamp(58px, 13vw, 126px); }
-.hero-overline { color: #f5e4bf; letter-spacing: .21em; }
-.hero-date { font-size: clamp(9px, 1.3vw, 12px); letter-spacing: .16em; text-transform: uppercase; }
+.hero-overline {
+  color: #f3dfb7; font-size: 10px; letter-spacing: .3em;
+}
+.hero-overline::before, .hero-overline::after {
+  content: ''; display: inline-block; vertical-align: middle;
+  width: 24px; height: 1px; background: #e5c48c; margin: 0 12px;
+}
+.hero-title h1 {
+  margin: 14px 0 0; color: #fff0ce;
+  font-size: clamp(68px, 12vw, 130px); font-weight: 500;
+  line-height: .84; letter-spacing: -.045em;
+}
+.hero-lotus { width: 45px; height: 24px; margin: 11px auto 8px; stroke: #e8c888; }
+.hero-title p {
+  flex-direction: row; flex-wrap: wrap; justify-content: center;
+  gap: 10px; color: #fff0d3;
+  font-size: clamp(27px, 4vw, 39px); line-height: 1; letter-spacing: .025em;
+}
+.hero-title p i { color: #e6bf7c; font-size: .72em; }
+.hero-date {
+  margin-top: 17px; color: #f2daae; font-size: 10px;
+  letter-spacing: .24em; text-transform: uppercase;
+}
 .open-invitation {
-  background: #f2dfb6;
-  border: 1px solid #fff3d6;
-  color: #4a241d;
-  box-shadow: 0 8px 32px #190d0aa3, inset 0 0 0 2px #b9854566;
+  position: relative; left: auto; bottom: auto; transform: none;
+  margin: 26px auto 0; min-width: 218px; padding: 16px 23px;
+  border: 1px solid #fff4d7; background: #f6e6c9; color: #42251d;
+  box-shadow: 0 9px 30px #13090582; font-size: 10px; letter-spacing: .2em;
 }
-.open-invitation:hover { background: #fff3d8; color: #3e2118; }
+.open-invitation:hover { background: #fff3da; color: #42251d; }
 @media (max-width: 600px) {
-  .entrance-art { background-position: center center; }
-  .door-pair { left: 7%; right: 7%; top: 14%; bottom: 8%; }
-  .hero-title { margin-top: 7vh; width: calc(100% - 38px); padding: 26px 13px; }
-  .hero-title h1 { font-size: clamp(56px, 15vw, 82px); }
-  .hero-title p { font-size: clamp(21px, 5vw, 27px); }
-  .open-invitation { bottom: 12%; }
+  .hero-title {
+    bottom: calc(31px + env(safe-area-inset-bottom)); width: 100%; padding: 0 13px;
+  }
+  .hero-title h1 { font-size: clamp(64px, 16vw, 83px); }
+  .hero-overline { font-size: 8px; letter-spacing: .18em; }
+  .hero-overline::before, .hero-overline::after { width: 12px; margin: 0 7px; }
+  .hero-title p { font-size: clamp(25px, 7vw, 31px); gap: 7px; }
+  .hero-date { margin-top: 15px; font-size: 9px; letter-spacing: .15em; }
+  .open-invitation { min-width: 204px; margin-top: 23px; padding: 15px 19px; }
+  .door-leaf { width: 9%; }
+  .hero-topline { font-size: 10px; }
+  .hero-sanskrit { font-size: 12px; }
 }

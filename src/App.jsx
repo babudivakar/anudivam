@@ -183,7 +183,12 @@ function App() {
 
   useEffect(() => {
     if (!opened) return
-    const timer = window.setTimeout(() => setActive(true), 950)
+    const timer = window.setTimeout(() => {
+      setActive(true)
+      document.getElementById('story')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      })
+    }, 1900)
     return () => window.clearTimeout(timer)
   }, [opened])
 
@@ -205,18 +210,17 @@ function App() {
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
       <div className={`hero-shade${opened ? ' fade' : ''}`} />
-      <div className="hero-topline"><span className="hero-kicker">A celebration of love &amp; tradition</span><span className="hero-sanskrit">శుభమస్తు</span></div>
+      <div className="hero-topline"><span className="hero-kicker">A <span aria-hidden="true">✦</span> D</span><span className="hero-sanskrit">శుభమస్తు</span></div>
       <motion.div className="hero-title" animate={opened ? { opacity: 0, y: -16 } : { opacity: 1, y: 0 }} transition={{ duration: .7 }}>
-        <span className="hero-overline">{side ? `An invitation from ${side.invitedBy}` : 'Together with our families'}</span>
+        <span className="hero-overline">{side ? `${side.label} invites you` : 'The wedding celebration of'}</span>
         <h1>{wedding.title}</h1>
         <LotusMark className="hero-lotus" />
-        <p>{wedding.bride}<i>&amp;</i>{wedding.groom}</p>
+        <p>{wedding.bride.split(' ')[0]}<i>&amp;</i>{wedding.groom.split(' ')[0]}</p>
         <span className="hero-date">{wedding.weddingDate}</span>
+        <motion.button className="open-invitation" onClick={() => setOpened(true)} disabled={opened} animate={opened ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }} aria-label="Open the wedding invitation">
+          <span>Open invitation</span><ArrowDown size={16}/>
+        </motion.button>
       </motion.div>
-      <motion.button className="open-invitation" onClick={() => setOpened(true)} disabled={opened} animate={opened ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }} aria-label="Open the wedding invitation">
-        <span>Open invitation</span><ArrowDown size={15}/>
-      </motion.button>
-      <div className="hero-foot"><span>Scroll to explore</span><span className="scroll-line"/></div>
       <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
     </section>
 
