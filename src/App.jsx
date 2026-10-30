@@ -193,6 +193,12 @@ function App() {
     try { await audio.play(); setMusic(true) } catch { setMusicNotice(true); window.setTimeout(() => setMusicNotice(false), 4200) }
   }
 
+  /* Lock scroll until invitation opens */
+  useEffect(() => {
+    document.body.style.overflow = active ? '' : 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [active])
+
   /* Scroll progress bar */
   const [scrollPct, setScrollPct] = useState(0)
   useEffect(() => {
@@ -264,12 +270,15 @@ function App() {
         animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
     </section>
 
+    {/* ── Everything below unlocks after doors open ── */}
+    {active && <>
+
     {/* ── NAV ── */}
-    <AnimatePresence>{active && <motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
+    <AnimatePresence><motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
       <a className="nav-brand" href="#home">A<span>✧</span>D</a>
       <div><a href="#story">Our story</a><a href="#celebrations">Celebrations</a><a href="#venue">Venue</a><a href="#blessings">Blessings</a></div>
       <button className="music-button" onClick={toggleMusic} aria-label={music ? 'Turn music off' : 'Turn music on'} title={music ? 'Music on' : 'Music off'}>{music ? <Volume2 size={17}/> : <VolumeX size={17}/>}<span>{music ? 'Music on' : 'Music off'}</span></button>
-    </motion.nav>}</AnimatePresence>
+    </motion.nav></AnimatePresence>
 
     {/* ── STORY ── */}
     <section className="story-section paper-section" id="story">
@@ -383,6 +392,7 @@ function App() {
       </div>
       <div className="closing-footer"><span>Made with love for {wedding.title}</span><span>శుభమస్తు</span></div>
     </footer>
+    </>}
     {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
   </main></MotionConfig>
 }
