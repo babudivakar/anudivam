@@ -385,43 +385,43 @@ a { color: inherit; }
    NEW FEATURES — Effects, Envelope, Gallery, Blessings, Trivia
    ================================================================ */
 
-/* ── Day/Night Theme ── */
-.night-mode { --paper: #1a1520; --paper-deep: #14101a; --ink: #e8dcc8; --wine: #2a1530; --wine-dark: #1a0f22; }
-.night-mode .paper-section { background: radial-gradient(ellipse at 50% 8%, #241a2e, #1a1520 62%, #14101a); }
-.night-mode .story-section { border-color: #6b5078; }
+/* ── Day/Night Theme — Warm gold/maroon throughout ── */
+.night-mode { --paper: #1e1612; --paper-deep: #171210; --ink: #e8dcc8; --wine: #3a1e1a; --wine-dark: #241412; }
+.night-mode .paper-section { background: radial-gradient(ellipse at 50% 8%, #2a1e18, #1e1612 62%, #171210); }
+.night-mode .story-section { border-color: #6b4a30; }
 .night-mode .section-heading h2 { color: #f0dfb4; }
 .night-mode .invitation-message, .night-mode .section-intro { color: #c8b89a; }
 .night-mode .person-card h3, .night-mode .ceremony-copy h3, .night-mode .venue-card h3 { color: #f0dfb4; }
-.night-mode .portrait-frame { background: #231830; border-color: #7a6090; }
-.night-mode .venue-card { background: linear-gradient(145deg, #241a2e, #1a1520); border-color: #6b5078; }
-.night-mode .venue-card::before { border-color: #5a4070; }
-.night-mode .celebrations-section { background: #1a1520; }
-.night-mode .celebrations-section::before, .night-mode .celebrations-section::after { background: linear-gradient(transparent, #6b5078 10%, #6b5078 90%, transparent); }
-.night-mode .event-art { border-color: #7a6090; background: linear-gradient(145deg, #2a1e35, #1a1520); }
-.night-mode .family-note { border-color: #6b5078; }
-.night-mode .gallery-section { background: linear-gradient(180deg, #1e1825, #1a1520 50%, #16121c); border-color: #6b507840; }
-.night-mode .blessings-section { background: linear-gradient(180deg, #201828, #1a1520 40%, #16121c); border-color: #6b5078; }
-.night-mode .gallery-thumb { border-color: #6b5078; background: #2a1e35; }
+.night-mode .portrait-frame { background: #2a1e16; border-color: #8a6a3e; }
+.night-mode .venue-card { background: linear-gradient(145deg, #2a1e18, #1e1612); border-color: #7a5a30; }
+.night-mode .venue-card::before { border-color: #6b4a28; }
+.night-mode .celebrations-section { background: #1e1612; }
+.night-mode .celebrations-section::before, .night-mode .celebrations-section::after { background: linear-gradient(transparent, #6b4a30 10%, #6b4a30 90%, transparent); }
+.night-mode .event-art { border-color: #8a6a3e; background: linear-gradient(145deg, #2a1e18, #1e1612); }
+.night-mode .family-note { border-color: #6b4a30; }
+.night-mode .gallery-section { background: linear-gradient(180deg, #241a14, #1e1612 50%, #1a1410); border-color: #6b4a3040; }
+.night-mode .blessings-section { background: linear-gradient(180deg, #261c16, #1e1612 40%, #1a1410); border-color: #6b4a30; }
+.night-mode .gallery-thumb { border-color: #7a5a30; background: #2a1e18; }
 .night-mode .paper-ornament { opacity: .2; }
-.night-mode .paper-ornament::after { color: #7a6090; }
-.night-mode .rangoli .rp { stroke: #9a78b0; }
-.night-mode .heading-lotus { stroke: #9a78b0; }
-.night-mode .section-heading .eyebrow { color: #b090c8; }
-.night-mode .telugu-heading, .night-mode .tchar { color: #9a78b0; }
-.night-mode .ceremony-telugu { color: #9a78b0; }
-.night-mode .ampersand { color: #9a78b0; }
+.night-mode .paper-ornament::after { color: #8a6a3e; }
+.night-mode .rangoli .rp { stroke: #ad8748; }
+.night-mode .heading-lotus { stroke: #ad8748; }
+.night-mode .section-heading .eyebrow { color: #c9a665; }
+.night-mode .telugu-heading, .night-mode .tchar { color: #ad8748; }
+.night-mode .ceremony-telugu { color: #ad8748; }
+.night-mode .ampersand { color: #ad8748; }
 .night-mode .family-note p { color: #e8dcc8; }
-.night-mode .family-note span, .night-mode .family-note i { color: #b090c8; }
-.night-mode .person-role { color: #b090c8; }
+.night-mode .family-note span, .night-mode .family-note i { color: #c9a665; }
+.night-mode .person-role { color: #c9a665; }
 .night-mode .family-placeholder { color: #9a8878; }
-.night-mode .timeline-rail { background: linear-gradient(#9a78b0, #6b5078 30%, #6b5078 70%, #9a78b0); }
-.night-mode .timeline-dot { border-color: #6b5078; background: #1a1520; }
-.night-mode .timeline-dot span { background: #9a78b0; }
+.night-mode .timeline-rail { background: linear-gradient(#ad8748, #7a5a30 30%, #7a5a30 70%, #ad8748); }
+.night-mode .timeline-dot { border-color: #7a5a30; background: #1e1612; }
+.night-mode .timeline-dot span { background: #ad8748; }
 .night-mode .ceremony-card .ceremony-copy h3 { color: #f0dfb4; }
 .night-mode .event-facts p { color: #b0a090; }
-.night-mode .text-toggle { color: #b090c8; border-color: #6b5078; }
-.night-mode .scroll-cue { color: #b090c8; }
-.night-mode .scroll-cue a { border-color: #6b5078; }
+.night-mode .text-toggle { color: #c9a665; border-color: #7a5a30; }
+.night-mode .scroll-cue { color: #c9a665; }
+.night-mode .scroll-cue a { border-color: #7a5a30; }
 
 /* ── Particle & Sparkle Canvases ── */
 .particle-canvas, .sparkle-canvas { position: fixed; inset: 0; z-index: 15; pointer-events: none; }
@@ -641,11 +641,11 @@ a { color: inherit; }
 }
 .bless-form button:hover { background: #5a3425; }
 .bless-form button:disabled { opacity: 0.6; cursor: default; }
-.night-mode .bless-card { background: linear-gradient(135deg, #2a2038, #1e1730); border-color: #6b5a8a; }
-.night-mode .bless-card::before { border-color: #5a4878; }
+.night-mode .bless-card { background: linear-gradient(135deg, #2a1e18, #201812); border-color: #7a5a30; }
+.night-mode .bless-card::before { border-color: #6b4a28; }
 .night-mode .bless-msg { color: #e8dcc8; }
-.night-mode .bless-form { background: linear-gradient(135deg, #2a2038, #1e1730); border-color: #6b5a8a; }
-.night-mode .bless-form input, .night-mode .bless-form textarea { background: #1a1428; border-color: #5a4878; color: #e8dcc8; }
+.night-mode .bless-form { background: linear-gradient(135deg, #2a1e18, #201812); border-color: #7a5a30; }
+.night-mode .bless-form input, .night-mode .bless-form textarea { background: #1e1612; border-color: #6b4a28; color: #e8dcc8; }
 
 /* ── Trivia Quiz ── */
 .trivia-section {
@@ -1051,12 +1051,12 @@ a { color: inherit; }
   box-shadow: 0 8px 30px #1e100c18, 0 1px 0 #c9ad7840 inset;
 }
 .night-mode .floating-nav {
-  background: #1a1520e0; border-color: #6b5078;
-  box-shadow: 0 8px 30px #0a060818, 0 1px 0 #6b507840 inset;
+  background: #1e1612e0; border-color: #7a5a30;
+  box-shadow: 0 8px 30px #0a060818, 0 1px 0 #6b4a3040 inset;
 }
 .night-mode .floating-nav a, .night-mode .floating-nav .nav-brand { color: #f0dfb4; }
 .night-mode .floating-nav a:hover { color: #dbb868; }
-.night-mode .music-button { color: #b090c8 !important; }
+.night-mode .music-button { color: #c9a665 !important; }
 
 /* ── Closing Section Stars ── */
 .closing-sparkles { animation: sparkleFloat 3s ease-in-out infinite; }
@@ -1070,16 +1070,16 @@ a { color: inherit; }
 
 /* ── Night mode ALL OUT enhancements ── */
 .night-mode .countdown-panel {
-  background: linear-gradient(110deg, #2a1530, #3a2040 35%, #4a2850 50%, #3a2040 65%, #2a1530);
-  background-size: 200% 100%; border-color: #7a6090;
+  background: linear-gradient(110deg, #3a2218, #4a2a1c 35%, #5a3420 50%, #4a2a1c 65%, #3a2218);
+  background-size: 200% 100%; border-color: #8a6a3e;
 }
-.night-mode .countdown-panel .eyebrow { color: #b090c8; }
-.night-mode .countdown-ornament { stroke: #9a78b0; }
+.night-mode .countdown-panel .eyebrow { color: #c9a665; }
+.night-mode .countdown-ornament { stroke: #ad8748; }
 .night-mode .venue-card { animation: borderShineNight 4s ease-in-out infinite; }
-@keyframes borderShineNight { 0%, 100% { border-color: #6b5078; } 50% { border-color: #9a78b0; } }
-.night-mode .muhurtham-card { border-color: #7a6090; }
+@keyframes borderShineNight { 0%, 100% { border-color: #7a5a30; } 50% { border-color: #ad8748; } }
+.night-mode .muhurtham-card { border-color: #8a6a3e; }
 .night-mode .section-heading h2 { animation-duration: 4s; }
-.night-mode .open-invitation { border-color: #b090c8; }
+.night-mode .open-invitation { border-color: #dbb868; }
 
 /* ── Loading shimmer for empty states ── */
 @keyframes loadShimmer {
