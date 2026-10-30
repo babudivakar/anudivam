@@ -170,6 +170,18 @@ function App() {
     return () => window.clearTimeout(timer)
   }
 
+  /* Scroll / wheel / touch-swipe also opens doors */
+  useEffect(() => {
+    if (opened) return
+    const onWheel = (e) => { e.preventDefault(); openDoors() }
+    const onTouch = () => openDoors()
+    const onKey = (e) => { if (['ArrowDown','ArrowUp','Space','PageDown'].includes(e.code)) { e.preventDefault(); openDoors() } }
+    window.addEventListener('wheel', onWheel, { passive: false })
+    window.addEventListener('touchmove', onTouch, { passive: true })
+    window.addEventListener('keydown', onKey)
+    return () => { window.removeEventListener('wheel', onWheel); window.removeEventListener('touchmove', onTouch); window.removeEventListener('keydown', onKey) }
+  }, [opened])
+
   /* Fireworks when scrolling to celebrations */
   useEffect(() => {
     if (!active) return
