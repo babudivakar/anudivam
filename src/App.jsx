@@ -193,10 +193,25 @@ function App() {
     try { await audio.play(); setMusic(true) } catch { setMusicNotice(true); window.setTimeout(() => setMusicNotice(false), 4200) }
   }
 
+  /* Scroll progress bar */
+  const [scrollPct, setScrollPct] = useState(0)
+  useEffect(() => {
+    if (!active) return
+    const onScroll = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight
+      setScrollPct(h > 0 ? (window.scrollY / h) * 100 : 0)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [active])
+
   if (isAdmin) return <AdminLinks />
 
   return <MotionConfig reducedMotion="user"><main className={isNight ? 'night-mode' : 'day-mode'}>
     {wedding.musicTrack && <audio id="wedding-audio" src={wedding.musicTrack} loop preload="none" />}
+
+    {/* ── SCROLL PROGRESS ── */}
+    {active && <div className="scroll-progress" style={{ transform: `scaleX(${scrollPct / 100})` }} />}
 
     {/* ── PARTICLE EFFECTS ── */}
     <ParticleCanvas active={active} triggerBurst={burstCount} triggerConfetti={confettiCount} triggerFireworks={fireworksCount} />

@@ -8,11 +8,20 @@
   --wine: #5a2027;
   --wine-dark: #321719;
   --gold: #ad8748;
+  --gold-bright: #dbb868;
   --gold-light: #dec78f;
+  --gold-glow: #ffd78a;
   --ink: #30201a;
   --paper: #f4eedf;
+  --paper-warm: #fbf7ec;
   --paper-deep: #e9dfca;
+  --temple: #2c1814;
+  --temple-deep: #1a0f0c;
   --green: #344b3a;
+  --cream-gold: #f6ecd4;
+  --blush: #fdf0e8;
+  --section-dark: radial-gradient(ellipse at 50% 38%, #5a3425, #3a211c 51%, #1e1210);
+  --section-paper: radial-gradient(ellipse at 50% 8%, #fffaf0, #f4eedf 62%, #e9dfca);
 }
 
 * { box-sizing: border-box; }
@@ -377,20 +386,42 @@ a { color: inherit; }
    ================================================================ */
 
 /* ── Day/Night Theme ── */
-.night-mode { --paper: #1a1428; --paper-deep: #130f20; --ink: #e8dcc8; --wine: #2d1833; --wine-dark: #1a0f22; }
-.night-mode .paper-section { background: radial-gradient(ellipse at 50% 8%, #221a30, #1a1428 62%, #130f20); }
-.night-mode .story-section { border-color: #6b5a8a; }
+.night-mode { --paper: #1a1520; --paper-deep: #14101a; --ink: #e8dcc8; --wine: #2a1530; --wine-dark: #1a0f22; }
+.night-mode .paper-section { background: radial-gradient(ellipse at 50% 8%, #241a2e, #1a1520 62%, #14101a); }
+.night-mode .story-section { border-color: #6b5078; }
 .night-mode .section-heading h2 { color: #f0dfb4; }
 .night-mode .invitation-message, .night-mode .section-intro { color: #c8b89a; }
 .night-mode .person-card h3, .night-mode .ceremony-copy h3, .night-mode .venue-card h3 { color: #f0dfb4; }
-.night-mode .portrait-frame { background: #2a2038; border-color: #7a6998; }
-.night-mode .venue-card { background: linear-gradient(145deg, #221a30, #1a1428); border-color: #6b5a8a; }
-.night-mode .venue-card::before { border-color: #5a4878; }
-.night-mode .celebrations-section { background: #1a1428; }
-.night-mode .celebrations-section::before, .night-mode .celebrations-section::after { background: linear-gradient(transparent, #6b5a8a 10%, #6b5a8a 90%, transparent); }
-.night-mode .event-art { border-color: #7a6998; background: linear-gradient(145deg, #2a2038, #1a1428); }
-.night-mode .family-note { border-color: #6b5a8a; }
-.night-mode .blessings-section { background: radial-gradient(ellipse at 50% 8%, #221a30, #1a1428 62%, #130f20); }
+.night-mode .portrait-frame { background: #231830; border-color: #7a6090; }
+.night-mode .venue-card { background: linear-gradient(145deg, #241a2e, #1a1520); border-color: #6b5078; }
+.night-mode .venue-card::before { border-color: #5a4070; }
+.night-mode .celebrations-section { background: #1a1520; }
+.night-mode .celebrations-section::before, .night-mode .celebrations-section::after { background: linear-gradient(transparent, #6b5078 10%, #6b5078 90%, transparent); }
+.night-mode .event-art { border-color: #7a6090; background: linear-gradient(145deg, #2a1e35, #1a1520); }
+.night-mode .family-note { border-color: #6b5078; }
+.night-mode .gallery-section { background: linear-gradient(180deg, #1e1825, #1a1520 50%, #16121c); border-color: #6b507840; }
+.night-mode .blessings-section { background: linear-gradient(180deg, #201828, #1a1520 40%, #16121c); border-color: #6b5078; }
+.night-mode .gallery-thumb { border-color: #6b5078; background: #2a1e35; }
+.night-mode .paper-ornament { opacity: .2; }
+.night-mode .paper-ornament::after { color: #7a6090; }
+.night-mode .rangoli .rp { stroke: #9a78b0; }
+.night-mode .heading-lotus { stroke: #9a78b0; }
+.night-mode .section-heading .eyebrow { color: #b090c8; }
+.night-mode .telugu-heading, .night-mode .tchar { color: #9a78b0; }
+.night-mode .ceremony-telugu { color: #9a78b0; }
+.night-mode .ampersand { color: #9a78b0; }
+.night-mode .family-note p { color: #e8dcc8; }
+.night-mode .family-note span, .night-mode .family-note i { color: #b090c8; }
+.night-mode .person-role { color: #b090c8; }
+.night-mode .family-placeholder { color: #9a8878; }
+.night-mode .timeline-rail { background: linear-gradient(#9a78b0, #6b5078 30%, #6b5078 70%, #9a78b0); }
+.night-mode .timeline-dot { border-color: #6b5078; background: #1a1520; }
+.night-mode .timeline-dot span { background: #9a78b0; }
+.night-mode .ceremony-card .ceremony-copy h3 { color: #f0dfb4; }
+.night-mode .event-facts p { color: #b0a090; }
+.night-mode .text-toggle { color: #b090c8; border-color: #6b5078; }
+.night-mode .scroll-cue { color: #b090c8; }
+.night-mode .scroll-cue a { border-color: #6b5078; }
 
 /* ── Particle & Sparkle Canvases ── */
 .particle-canvas, .sparkle-canvas { position: fixed; inset: 0; z-index: 15; pointer-events: none; }
@@ -534,7 +565,11 @@ a { color: inherit; }
 @keyframes charReveal { to { opacity: 1; transform: translateY(0); } }
 
 /* ── Photo Gallery ── */
-.gallery-section { background: #eae1d0; position: relative; overflow: hidden; }
+.gallery-section {
+  background: linear-gradient(180deg, #f6ecd4, #ece0c6 50%, #e2d6bc);
+  position: relative; overflow: hidden;
+  border-top: 1px solid #c9ad7840; border-bottom: 1px solid #c9ad7840;
+}
 .gallery-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
 .gallery-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -569,7 +604,11 @@ a { color: inherit; }
 .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #c9a665; font-size: 10px; letter-spacing: .15em; }
 
 /* ── Blessings Wall ── */
-.blessings-section { position: relative; overflow: hidden; }
+.blessings-section {
+  position: relative; overflow: hidden;
+  background: linear-gradient(180deg, #f8f0e0, #f0e6d2 40%, #ebe0ca);
+  border-top: 3px double #c9ad78;
+}
 .blessings-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
 .blessings { max-width: 700px; margin: 30px auto 0; }
 .bless-wall {
@@ -611,7 +650,7 @@ a { color: inherit; }
 /* ── Trivia Quiz ── */
 .trivia-section {
   position: relative; overflow: hidden; color: #f0dfb4;
-  background: radial-gradient(ellipse at 50% 38%, #5a3828, #3a211c 51%, #211514);
+  background: radial-gradient(ellipse at 50% 30%, #5a3425, #3a211c 48%, #1e1210);
   border-top: 1px solid #a58046;
 }
 .trivia-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
@@ -798,6 +837,269 @@ a { color: inherit; }
 .btn-tool:hover { background: #3a2a1e; }
 .btn-danger { border-color: #6a2d2d !important; color: #ff8a8a; }
 .btn-danger:hover { background: #3a1a1a !important; }
+
+/* ================================================================
+   ALL OUT — Maximum wow factor effects
+   ================================================================ */
+
+/* ── Gold Shimmer Text on Key Headings ── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.section-heading h2 {
+  background: linear-gradient(90deg, #41251e 0%, #41251e 35%, #dbb868 50%, #41251e 65%, #41251e 100%);
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; animation: shimmer 5s ease-in-out infinite;
+}
+.section-heading.light h2 {
+  background: linear-gradient(90deg, #f1dfb3 0%, #f1dfb3 35%, #fff5d0 50%, #f1dfb3 65%, #f1dfb3 100%);
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.night-mode .section-heading h2 {
+  background: linear-gradient(90deg, #f0dfb4 0%, #f0dfb4 35%, #fff5d0 50%, #f0dfb4 65%, #f0dfb4 100%);
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Glowing Section Dividers ── */
+.story-section { border-image: linear-gradient(90deg, transparent 5%, #b99556 20%, #dbb868 50%, #b99556 80%, transparent 95%) 1; }
+.celebrations-section::before, .celebrations-section::after { opacity: .7; }
+
+/* ── Scroll Progress Bar ── */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 25;
+  background: linear-gradient(90deg, #ad8748, #ffd78a, #ad8748);
+  box-shadow: 0 0 10px #ffd78a80, 0 0 20px #ad874840;
+  transform-origin: left; transition: none;
+}
+
+/* ── Ambient Glow Orbs in dark sections ── */
+.mandap-section::before, .trivia-section::before, .closing-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(400px 400px at 15% 30%, #dbb86810, transparent),
+    radial-gradient(350px 350px at 85% 60%, #ad874810, transparent),
+    radial-gradient(300px 300px at 50% 80%, #c9453e08, transparent);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── Pulsing Glow on Key Elements ── */
+@keyframes softGlow {
+  0%, 100% { box-shadow: 0 0 15px #dbb86820, 0 8px 25px #1e100c18; }
+  50% { box-shadow: 0 0 25px #dbb86840, 0 12px 35px #1e100c28; }
+}
+.muhurtham-card { animation: softGlow 3s ease-in-out infinite; }
+.wax-seal { animation: sealPulse 2s ease-in-out infinite; }
+@keyframes sealPulse {
+  0%, 100% { box-shadow: 0 4px 18px #1a0c08a0, 0 0 15px #c9453e30; }
+  50% { box-shadow: 0 4px 22px #1a0c08c0, 0 0 30px #c9453e50; }
+}
+
+/* ── Enhanced Countdown — Dramatic Flip Style ── */
+.count-unit strong {
+  background: linear-gradient(180deg, #f5e2b7, #dbb868);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: none; filter: drop-shadow(0 2px 8px #dbb86850);
+  animation: countGlow 2s ease-in-out infinite alternate;
+}
+@keyframes countGlow {
+  0% { filter: drop-shadow(0 2px 8px #dbb86830); }
+  100% { filter: drop-shadow(0 2px 16px #dbb86870); }
+}
+
+/* ── Animated Gold Borders on Cards ── */
+@keyframes borderShine {
+  0% { border-color: #b9955d; }
+  50% { border-color: #dbb868; }
+  100% { border-color: #b9955d; }
+}
+.venue-card { animation: borderShine 4s ease-in-out infinite; }
+.venue-card:nth-child(2) { animation-delay: 1s; }
+.venue-card:nth-child(3) { animation-delay: 2s; }
+
+/* ── Dramatic Hero Title ── */
+.hero-title h1 {
+  text-shadow: 0 4px 30px #ffd78a40, 0 0 60px #dbb86820;
+}
+.hero-welcome-theme { text-shadow: 0 2px 15px #ffd78a30; }
+
+/* ── Enhanced Open Button Glow ── */
+.open-invitation {
+  box-shadow: 0 9px 30px #13090582, 0 0 20px #dbb86820;
+  animation: inviteBreathe 2.5s ease-in-out infinite;
+}
+@keyframes inviteBreathe {
+  0%, 100% { box-shadow: 0 9px 30px #13090582, 0 0 15px #dbb86815; }
+  50% { box-shadow: 0 12px 40px #13090590, 0 0 30px #dbb86835; }
+}
+
+/* ── Floating Lotus Petals in Section Headings ── */
+.heading-lotus { animation: lotusFloat 3s ease-in-out infinite; }
+@keyframes lotusFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ── Enhanced Portrait Hover ── */
+.portrait-frame:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 22px 50px #50371a28, 0 0 20px #dbb86815;
+}
+
+/* ── Ceremony Card Glow on Hover ── */
+.ceremony-card:hover .event-art {
+  transform: scale(1.04);
+  box-shadow: 0 14px 30px #50371a15, 0 0 15px #dbb86810;
+}
+
+/* ── Enhanced Wedding Fire ── */
+.wedding-fire i {
+  animation: fireFlicker 0.6s ease-in-out infinite alternate;
+}
+@keyframes fireFlicker {
+  0% { transform: rotate(45deg) scale(0.9); opacity: 0.85; }
+  100% { transform: rotate(45deg) scale(1.12); opacity: 1; }
+}
+.wedding-fire b { animation: fireFlicker 0.8s 0.1s ease-in-out infinite alternate; }
+
+/* ── Glowing Mandap Arch ── */
+.arch-inner-glow { animation: archGlow 3s ease-in-out infinite alternate; }
+@keyframes archGlow {
+  0% { opacity: .32; filter: blur(38px); }
+  100% { opacity: .55; filter: blur(42px); }
+}
+
+/* ── Section Transition Gradients ── */
+.story-section::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 60px;
+  background: linear-gradient(transparent, #eae1d0); pointer-events: none; z-index: 1;
+}
+.celebrations-section::after { background: linear-gradient(transparent, #eae1d0 10%, #eae1d0 90%, transparent) !important; bottom: auto !important; }
+.venue-section::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 50px;
+  background: linear-gradient(transparent, #f8f0e0); pointer-events: none; z-index: 1;
+}
+
+/* ── Animated Envelope Stars — More Stars + Colors ── */
+.estar { text-shadow: 0 0 8px currentColor; }
+
+/* ── Enhanced Blessings Card ── */
+.bless-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.bless-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 30px #50371a14, 0 0 15px #dbb86808;
+}
+
+/* ── Trivia Answer Animations ── */
+.trivia-opts button {
+  transition: background 0.3s, border-color 0.3s, transform 0.15s, box-shadow 0.3s;
+}
+.trivia-opts button:hover:not(:disabled) {
+  transform: translateX(4px);
+  box-shadow: 0 0 12px #a5804620;
+}
+.trivia-opts button.correct {
+  animation: correctPop 0.4s ease;
+  box-shadow: 0 0 20px #6bcb7740;
+}
+.trivia-opts button.wrong {
+  animation: wrongShake 0.4s ease;
+  box-shadow: 0 0 20px #ff6b6b30;
+}
+@keyframes correctPop { 0% { transform: scale(1); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+@keyframes wrongShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* ── Gallery Hover — Dramatic zoom ── */
+.gallery-thumb {
+  transition: transform 0.4s, box-shadow 0.4s;
+  overflow: hidden;
+}
+.gallery-thumb:hover {
+  box-shadow: 0 12px 35px #50371a1a, 0 0 18px #dbb8680a;
+  z-index: 2;
+}
+.gallery-thumb img { transition: transform 0.5s; }
+.gallery-thumb:hover img { transform: scale(1.12); }
+
+/* ── Music Button Glow when Playing ── */
+.music-button { transition: color 0.3s; }
+.music-button[title="Music on"] {
+  color: #dbb868 !important;
+  text-shadow: 0 0 8px #dbb86860;
+}
+
+/* ── Enhanced Share & Confetti Buttons ── */
+.share-button { transition: background 0.2s, color 0.2s, box-shadow 0.3s, transform 0.2s; }
+.share-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #170d0c40; }
+.confetti-btn { transition: background 0.2s, box-shadow 0.3s, transform 0.2s; }
+.confetti-btn:hover { box-shadow: 0 0 18px #d5b87430; }
+
+/* ── Countdown Panel Enhanced ── */
+.countdown-panel {
+  background: linear-gradient(110deg, #4a2620, #5a3028 35%, #63392a 50%, #5a3028 65%, #4a2620);
+  background-size: 200% 100%; animation: panelShift 8s ease-in-out infinite;
+}
+@keyframes panelShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+/* ── Nav Bar Glass Effect ── */
+.floating-nav {
+  background: #f4eedfe0; backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 8px 30px #1e100c18, 0 1px 0 #c9ad7840 inset;
+}
+.night-mode .floating-nav {
+  background: #1a1520e0; border-color: #6b5078;
+  box-shadow: 0 8px 30px #0a060818, 0 1px 0 #6b507840 inset;
+}
+.night-mode .floating-nav a, .night-mode .floating-nav .nav-brand { color: #f0dfb4; }
+.night-mode .floating-nav a:hover { color: #dbb868; }
+.night-mode .music-button { color: #b090c8 !important; }
+
+/* ── Closing Section Stars ── */
+.closing-sparkles { animation: sparkleFloat 3s ease-in-out infinite; }
+@keyframes sparkleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* ── Overall Smooth Scroll Snap (subtle) ── */
+@media (min-width: 760px) and (prefers-reduced-motion: no-preference) {
+  .story-section, .gallery-section, .celebrations-section, .mandap-section,
+  .venue-section, .blessings-section, .trivia-section { scroll-snap-align: start; }
+}
+
+/* ── Night mode ALL OUT enhancements ── */
+.night-mode .countdown-panel {
+  background: linear-gradient(110deg, #2a1530, #3a2040 35%, #4a2850 50%, #3a2040 65%, #2a1530);
+  background-size: 200% 100%; border-color: #7a6090;
+}
+.night-mode .countdown-panel .eyebrow { color: #b090c8; }
+.night-mode .countdown-ornament { stroke: #9a78b0; }
+.night-mode .venue-card { animation: borderShineNight 4s ease-in-out infinite; }
+@keyframes borderShineNight { 0%, 100% { border-color: #6b5078; } 50% { border-color: #9a78b0; } }
+.night-mode .muhurtham-card { border-color: #7a6090; }
+.night-mode .section-heading h2 { animation-duration: 4s; }
+.night-mode .open-invitation { border-color: #b090c8; }
+
+/* ── Loading shimmer for empty states ── */
+@keyframes loadShimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+/* ── Fix count-unit pulse override from earlier ── */
+.count-unit strong { animation: countGlow 2s ease-in-out infinite alternate; }
+.count-unit:nth-child(2) strong { animation-delay: 0.5s; }
+.count-unit:nth-child(3) strong { animation-delay: 1s; }
+.count-unit:nth-child(4) strong { animation-delay: 1.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .section-heading h2, .section-heading.light h2, .night-mode .section-heading h2 {
+    animation: none; background: none; -webkit-text-fill-color: unset;
+  }
+  .muhurtham-card, .wax-seal, .venue-card, .heading-lotus, .countdown-panel,
+  .count-unit strong, .open-invitation { animation: none; }
+}
 
 @media (max-width: 600px) {
   .admin-sides { grid-template-columns: 1fr; }
