@@ -898,11 +898,20 @@ a { color: inherit; }
   display: block; color: #d4b980; font-size: 11px; letter-spacing: .08em;
   text-transform: uppercase; margin-bottom: 5px; font-weight: 600;
 }
-.inviter-select select {
-  width: 100%; padding: 8px 10px; background: #1a1210; border: 1px solid #6b4a30;
+.inviter-row {
+  display: flex; gap: 8px; align-items: center;
+}
+.inviter-row select {
+  flex: 1; padding: 8px 10px; background: #1a1210; border: 1px solid #6b4a30;
   border-radius: 6px; color: #f0dfb4; font-size: 13px; font-family: inherit;
 }
-.inviter-select select:focus { border-color: #dbb868; outline: none; }
+.inviter-row select:focus { border-color: #dbb868; outline: none; }
+.inviter-row input {
+  flex: 1; padding: 8px 10px; background: #1a1210; border: 1px solid #dbb868;
+  border-radius: 6px; color: #fff0ce; font-size: 13px; font-family: inherit;
+}
+.inviter-row input:focus { border-color: #ffd78a; outline: none; box-shadow: 0 0 0 2px #dbb86830; }
+.inviter-row input::placeholder { color: #6b5a40; }
 .inviter { color: #c9a665; font-size: 12px; }
 .admin-side textarea {
   width: 100%; padding: 10px 12px; background: #1a1210; border: 1px solid #6b4a30;
