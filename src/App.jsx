@@ -250,9 +250,15 @@ function App() {
           <LotusMark className="ganesh-lotus" />
           <span className="ganesh-blessing">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
           <div className="ganesh-families">
-            <span>{wedding.welcomeFamilies[0]}</span>
-            <i>&amp;</i>
-            <span>{wedding.welcomeFamilies[1]}</span>
+            {side ? <>
+              <span>{side.familyName}</span>
+              <i>&amp;</i>
+              <span>{from === 'anusha' ? wedding.sides.divakar.familyName : wedding.sides.anusha.familyName}</span>
+            </> : <>
+              <span>{wedding.welcomeFamilies[0]}</span>
+              <i>&amp;</i>
+              <span>{wedding.welcomeFamilies[1]}</span>
+            </>}
           </div>
           <span className="ganesh-invite-label">Invite you to celebrate the wedding of</span>
           <h1>{wedding.title}</h1>
@@ -266,12 +272,18 @@ function App() {
         {/* COUPLE REVEAL — visible after doors open */}
         {revealed && <motion.div key="couple-reveal" className="hero-title hero-revealed"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
-          <span className="hero-overline">Together with our families</span>
-          <h1>Anusha &amp; Divakar</h1>
+          <span className="hero-overline">{side ? `With the blessings of ${side.invitedBy}` : 'Together with our families'}</span>
+          <h1>{from === 'divakar' ? <>{wedding.groom} &amp; {wedding.bride}</> : <>{wedding.bride} &amp; {wedding.groom}</>}</h1>
           <div className="hero-couple-grid">
-            <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
-            <i aria-hidden="true">✦</i>
-            <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+            {from === 'divakar' ? <>
+              <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+              <i aria-hidden="true">✦</i>
+              <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
+            </> : <>
+              <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
+              <i aria-hidden="true">✦</i>
+              <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+            </>}
           </div>
           <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
           <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>

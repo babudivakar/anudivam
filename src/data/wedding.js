@@ -31,6 +31,7 @@ export const wedding = {
   sides: {
     anusha: {
       label: 'Anusha’s family',
+      familyName: 'Kullakunta Addamma Gari family',
       invitedBy: 'Smt. Shivamma & Sri Shiva Reddy',
       otherFamily: 'Smt. Sunitha & Sri Babu Reddy',
       message: 'With the blessings of Smt. Shivamma and Sri Shiva Reddy, we invite you to celebrate Anusha’s wedding with Divakar.',
@@ -47,6 +48,7 @@ export const wedding = {
     },
     divakar: {
       label: 'Divakar’s family',
+      familyName: 'Vankayilu Ram Reddy family',
       invitedBy: 'Smt. Sunitha & Sri Babu Reddy',
       otherFamily: 'Smt. Shivamma & Sri Shiva Reddy',
       message: 'With the blessings of Smt. Sunitha and Sri Babu Reddy, we invite you to celebrate Divakar’s wedding with Anusha.',
