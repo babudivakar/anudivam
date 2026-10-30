@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnuDivam — Guest Link Generator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1a1210; color: #f0dfb4; min-height: 100vh; padding: 24px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 28px; text-align: center; margin-bottom: 6px; color: #ffd78a; }
+  .subtitle { text-align: center; color: #c9a665; font-size: 13px; margin-bottom: 30px; }
+  .side-section { background: #2a1a14; border: 1px solid #6b4a30; border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+  .side-section h2 { font-size: 18px; color: #ffd78a; margin-bottom: 4px; }
+  .side-section .side-desc { color: #c9a665; font-size: 12px; margin-bottom: 16px; }
+  label { display: block; font-size: 12px; color: #c9a665; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  textarea { width: 100%; height: 120px; padding: 12px; background: #1a1210; border: 1px solid #6b4a30; color: #f0dfb4; font-size: 14px; border-radius: 4px; resize: vertical; font-family: inherit; }
+  textarea:focus { outline: 2px solid #ad8748; outline-offset: 2px; }
+  textarea::placeholder { color: #6b5a45; }
+  .actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  button { padding: 10px 18px; border: 1px solid #ad8748; background: #42251e; color: #f6e6b9; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; cursor: pointer; border-radius: 4px; transition: background .2s; }
+  button:hover { background: #5a3425; }
+  button.copy { background: #2d6a30; border-color: #6bcb77; }
+  button.copy:hover { background: #3a8a40; }
+  button.whatsapp { background: #1a5c2a; border-color: #25d366; }
+  button.whatsapp:hover { background: #228a38; }
+  .output { margin-top: 16px; }
+  .output table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .output th { text-align: left; padding: 8px 10px; background: #3a2218; color: #c9a665; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid #6b4a30; }
+  .output td { padding: 8px 10px; border-bottom: 1px solid #3a2a20; vertical-align: middle; }
+  .output td:first-child { color: #ffd78a; font-weight: 500; }
+  .link-cell { word-break: break-all; }
+  .link-cell a { color: #ad8748; text-decoration: none; font-size: 11px; }
+  .link-cell a:hover { text-decoration: underline; }
+  .btn-sm { padding: 5px 10px; font-size: 10px; border: 1px solid #6b4a30; background: #2a1a14; }
+  .btn-sm:hover { background: #3a2a1e; }
+  .btn-sm.wa { border-color: #25d366; }
+  .stats { text-align: center; margin-top: 20px; color: #c9a665; font-size: 12px; }
+  .stats strong { color: #ffd78a; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+  .badge.anusha { background: #5a2040; color: #ffb4d9; }
+  .badge.divakar { background: #1a4050; color: #b4e0ff; }
+  .empty { text-align: center; color: #6b5a45; padding: 20px; font-size: 13px; }
+  .tip { background: #2a2218; border: 1px solid #6b5a30; border-radius: 6px; padding: 14px 18px; margin-bottom: 24px; font-size: 12px; color: #c9a665; line-height: 1.6; }
+  .tip code { background: #1a1210; padding: 2px 6px; border-radius: 3px; color: #ffd78a; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>✧ AnuDivam Guest Links ✧</h1>
+  <p class="subtitle">Generate personalized invitation links for every guest</p>
+
+  <div class="tip">
+    <strong>How to use:</strong> Enter one guest name per line in each box below. Click <strong>Generate Links</strong> to create personalized URLs. Each guest will see <em>"Dear [Name],"</em> on the envelope and throughout the invitation, along with the correct family's Haldi & Mehendi details.
+  </div>
+
+  <div class="side-section">
+    <h2>🌸 Anusha's Side</h2>
+    <p class="side-desc">Guests invited by Smt. Shivamma & Sri Shiva Reddy — will see Anusha's family Haldi & Mehendi venue</p>
+    <label>Guest names (one per line)</label>
+    <textarea id="anusha-names" placeholder="Rajesh Uncle&#10;Priya Aunty&#10;Srinivas & Family&#10;Kavitha Madam"></textarea>
+  </div>
+
+  <div class="side-section">
+    <h2>💙 Divakar's Side</h2>
+    <p class="side-desc">Guests invited by Smt. Sunitha & Sri Babu Reddy — will see Divakar's family Haldi & Mehendi venue</p>
+    <label>Guest names (one per line)</label>
+    <textarea id="divakar-names" placeholder="Ramesh Anna&#10;Sunitha Aunty&#10;Venkat & Family&#10;Narayana Garu"></textarea>
+  </div>
+
+  <div class="actions">
+    <button onclick="generate()">✨ Generate Links</button>
+    <button class="copy" onclick="copyAll()">📋 Copy All Links</button>
+    <button class="whatsapp" onclick="copyWhatsApp()">💬 Copy WhatsApp Messages</button>
+  </div>
+
+  <div id="output" class="output"></div>
+  <div id="stats" class="stats"></div>
+</div>
+
+<script>
+const BASE = 'https://babudivakar.github.io/anudivam/'
+let allLinks = []
+
+function parseNames(text) {
+  return text.split('\n').map(n => n.trim()).filter(n => n.length > 0)
+}
+
+function makeUrl(name, side) {
+  const params = new URLSearchParams()
+  params.set('guest', name)
+  if (side) params.set('from', side)
+  return BASE + '?' + params.toString()
+}
+
+function generate() {
+  const anushaNames = parseNames(document.getElementById('anusha-names').value)
+  const divakarNames = parseNames(document.getElementById('divakar-names').value)
+  allLinks = []
+
+  anushaNames.forEach(name => allLinks.push({ name, side: 'anusha', url: makeUrl(name, 'anusha') }))
+  divakarNames.forEach(name => allLinks.push({ name, side: 'divakar', url: makeUrl(name, 'divakar') }))
+
+  if (allLinks.length === 0) {
+    document.getElementById('output').innerHTML = '<p class="empty">Enter guest names above and click Generate Links</p>'
+    document.getElementById('stats').innerHTML = ''
+    return
+  }
+
+  let html = '<table><tr><th>Guest</th><th>Side</th><th>Personalized Link</th><th>Actions</th></tr>'
+  allLinks.forEach((link, i) => {
+    html += `<tr>
+      <td>${link.name}</td>
+      <td><span class="badge ${link.side}">${link.side === 'anusha' ? "Anusha's" : "Divakar's"}</span></td>
+      <td class="link-cell"><a href="${link.url}" target="_blank">${link.url}</a></td>
+      <td>
+        <button class="btn-sm" onclick="copyOne(${i})">Copy</button>
+        <button class="btn-sm wa" onclick="sendWA(${i})">WA</button>
+      </td>
+    </tr>`
+  })
+  html += '</table>'
+  document.getElementById('output').innerHTML = html
+  document.getElementById('stats').innerHTML = `Generated <strong>${allLinks.length}</strong> links — <strong>${anushaNames.length}</strong> for Anusha's side, <strong>${divakarNames.length}</strong> for Divakar's side`
+}
+
+function waMessage(link) {
+  const side = link.side === 'anusha' ? "Anusha's" : "Divakar's"
+  return `Dear ${link.name},\n\nYou are cordially invited to celebrate the wedding of Anusha Reddy & Divakar Reddy — AnuDivam 💐\n\n📅 Sunday, 22 November 2026\n📍 D.C. Anjaneyulu Convention Center, Hindupura\n\nOpen your personal invitation here:\n${link.url}\n\nWith love,\n${side} family 🙏`
+}
+
+function copyOne(i) {
+  navigator.clipboard.writeText(allLinks[i].url)
+  event.target.textContent = '✓'; setTimeout(() => event.target.textContent = 'Copy', 1500)
+}
+
+function sendWA(i) {
+  window.open('https://wa.me/?text=' + encodeURIComponent(waMessage(allLinks[i])), '_blank')
+}
+
+function copyAll() {
+  if (!allLinks.length) return
+  const text = allLinks.map(l => `${l.name}\t${l.url}`).join('\n')
+  navigator.clipboard.writeText(text)
+  event.target.textContent = '✓ Copied!'; setTimeout(() => event.target.textContent = '📋 Copy All Links', 2000)
+}
+
+function copyWhatsApp() {
+  if (!allLinks.length) return
+  const text = allLinks.map(l => waMessage(l)).join('\n\n---\n\n')
+  navigator.clipboard.writeText(text)
+  event.target.textContent = '✓ Copied!'; setTimeout(() => event.target.textContent = '💬 Copy WhatsApp Messages', 2000)
+}
+</script>
+</body>
+</html>

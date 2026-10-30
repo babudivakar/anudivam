@@ -712,3 +712,89 @@ a { color: inherit; }
   .diya-body { width: 18px; height: 8px; }
   .lb-arr { width: 36px; height: 36px; }
 }
+
+/* ================================================================
+   ADMIN — Guest Link Generator
+   ================================================================ */
+.admin-page { min-height: 100vh; background: #1a1210; color: #f0dfb4; padding: 24px; }
+.admin-container { max-width: 960px; margin: 0 auto; }
+.admin-header { text-align: center; margin-bottom: 24px; }
+.admin-header h1 { font: 500 clamp(22px, 4vw, 30px)/1.1 'Cormorant Garamond', serif; color: #ffd78a; margin-bottom: 6px; }
+.admin-header p { color: #c9a665; font-size: 12px; letter-spacing: .1em; }
+.admin-back {
+  display: inline-block; margin-top: 10px; padding: 6px 14px;
+  border: 1px solid #6b4a30; color: #c9a665; text-decoration: none;
+  font-size: 11px; border-radius: 4px; transition: background .2s;
+}
+.admin-back:hover { background: #2a1a14; }
+.admin-tip {
+  background: #2a2218; border: 1px solid #6b5a30; border-radius: 6px;
+  padding: 14px 18px; margin-bottom: 24px; font-size: 12px;
+  color: #c9a665; line-height: 1.6;
+}
+.admin-tip strong { color: #ffd78a; }
+.admin-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.admin-side {
+  background: #2a1a14; border: 1px solid #6b4a30; border-radius: 8px; padding: 20px;
+}
+.admin-side h2 { font-size: 17px; color: #ffd78a; margin-bottom: 4px; }
+.admin-side .side-desc { color: #9a8a70; font-size: 11px; margin-bottom: 12px; }
+.admin-side textarea {
+  width: 100%; padding: 10px 12px; background: #1a1210; border: 1px solid #6b4a30;
+  color: #f0dfb4; font: 13px/1.6 'Manrope', system-ui, sans-serif;
+  border-radius: 4px; resize: vertical;
+}
+.admin-side textarea:focus { outline: 2px solid #ad8748; outline-offset: 2px; }
+.admin-side textarea::placeholder { color: #5a4a38; }
+.admin-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.admin-actions button {
+  padding: 10px 18px; border: 1px solid #ad8748; background: #42251e;
+  color: #f6e6b9; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .1em; cursor: pointer; border-radius: 4px; transition: background .2s;
+}
+.admin-actions button:hover { background: #5a3425; }
+.btn-gen { border-color: #dbb868 !important; }
+.btn-copy { background: #1a4a2a !important; border-color: #6bcb77 !important; }
+.btn-copy:hover { background: #2a6a3a !important; }
+.btn-wa { background: #1a5028 !important; border-color: #25d366 !important; }
+.btn-wa:hover { background: #228a38 !important; }
+.admin-stats { text-align: center; color: #c9a665; font-size: 12px; margin-bottom: 16px; }
+.admin-stats strong { color: #ffd78a; }
+.admin-table-wrap { overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.admin-table th {
+  text-align: left; padding: 9px 10px; background: #3a2218;
+  color: #c9a665; font-size: 9px; text-transform: uppercase;
+  letter-spacing: .1em; border-bottom: 1px solid #6b4a30;
+  position: sticky; top: 0;
+}
+.admin-table td { padding: 9px 10px; border-bottom: 1px solid #2a1e18; vertical-align: middle; }
+.admin-table .num { color: #6b5a45; width: 30px; }
+.admin-table .name { color: #ffd78a; font-weight: 500; white-space: nowrap; }
+.admin-table .link-cell { word-break: break-all; }
+.admin-table .link-cell a { color: #ad8748; text-decoration: none; font-size: 11px; }
+.admin-table .link-cell a:hover { text-decoration: underline; }
+.admin-table .acts { white-space: nowrap; display: flex; gap: 5px; }
+.badge { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }
+.badge.anusha { background: #5a2040; color: #ffb4d9; }
+.badge.divakar { background: #1a4050; color: #b4e0ff; }
+.btn-sm {
+  padding: 5px 10px; font-size: 10px; border: 1px solid #6b4a30;
+  background: #2a1a14; color: #f0dfb4; cursor: pointer;
+  border-radius: 3px; text-decoration: none; display: inline-block;
+  transition: background .15s;
+}
+.btn-sm:hover { background: #3a2a1e; }
+.btn-sm-wa { border-color: #25d366 !important; color: #7defa0; }
+.btn-sm-preview { border-color: #4d96ff !important; color: #a0c8ff; }
+.admin-empty { text-align: center; color: #5a4a38; padding: 40px 0; font-size: 13px; }
+.admin-table tr:hover { background: #2a1a1408; }
+
+@media (max-width: 600px) {
+  .admin-sides { grid-template-columns: 1fr; }
+  .admin-actions { flex-direction: column; }
+  .admin-actions button { width: 100%; }
+  .admin-table { font-size: 11px; }
+  .admin-table .link-cell a { font-size: 9px; }
+  .admin-table .acts { flex-wrap: wrap; }
+}

@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, Mes
 import { wedding } from './data/wedding.js'
 import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, useDayNight } from './effects.jsx'
 import { EnvelopeOpening, AddToCalendar, PhotoGallery, BlessingsWall, TriviaQuiz, ConfettiButton } from './features.jsx'
+import AdminLinks from './AdminLinks.jsx'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -154,6 +155,7 @@ function App() {
   const isNight = useDayNight()
 
   const params = new URLSearchParams(window.location.search)
+  const isAdmin = params.get('mode') === 'admin'
   const from = params.get('from')
   const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
@@ -190,6 +192,8 @@ function App() {
     if (music) { audio.pause(); setMusic(false); return }
     try { await audio.play(); setMusic(true) } catch { setMusicNotice(true); window.setTimeout(() => setMusicNotice(false), 4200) }
   }
+
+  if (isAdmin) return <AdminLinks />
 
   return <MotionConfig reducedMotion="user"><main className={isNight ? 'night-mode' : 'day-mode'}>
     {wedding.musicTrack && <audio id="wedding-audio" src={wedding.musicTrack} loop preload="none" />}
