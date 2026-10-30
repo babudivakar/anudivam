@@ -191,41 +191,40 @@ a { color: inherit; }
   *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
 
-/* Opening scene: let the temple artwork lead the invitation. */
+/* Temple gate: the Ganesh scene opens to reveal the wedding on the same screen. */
 .hero { background: #805537; }
 .entrance-art {
-  background: #ad7d4b url('/images/temple-ganesh.webp') center center / cover no-repeat;
+  background: #ad7d4b url('/images/temple-divine-wedding.webp') center center / cover no-repeat;
 }
-.entrance-art::after {
-  content: '';
-  position: absolute; z-index: 3; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, #25150e40 0%, transparent 30%, #26140d2e 60%, #1e110bd6 100%);
-  transition: opacity 1.2s ease;
-}
-.entrance-art.is-open::after { opacity: .18; }
-.gopuram, .courtyard, .entrance-pillar, .toran { display: none; }
+.entrance-art::after { display: none; }
 .door-pair {
-  inset: 0; justify-content: space-between; pointer-events: none;
-  filter: none;
+  position: absolute; z-index: 5; inset: 0; display: flex;
+  overflow: hidden; perspective: 1400px; pointer-events: none;
 }
 .door-leaf {
-  width: min(11%, 105px); height: 100%;
-  background: linear-gradient(90deg, #372117a8, #69412958);
-  border: 0; border-right: 1px solid #dfba7299;
-  box-shadow: inset -12px 0 18px #170e0c30;
-  backdrop-filter: blur(1px); opacity: .52;
+  position: relative; width: 50%; height: 100%; flex: none;
+  background-image: url('/images/temple-ganesh.webp');
+  background-repeat: no-repeat; background-size: 200% 100%;
+  border: 0; opacity: 1; box-shadow: none; backface-visibility: hidden;
+}
+.left-door {
+  background-position: left center; transform-origin: left center;
+  border-right: 1px solid #e7c28088;
 }
 .right-door {
-  border-right: 0; border-left: 1px solid #dfba7299;
-  background: linear-gradient(90deg, #69412958, #372117a8);
-  box-shadow: inset 12px 0 18px #170e0c30;
+  background-position: right center; transform-origin: right center;
+  border-left: 1px solid #e7c28088;
 }
-.door-leaf::after { display: none; }
-.door-carving { opacity: .38; }
+.door-leaf::after {
+  content: ''; position: absolute; top: 50%; width: 8px; height: 28px;
+  transform: translateY(-50%); border: 1px solid #f2d4979c;
+  border-radius: 8px; background: #96673570; box-shadow: 0 2px 8px #25140e66;
+}
+.left-door::after { right: 7px; }
+.right-door::after { left: 7px; }
 .hero-shade {
-  background: linear-gradient(180deg, #1b100e40 0%, transparent 30%, #1e120c36 56%, #21120bc9 78%, #160c08ed 100%);
+  background: linear-gradient(180deg, #29170fae 0%, #3320188b 35%, #26160f1d 60%, #1c100962 100%);
 }
-.hero-shade.fade { opacity: .16; }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
   color: #fff0cf; font-size: 12px; letter-spacing: .23em;
@@ -234,123 +233,93 @@ a { color: inherit; }
 .hero-kicker span { color: #edc981; padding: 0 5px; font-size: 9px; }
 .hero-sanskrit { font-size: 14px; }
 .hero-title {
-  position: absolute; bottom: clamp(28px, 5.5vh, 65px);
+  position: absolute; z-index: 8; top: clamp(90px, 12svh, 145px); bottom: auto;
   width: min(100%, 760px); margin: 0; padding: 0 20px;
-  background: none; border: 0; box-shadow: none; backdrop-filter: none;
-  text-shadow: 0 3px 22px #160906b5;
-}
-.hero-overline {
-  color: #f3dfb7; font-size: 10px; letter-spacing: .3em;
+  text-align: center; background: none; border: 0; box-shadow: none;
+  text-shadow: 0 3px 22px #160906c2;
 }
 .hero-invocation {
-  display: block; margin-bottom: 12px;
-  color: #ffedc9; font: 500 clamp(18px, 2.7vw, 25px)/1 'Cormorant Garamond', serif;
+  display: block; margin-bottom: 13px; color: #ffedc9;
+  font: 500 clamp(18px, 2.7vw, 25px)/1 'Cormorant Garamond', serif;
   letter-spacing: .07em;
+}
+.hero-overline {
+  color: #f3dfb7; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
 }
 .hero-overline::before, .hero-overline::after {
   content: ''; display: inline-block; vertical-align: middle;
-  width: 24px; height: 1px; background: #e5c48c; margin: 0 12px;
+  width: 20px; height: 1px; background: #e5c48c; margin: 0 10px;
 }
+.hero-families {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  margin: 10px 0 0; color: #fff0d3;
+  font: 500 clamp(19px, 3vw, 26px)/1.05 'Cormorant Garamond', serif;
+}
+.hero-families i { font-size: .7em; color: #edc987; font-weight: 400; }
 .hero-title h1 {
-  margin: 14px 0 0; color: #fff0ce;
-  font-size: clamp(68px, 12vw, 130px); font-weight: 500;
-  line-height: .84; letter-spacing: -.045em;
+  margin: 13px 0 0; color: #fff0ce; font-weight: 500;
+  font-size: clamp(66px, 12vw, 128px); line-height: .88; letter-spacing: -.045em;
 }
-.hero-lotus { width: 45px; height: 24px; margin: 11px auto 8px; stroke: #e8c888; }
-.hero-title p {
-  flex-direction: row; flex-wrap: wrap; justify-content: center;
-  gap: 10px; color: #fff0d3;
-  font-size: clamp(27px, 4vw, 39px); line-height: 1; letter-spacing: .025em;
+.hero-theme {
+  display: block !important; margin: 11px 0 0 !important; color: #ffebc6;
+  font: italic 500 clamp(17px, 2.3vw, 22px)/1.2 'Cormorant Garamond', serif !important;
+  letter-spacing: .02em !important;
 }
-.hero-title p i { color: #e6bf7c; font-size: .72em; }
 .hero-date {
-  margin-top: 17px; color: #f2daae; font-size: 10px;
-  letter-spacing: .24em; text-transform: uppercase;
+  display: block; margin-top: 14px; color: #f2daae;
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
 }
 .open-invitation {
   position: relative; left: auto; bottom: auto; transform: none;
-  margin: 26px auto 0; min-width: 218px; padding: 16px 23px;
+  margin: 22px auto 0; min-width: 210px; padding: 15px 22px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
   border: 1px solid #fff4d7; background: #f6e6c9; color: #42251d;
-  box-shadow: 0 9px 30px #13090582; font-size: 10px; letter-spacing: .2em;
+  box-shadow: 0 9px 30px #13090582; font-size: 10px; letter-spacing: .18em;
+  text-decoration: none;
 }
 .open-invitation:hover { background: #fff3da; color: #42251d; }
+.hero-revealed h1 { font-size: clamp(49px, 8vw, 83px); margin-top: 10px; }
+.hero-couple-grid {
+  display: grid; grid-template-columns: 1fr 18px 1fr;
+  align-items: start; gap: 11px; width: min(100%, 620px);
+  margin: 22px auto 0; color: #fff0d1;
+}
+.hero-couple-grid > i { align-self: center; color: #eec990; font-size: 13px; }
+.hero-couple-grid div > span {
+  display: block; font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: #f5d6a1;
+}
+.hero-couple-grid h2 {
+  margin: 5px 0 3px; font: 500 clamp(24px, 3.8vw, 35px)/1 'Cormorant Garamond', serif;
+}
+.hero-couple-grid p {
+  display: block; margin: 0; color: #f6dfb5; font: 400 11px/1.35 'Manrope', sans-serif;
+  letter-spacing: 0;
+}
+.hero-revealed .hero-date { margin-top: 18px; }
+.hero-next { width: fit-content; }
 @media (max-width: 600px) {
-  .hero-title {
-    bottom: calc(31px + env(safe-area-inset-bottom)); width: 100%; padding: 0 13px;
-  }
-  .hero-title h1 { font-size: clamp(64px, 16vw, 83px); }
-  .hero-overline { font-size: 8px; letter-spacing: .18em; }
-  .hero-overline::before, .hero-overline::after { width: 12px; margin: 0 7px; }
-  .hero-title p { font-size: clamp(25px, 7vw, 31px); gap: 7px; }
-  .hero-date { margin-top: 15px; font-size: 9px; letter-spacing: .15em; }
-  .open-invitation { min-width: 204px; margin-top: 23px; padding: 15px 19px; }
-  .door-leaf { width: 9%; }
+  .hero-title { top: max(74px, 10svh); padding: 0 13px; }
+  .hero-invocation { font-size: 18px; margin-bottom: 9px; }
+  .hero-overline { font-size: 8px; letter-spacing: .15em; }
+  .hero-overline::before, .hero-overline::after { width: 12px; margin: 0 6px; }
+  .hero-families { font-size: clamp(17px, 4.8vw, 21px); }
+  .hero-title h1 { font-size: clamp(60px, 15vw, 80px); margin-top: 10px; }
+  .hero-theme { font-size: 17px !important; }
+  .hero-date { font-size: 9px; letter-spacing: .14em; margin-top: 11px; }
+  .open-invitation { min-width: 198px; margin-top: 18px; padding: 14px 18px; }
+  .hero-revealed h1 { font-size: clamp(44px, 11vw, 59px); }
+  .hero-couple-grid { margin-top: 19px; gap: 5px; grid-template-columns: 1fr 12px 1fr; }
+  .hero-couple-grid h2 { font-size: clamp(22px, 6vw, 27px); }
+  .hero-couple-grid p { font-size: 9px; }
   .hero-topline { font-size: 10px; }
   .hero-sanskrit { font-size: 12px; }
-}
-
-/* Two connected devotional scenes, sharing the same temple image. */
-.hero-shade {
-  background: linear-gradient(180deg, #28160fa8 0%, #33201886 36%, #26160f12 58%, #1c100967 100%);
-}
-.hero-title {
-  top: clamp(100px, 13vh, 150px); bottom: auto;
-}
-.blessing-section {
-  position: relative; isolation: isolate; overflow: hidden;
-  min-height: 100svh; padding: 9vh 20px 43vh;
-  display: flex; justify-content: center; text-align: center;
-  background:
-    linear-gradient(180deg, #fff7e8e6 0%, #fff1d9ca 43%, #f1dfc077 65%, transparent 79%),
-    url('/images/temple-divine-wedding.webp') center center / cover no-repeat;
-  color: #652632;
-  scroll-margin-top: 0;
-}
-.blessing-section::before {
-  content: ''; position: absolute; inset: 18px; z-index: 0;
-  border: 1px solid #b9975d8a; pointer-events: none;
-}
-.blessing-copy { width: min(100%, 600px); position: relative; z-index: 2; }
-.blessing-lotus {
-  width: 48px; height: 30px; margin: 0 auto 16px;
-  display: block; stroke: #9d783d; stroke-width: 1.5;
-}
-.blessing-kicker {
-  display: block; font-size: 10px; letter-spacing: .28em;
-  text-transform: uppercase; color: #886c49;
-}
-.blessing-copy h2 {
-  margin: 15px 0 4px; color: #743041;
-  font: 500 clamp(31px, 5vw, 49px)/1.1 'Cormorant Garamond', serif;
-}
-.blessing-rule { display: block; color: #ae8648; font-size: 13px; margin: 9px 0; }
-.blessing-names {
-  margin: 6px 0 0; color: #742c3b;
-  font: 500 clamp(42px, 8vw, 76px)/1 'Cormorant Garamond', serif;
-}
-.blessing-names i { font-size: .6em; font-weight: 400; color: #a37e48; }
-.blessing-date {
-  margin: 17px 0 0; font-size: 10px; letter-spacing: .17em;
-  text-transform: uppercase; color: #725642;
-}
-.blessing-date span { margin: 0 6px; }
-.blessing-continue {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-top: 28px; padding: 10px 0;
-  border-bottom: 1px solid #a47b43; text-decoration: none;
-  text-transform: uppercase; letter-spacing: .16em; font-size: 9px;
-  color: #6e3340;
-}
-.blessing-continue:hover { color: #a26532; }
-@media (max-width: 600px) {
-  .hero-title { top: max(80px, 11svh); bottom: auto; }
-  .hero-title h1 { font-size: clamp(59px, 15vw, 79px); }
-  .hero-invocation { font-size: 19px; }
-  .blessing-section { padding: 11vh 22px 38vh; }
-  .blessing-section::before { inset: 10px; }
-  .blessing-copy h2 { font-size: 35px; }
-  .blessing-names { font-size: clamp(43px, 11vw, 63px); }
+  .door-leaf::after { width: 5px; height: 22px; }
 }
 @media (max-height: 700px) {
-  .hero-title { top: max(58px, 8svh); }
+  .hero-title { top: max(57px, 8svh); }
+  .hero-invocation { margin-bottom: 7px; }
+  .hero-families { font-size: 17px; }
+  .hero-title h1 { margin-top: 7px; }
+  .open-invitation { margin-top: 14px; }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'motion/react'
-import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, Heart, MapPin, MessageCircle, Music2, Volume2, VolumeX } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX } from 'lucide-react'
 import { wedding } from './data/wedding.js'
 
 const fadeUp = {
@@ -50,21 +50,6 @@ function Mandala({ className = '' }) {
   </svg>
 }
 
-function DoorCarving({ mirror = false }) {
-  return <svg className={`door-carving${mirror ? ' mirror' : ''}`} viewBox="0 0 300 760" preserveAspectRatio="none" aria-hidden="true">
-    <defs><linearGradient id={mirror ? 'gold-b' : 'gold-a'} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#edcf87"/><stop offset=".45" stopColor="#8e5b25"/><stop offset="1" stopColor="#d6b466"/></linearGradient></defs>
-    <rect x="15" y="15" width="270" height="730" rx="8" fill="none" stroke={`url(#${mirror ? 'gold-b' : 'gold-a'})`} strokeWidth="3"/>
-    <rect x="28" y="28" width="244" height="704" rx="5" fill="none" stroke="#b18a4c" strokeWidth="1"/>
-    <path d="M50 700V190Q150 35 250 190V700M66 680V195Q150 70 234 195V680" stroke="#c5a261" strokeWidth="2" fill="none"/>
-    <path d="M150 135c-37 28-43 63 0 101 43-38 37-73 0-101ZM150 235c-60 23-73 65-41 101 18-30 32-48 41-54 9 6 23 24 41 54 32-36 19-78-41-101Z" fill="none" stroke="#d5b36f" strokeWidth="2"/>
-    <circle cx="150" cy="324" r="35" fill="none" stroke="#d5b36f" strokeWidth="2"/><circle cx="150" cy="324" r="23" fill="none" stroke="#d5b36f"/>
-    <path d="M150 289c-17 13-17 27 0 39 17-12 17-26 0-39ZM115 324c13-17 27-17 39 0-12 17-26 17-39 0ZM150 359c-17-13-17-27 0-39 17 12 17 26 0 39ZM185 324c-13 17-27 17-39 0 12-17 26-17 39 0Z" fill="none" stroke="#d5b36f"/>
-    {[390, 465, 540, 615].map(y => <g key={y}><path d={`M77 ${y}h146M88 ${y-12}c22-20 42-20 62 0 20-20 40-20 62 0M88 ${y+12}c22 20 42 20 62 0 20 20 40 20 62 0`} stroke="#a77b3d" fill="none"/><circle cx="150" cy={y} r="7" fill="#d5b36f"/></g>)}
-    <circle cx="250" cy="408" r="11" fill="#e3c67a"/><circle cx="250" cy="408" r="4" fill="#563220"/>
-    <path d="M43 77h36m-18-18v36M221 77h36m-18-18v36M43 682h36m-18-18v36m160-18h36m-18-18v36" stroke="#e1c37e" strokeWidth="2"/>
-  </svg>
-}
-
 function Deepam({ className = '' }) {
   return <svg viewBox="0 0 76 128" className={className} aria-hidden="true" fill="none">
     <path d="M37.8 3c-15 15-10 25 0 32 10-8 14-18 0-32Z" fill="#ffd78a"/>
@@ -78,30 +63,10 @@ function Deepam({ className = '' }) {
 function EntranceArtwork({ open }) {
   const reduced = useReducedMotion()
   return <div className={`entrance-art${open ? ' is-open' : ''}`} aria-hidden="true">
-    <div className="temple-glow" />
-    <div className="gopuram">
-      <span /><span /><span /><span /><span />
-      <div className="gopuram-crown">✧</div>
-    </div>
-    <div className="courtyard">
-      <div className="courtyard-halo" />
-      <div className="mandap"><div className="mandap-roof">♢</div><div className="mandap-top" />
-        <div className="mandap-pillars"><i/><i/><i/><i/></div><div className="mandap-floor" />
-        <div className="mandap-seat"><Heart size={22} fill="currentColor" /></div>
-      </div>
-      <div className="courtyard-lotus"><LotusMark /></div>
-      <Deepam className="courtyard-lamp left"/><Deepam className="courtyard-lamp right"/>
-    </div>
-    <div className="entrance-pillar left"/><div className="entrance-pillar right"/>
     <div className="door-pair">
-      <motion.div className="door-leaf left-door" animate={open ? { x: '-102%', rotateY: reduced ? 0 : -12 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.7, ease: [0.76,0,0.24,1] }}>
-        <DoorCarving />
-      </motion.div>
-      <motion.div className="door-leaf right-door" animate={open ? { x: '102%', rotateY: reduced ? 0 : 12 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.7, ease: [0.76,0,0.24,1] }}>
-        <DoorCarving mirror />
-      </motion.div>
+      <motion.div className="door-leaf left-door" animate={open ? { x: '-101%', rotateY: reduced ? 0 : -18 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.6, ease: [0.76,0,0.24,1] }} />
+      <motion.div className="door-leaf right-door" animate={open ? { x: '101%', rotateY: reduced ? 0 : 18 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.6, ease: [0.76,0,0.24,1] }} />
     </div>
-    <div className="toran"><span>❋</span><i/><span>❋</span><i/><span>❋</span><i/><span>❋</span><i/><span>❋</span></div>
   </div>
 }
 
@@ -174,21 +139,21 @@ function Countdown() {
 
 function App() {
   const [opened, setOpened] = useState(false)
+  const [revealed, setRevealed] = useState(false)
   const [active, setActive] = useState(false)
   const [music, setMusic] = useState(false)
   const [musicNotice, setMusicNotice] = useState(false)
   const from = new URLSearchParams(window.location.search).get('from')
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
+  const families = side ? [side.invitedBy, side.otherFamily] : [wedding.family.bride, wedding.family.groom]
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   useEffect(() => {
     if (!opened) return
     const timer = window.setTimeout(() => {
+      setRevealed(true)
       setActive(true)
-      document.getElementById('blessing')?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-      })
-    }, 1900)
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1050)
     return () => window.clearTimeout(timer)
   }, [opened])
 
@@ -209,32 +174,33 @@ function App() {
     {wedding.musicTrack && <audio id="wedding-audio" src={wedding.musicTrack} loop preload="none" />}
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
-      <div className={`hero-shade${opened ? ' fade' : ''}`} />
+      <div className="hero-shade" />
       <div className="hero-topline"><span className="hero-kicker">A <span aria-hidden="true">✦</span> D</span><span className="hero-sanskrit">శుభమస్తు</span></div>
-      <motion.div className="hero-title" animate={opened ? { opacity: 0, y: -16 } : { opacity: 1, y: 0 }} transition={{ duration: .7 }}>
-        <span className="hero-invocation">Shree Ganeshaya Namah</span>
-        <span className="hero-overline">{side ? `${side.label} invites you` : 'The wedding celebration of'}</span>
-        <h1>{wedding.title}</h1>
-        <LotusMark className="hero-lotus" />
-        <p>{wedding.bride.split(' ')[0]}<i>&amp;</i>{wedding.groom.split(' ')[0]}</p>
-        <span className="hero-date">{wedding.weddingDate}</span>
-        <motion.button className="open-invitation" onClick={() => setOpened(true)} disabled={opened} animate={opened ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }} aria-label="Open the wedding invitation">
-          <span>Open invitation</span><ArrowDown size={16}/>
-        </motion.button>
-      </motion.div>
+      <AnimatePresence mode="wait">
+        {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
+          <span className="hero-invocation">Shree Ganeshaya Namah</span>
+          <span className="hero-overline">{side ? `${side.label} invites you` : 'With blessings from'}</span>
+          <div className="hero-families"><span>{families[0]}</span><i>&amp;</i><span>{families[1]}</span></div>
+          <h1>{wedding.title}</h1>
+          <p className="hero-theme">A wedding woven with love and tradition</p>
+          <span className="hero-date">{wedding.weddingDate}</span>
+          <button className="open-invitation" onClick={() => setOpened(true)} aria-label="Open the wedding invitation">
+            <span>Open invitation</span><ArrowDown size={16}/>
+          </button>
+        </motion.div>}
+        {revealed && <motion.div key="couple" className="hero-title hero-revealed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
+          <span className="hero-overline">Together with our families</span>
+          <h1>Anusha &amp; Divakar</h1>
+          <div className="hero-couple-grid">
+            <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
+            <i aria-hidden="true">✦</i>
+            <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+          </div>
+          <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
+          <a className="open-invitation hero-next" href="#story"><span>Explore invitation</span><ArrowDown size={16}/></a>
+        </motion.div>}
+      </AnimatePresence>
       <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
-    </section>
-
-    <section className="blessing-section" id="blessing" aria-label="The sacred wedding">
-      <div className="blessing-copy">
-        <LotusMark className="blessing-lotus" />
-        <span className="blessing-kicker">With blessings from our families</span>
-        <h2>A Sacred Union</h2>
-        <span className="blessing-rule" aria-hidden="true">✦</span>
-        <p className="blessing-names">{wedding.bride.split(' ')[0]} <i>&amp;</i> {wedding.groom.split(' ')[0]}</p>
-        <p className="blessing-date">{wedding.weddingDate} <span aria-hidden="true">·</span> Hindupura</p>
-        <a className="blessing-continue" href="#story">Continue to our story <ArrowDown size={15}/></a>
-      </div>
     </section>
 
     <AnimatePresence>{active && <motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
