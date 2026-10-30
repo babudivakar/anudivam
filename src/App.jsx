@@ -143,7 +143,7 @@ function Countdown() {
 
 /* ── MAIN APP ─────────────────────────────────────────── */
 function App() {
-  const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(true)
   const [revealed, setRevealed] = useState(false)
   const [active, setActive] = useState(false)
   const [music, setMusic] = useState(false)
@@ -161,13 +161,12 @@ function App() {
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   useEffect(() => {
-    if (!opened) return
     setBurstCount(c => c + 1)
     const timer = window.setTimeout(() => {
       setRevealed(true); setActive(true)
-    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1900)
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1800)
     return () => window.clearTimeout(timer)
-  }, [opened])
+  }, [])
 
   /* Fireworks when scrolling to celebrations */
   useEffect(() => {
@@ -220,32 +219,18 @@ function App() {
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
       <div className="hero-shade" />
-      <AnimatePresence mode="wait">
-        {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
-          {guestName && <span className="hero-guest-name">Dear {guestName},</span>}
-          <span className="hero-invocation">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
-          <div className="hero-families"><span>{wedding.welcomeFamilies[0]}</span><i>&amp;</i><span>{wedding.welcomeFamilies[1]}</span></div>
-          <span className="hero-welcome-label">Wedding Invitation</span>
-          <h1>{wedding.title}</h1>
-          <p className="hero-welcome-theme">A wedding woven with love and tradition</p>
-          <span className="hero-welcome-date">{wedding.weddingDate}</span>
-          <button className="open-invitation" onClick={() => setOpened(true)} aria-label="Open the wedding invitation">
-            <span>Open invitation</span><ArrowDown size={16}/>
-          </button>
-        </motion.div>}
-        {revealed && <motion.div key="couple" className="hero-title hero-revealed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
-          <span className="hero-overline">Together with our families</span>
-          <h1>Anusha &amp; Divakar</h1>
-          <div className="hero-couple-grid">
-            <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
-            <i aria-hidden="true">✦</i>
-            <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
-          </div>
-          <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
-          <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>
-        </motion.div>}
-      </AnimatePresence>
-      <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
+      {revealed && <motion.div className="hero-title hero-revealed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
+        {guestName && <span className="hero-guest-name">Dear {guestName},</span>}
+        <span className="hero-overline">Together with our families</span>
+        <h1>Anusha &amp; Divakar</h1>
+        <div className="hero-couple-grid">
+          <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
+          <i aria-hidden="true">✦</i>
+          <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+        </div>
+        <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
+        <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>
+      </motion.div>}
     </section>
 
     {/* ── NAV ── */}
