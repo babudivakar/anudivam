@@ -245,10 +245,10 @@ function App() {
         {!opened && <motion.div key="ganesh-welcome" className="hero-title ganesh-welcome"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.5 }}>
-          <span className="ganesh-invocation">ॐ శ్రీ గణేశాయ నమః</span>
-          {guestName && <p className="ganesh-guest">Dear {guestName},</p>}
-          <LotusMark className="ganesh-lotus" />
           <span className="ganesh-blessing">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
+          <span className="ganesh-invocation">ॐ శ్రీ గణేశాయ నమః</span>
+          <LotusMark className="ganesh-lotus" />
+          {guestName && <p className="ganesh-guest">Dear {guestName},</p>}
           <div className="ganesh-families">
             {side ? <span>{side.familyName}</span> : <>
               <span>{wedding.welcomeFamilies[0]}</span>
