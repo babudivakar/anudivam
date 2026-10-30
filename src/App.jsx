@@ -118,7 +118,7 @@ function PersonPortrait({ name, role, image }) {
   return <motion.div className="person-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
     <div className="portrait-frame">
       <div className="portrait-art">
-        {image ? <img className="portrait-image" src={image} alt={`${name} portrait`} loading="lazy" decoding="async" /> : <><Mandala className="portrait-mandala"/><div className="portrait-silhouette"><i/><b/></div><span className="photo-placeholder">Add {role.toLowerCase()} photo</span></>}
+        {image ? <img className="portrait-image" src={image} alt={`${name} portrait`} loading="lazy" decoding="async" /> : <><Mandala className="portrait-mandala"/><div className="portrait-silhouette"><i/><b/></div><span className="photo-placeholder">{name.split(' ')[0]}</span></>}
       </div>
       <span className="portrait-corner top-left"/><span className="portrait-corner top-right"/><span className="portrait-corner bottom-left"/><span className="portrait-corner bottom-right"/>
     </div>
@@ -157,7 +157,7 @@ function CeremonyCard({ ceremony, index }) {
 
 function VenueCard({ title, data, icon }) {
   const query = data.mapQuery || [data.name, data.address].filter(v => !/to be (announced|added)/i.test(v)).join(' ')
-  const mapUrl = query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : ''
+  const mapUrl = /^https?:\/\//.test(query) ? query : query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : ''
   return <motion.article className="venue-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
     <div className="venue-top"><span>{icon === 'wedding' ? 'I' : 'II'}</span><span className="venue-ornament">✧</span></div>
     <p className="venue-type">{title}</p><h3>{data.name}</h3><p className="venue-address">{data.address}</p>
@@ -177,7 +177,9 @@ function App() {
   const [active, setActive] = useState(false)
   const [music, setMusic] = useState(false)
   const [musicNotice, setMusicNotice] = useState(false)
-  const ceremonies = wedding.ceremonies.filter(item => item && item.name)
+  const from = new URLSearchParams(window.location.search).get('from')
+  const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
+  const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   useEffect(() => {
     if (!opened) return
@@ -185,7 +187,7 @@ function App() {
     return () => window.clearTimeout(timer)
   }, [opened])
 
-  const whatsappText = `Join us to celebrate ${wedding.bride} & ${wedding.groom} — ${wedding.title}. ${window.location.href}`
+  const whatsappText = `${side ? side.shareMessage : `Join us to celebrate ${wedding.bride} & ${wedding.groom} — ${wedding.title}.`} ${window.location.href}`
 
   const toggleMusic = async () => {
     const audio = document.getElementById('wedding-audio')
@@ -205,7 +207,7 @@ function App() {
       <div className={`hero-shade${opened ? ' fade' : ''}`} />
       <div className="hero-topline"><span className="hero-kicker">A celebration of love &amp; tradition</span><span className="hero-sanskrit">శుభమస్తు</span></div>
       <motion.div className="hero-title" animate={opened ? { opacity: 0, y: -16 } : { opacity: 1, y: 0 }} transition={{ duration: .7 }}>
-        <span className="hero-overline">Together with our families</span>
+        <span className="hero-overline">{side ? `An invitation from ${side.invitedBy}` : 'Together with our families'}</span>
         <h1>{wedding.title}</h1>
         <LotusMark className="hero-lotus" />
         <p>{wedding.bride}<i>&amp;</i>{wedding.groom}</p>
@@ -227,14 +229,14 @@ function App() {
       <div className="paper-ornament top"/><div className="paper-ornament bottom"/>
       <div className="section-wrap">
         <SectionHeading eyebrow="Two hearts, one forever" title="A story written in the stars" telugu="మంగళం భగవాన్ విష్ణుః" />
-        <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>{wedding.message}</motion.p>
+        <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>{side?.message || wedding.message}</motion.p>
         <div className="couple-grid">
           <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
           <div className="ampersand">&amp;</div>
           <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
         </div>
         <motion.div className="family-note" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          <span>With the blessings of</span><p>{wedding.family.bride}</p><i>and</i><p>{wedding.family.groom}</p>
+          <span>With the blessings of</span>{side ? <><p>{side.invitedBy}</p><i>together with</i><p>{side.otherFamily}</p></> : <><p>{wedding.family.bride}</p><i>and</i><p>{wedding.family.groom}</p></>}
         </motion.div>
         <div className="scroll-cue"><span>Our celebrations</span><a href="#celebrations" aria-label="Continue to celebrations"><ArrowDown size={15}/></a></div>
       </div>
@@ -278,6 +280,7 @@ function App() {
         <div className="venue-grid">
           <VenueCard title="Wedding ceremony" data={wedding.venue} icon="wedding"/>
           <VenueCard title="Reception" data={wedding.receptionVenue} icon="reception"/>
+          {side && <VenueCard title={`${side.label} Haldi & Mehendi`} data={side.venue} icon="reception"/>}
         </div>
         <div className="countdown-panel">
           <Mandala className="countdown-ornament"/><div className="countdown-inner"><span className="eyebrow">Until our forever begins</span><h3>Counting the moments</h3><Countdown /></div>
