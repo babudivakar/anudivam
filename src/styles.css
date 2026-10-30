@@ -190,3 +190,56 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
+
+/* Opening scene: illustrated courtyard with softly transparent carved doors. */
+.hero { background: #8a5b38; }
+.entrance-art {
+  background: #ad7d4b url('/images/temple-courtyard.webp') center center / cover no-repeat;
+}
+.entrance-art::after {
+  content: '';
+  position: absolute; z-index: 3; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, #35201a70 0%, transparent 23%, #27161028 54%, #24120eb5 100%);
+  transition: opacity 1.2s ease;
+}
+.entrance-art.is-open::after { opacity: .38; }
+.gopuram, .courtyard, .entrance-pillar, .toran { display: none; }
+.door-pair {
+  top: 15%; bottom: 8%; left: 11%; right: 11%;
+  filter: drop-shadow(0 18px 30px #27130e85);
+}
+.door-leaf {
+  background: repeating-linear-gradient(90deg, #7445229e 0 11%, #9c6936aa 12% 18%, #58341f9e 19% 21%), linear-gradient(115deg,#704322a1,#3c211aa1);
+  border: 2px solid #e5bc70;
+  box-shadow: inset 0 0 0 5px #57301d8a, inset 0 0 0 7px #d2a25d, inset 0 0 30px #21110e72, 0 6px 24px #26140d80;
+  backdrop-filter: blur(1.5px);
+}
+.door-carving { opacity: .9; }
+.hero-shade { background: linear-gradient(180deg, #1d110d83 0%, transparent 24%, #210f0b20 53%, #1c0e0acc 100%); }
+.hero-title {
+  width: min(89vw, 680px); margin-top: 9vh;
+  padding: clamp(24px, 4vw, 43px) 20px;
+  background: radial-gradient(ellipse at center, #321b17cb 0%, #321b17af 62%, #321b1780 100%);
+  border: 1px solid #ecd09780;
+  box-shadow: 0 14px 54px #20110dc0, inset 0 0 0 5px #caa4651c;
+  backdrop-filter: blur(2px);
+  text-shadow: 0 2px 12px #1c0b08;
+}
+.hero-title h1 { font-size: clamp(58px, 13vw, 126px); }
+.hero-overline { color: #f5e4bf; letter-spacing: .21em; }
+.hero-date { font-size: clamp(9px, 1.3vw, 12px); letter-spacing: .16em; text-transform: uppercase; }
+.open-invitation {
+  background: #f2dfb6;
+  border: 1px solid #fff3d6;
+  color: #4a241d;
+  box-shadow: 0 8px 32px #190d0aa3, inset 0 0 0 2px #b9854566;
+}
+.open-invitation:hover { background: #fff3d8; color: #3e2118; }
+@media (max-width: 600px) {
+  .entrance-art { background-position: center center; }
+  .door-pair { left: 7%; right: 7%; top: 14%; bottom: 8%; }
+  .hero-title { margin-top: 7vh; width: calc(100% - 38px); padding: 26px 13px; }
+  .hero-title h1 { font-size: clamp(56px, 15vw, 82px); }
+  .hero-title p { font-size: clamp(21px, 5vw, 27px); }
+  .open-invitation { bottom: 12%; }
+}
