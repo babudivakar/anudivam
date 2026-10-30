@@ -146,7 +146,6 @@ function App() {
   const [musicNotice, setMusicNotice] = useState(false)
   const from = new URLSearchParams(window.location.search).get('from')
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
-  const families = side ? [side.invitedBy, side.otherFamily] : [wedding.family.bride, wedding.family.groom]
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   useEffect(() => {
@@ -180,8 +179,8 @@ function App() {
       <AnimatePresence mode="wait">
         {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
           <span className="hero-invocation">Shree Ganeshaya Namah</span>
-          <span className="hero-overline">{side ? `${side.label} invites you` : 'With blessings from'}</span>
-          <div className="hero-families"><span>{families[0]}</span><i>&amp;</i><span>{families[1]}</span></div>
+          <span className="hero-overline">With blessings from</span>
+          <div className="hero-families"><span>{wedding.welcomeFamilies[0]}</span><i>&amp;</i><span>{wedding.welcomeFamilies[1]}</span></div>
           <h1>{wedding.title}</h1>
           <p className="hero-theme">A wedding woven with love and tradition</p>
           <span className="hero-date">{wedding.weddingDate}</span>

@@ -217,17 +217,19 @@ a { color: inherit; }
 }
 .door-leaf {
   position: relative; width: 50%; height: 100%; flex: none; opacity: 0;
-  background: repeating-linear-gradient(90deg, #2d1a15 0 9%, #754321 10% 15%, #ad7843 18%, #56301d 22% 26%);
+  background: url('/images/temple-doors.webp') no-repeat;
+  background-size: 200% 100%;
   border: 0; backface-visibility: hidden;
-  box-shadow: inset 0 0 0 6px #482614, inset 0 0 0 9px #c49a58, inset 0 0 36px #21110b;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 24px #2411098a;
 }
 .left-door {
   transform: translateX(-101%); transform-origin: left center;
-  border-right: 3px solid #e7c280;
+  background-position: left center;
 }
 .right-door {
   transform: translateX(101%); transform-origin: right center;
-  border-left: 3px solid #e7c280;
+  background-position: right center;
 }
 .is-open .left-door { animation: closeOpenLeft 2s cubic-bezier(.65,0,.22,1) both; }
 .is-open .right-door { animation: closeOpenRight 2s cubic-bezier(.65,0,.22,1) both; }
@@ -235,28 +237,15 @@ a { color: inherit; }
   0%, 24% { opacity: 0; transform: translateX(-101%); }
   27% { opacity: 1; }
   45%, 54% { opacity: 1; transform: translateX(0); }
-  100% { opacity: 1; transform: translateX(-101%) rotateY(-12deg); }
+  100% { opacity: 1; transform: translateX(0) rotateY(-100deg); }
 }
 @keyframes closeOpenRight {
   0%, 24% { opacity: 0; transform: translateX(101%); }
   27% { opacity: 1; }
   45%, 54% { opacity: 1; transform: translateX(0); }
-  100% { opacity: 1; transform: translateX(101%) rotateY(12deg); }
+  100% { opacity: 1; transform: translateX(0) rotateY(100deg); }
 }
-.door-leaf::before {
-  content: ''; position: absolute; inset: 4% 6%;
-  border: 3px double #e2bc78; border-radius: 45% 45% 3px 3px / 9% 9% 3px 3px;
-  box-shadow: inset 0 0 0 13px #2c180f49, inset 0 0 0 15px #d4ad6f7a;
-  background: radial-gradient(circle at 50% 31%, #d1a45b 0 5%, #6d40229e 6% 12%, transparent 13%),
-    repeating-linear-gradient(0deg, transparent 0 34px, #d9b57472 35px, transparent 36px);
-}
-.door-leaf::after {
-  content: ''; position: absolute; inset: auto; top: 50%; width: 17px; height: 35px;
-  transform: translateY(-50%); border: 2px solid #f2d497;
-  border-radius: 9px; background: #966735; box-shadow: 0 2px 8px #25140e88;
-}
-.left-door::after { right: 8%; }
-.right-door::after { left: 8%; }
+.door-leaf::before, .door-leaf::after { display: none; }
 .hero-shade {
   background: linear-gradient(180deg, #29170fae 0%, #3320188b 35%, #26160f1d 60%, #1c100962 100%);
 }

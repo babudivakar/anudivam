@@ -3,6 +3,10 @@ export const wedding = {
   title: 'AnuDivam',
   bride: 'Anusha Reddy',
   groom: 'Divakar Reddy',
+  welcomeFamilies: [
+    'Kullakunta Addamma Gari family',
+    'Vankayilu Ram Reddy family',
+  ],
   weddingDate: 'Sunday, 22 November 2026',
   countdownDate: '2026-11-22T09:00:00+05:30',
   muhurtham: '9:00 a.m. to 10:00 a.m. IST',
