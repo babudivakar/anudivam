@@ -222,7 +222,7 @@ function App() {
       {!envelopeDone && <EnvelopeOpening guestName={guestName} onOpen={() => setEnvelopeDone(true)} />}
     </AnimatePresence>
 
-    {/* ── HERO ── */}
+    {/* ── HERO (fixed behind everything) ── */}
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
       <div className="hero-shade" />

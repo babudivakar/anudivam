@@ -1093,7 +1093,74 @@ a { color: inherit; }
 .count-unit:nth-child(3) strong { animation-delay: 1s; }
 .count-unit:nth-child(4) strong { animation-delay: 1.5s; }
 
+/* ================================================================
+   FIXED BACKGROUND PARALLAX
+   ================================================================ */
+
+/* Hero stays fixed — content scrolls over the temple */
+.hero {
+  position: fixed; inset: 0; z-index: 0;
+  height: 100vh; /* lock hero in place */
+}
+/* Push the rest of the content down and above the hero */
+.hero + .floating-nav ~ .story-section,
+.hero + .floating-nav ~ .gallery-section,
+.hero + .floating-nav ~ .celebrations-section,
+.hero + .floating-nav ~ .mandap-section,
+.hero + .floating-nav ~ .venue-section,
+.hero + .floating-nav ~ .blessings-section,
+.hero + .floating-nav ~ .trivia-section,
+.hero + .floating-nav ~ .closing-section {
+  position: relative; z-index: 2;
+}
+/* Spacer so the first content section clears the fixed hero */
+.story-section { margin-top: 100vh; }
+
+/* Mandap section — fixed mandala background, content slides over */
+.mandap-section {
+  position: relative; z-index: 2;
+}
+.mandap-backdrop {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: -1;
+  opacity: 0; transition: opacity 0.5s;
+}
+.mandap-section .mandap-backdrop { opacity: 1; }
+
+/* Parallax depth on paper sections — subtle texture stays fixed */
+.paper-section {
+  background-attachment: fixed;
+}
+
+/* Content sections get a subtle lift shadow for the "sliding over" effect */
+.story-section, .gallery-section, .celebrations-section,
+.venue-section, .blessings-section {
+  box-shadow: 0 -12px 40px #1a0f0c18;
+}
+.mandap-section, .trivia-section, .closing-section {
+  box-shadow: 0 -12px 40px #0a060830;
+}
+
+/* Fix z-index stacking for parallax */
+.envelope-screen { z-index: 50; }
+.particle-canvas { z-index: 15; position: fixed; }
+.sparkle-canvas { z-index: 16; position: fixed; }
+.floating-nav { z-index: 20; }
+.scroll-progress { z-index: 25; }
+
+/* Mobile: disable fixed parallax (causes jank on iOS) */
+@media (max-width: 768px), (hover: none) {
+  .hero { position: relative; }
+  .story-section { margin-top: 0; }
+  .paper-section { background-attachment: scroll; }
+  .mandap-backdrop { position: absolute; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .hero { position: relative; }
+  .story-section { margin-top: 0; }
+  .paper-section { background-attachment: scroll; }
+  .mandap-backdrop { position: absolute; }
   .section-heading h2, .section-heading.light h2, .night-mode .section-heading h2 {
     animation: none; background: none; -webkit-text-fill-color: unset;
   }
