@@ -175,15 +175,11 @@ function App() {
     <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
       <EntranceArtwork open={opened} />
       <div className="hero-shade" />
-      <div className="hero-topline"><span className="hero-kicker">A <span aria-hidden="true">✦</span> D</span><span className="hero-sanskrit">శుభమస్తు</span></div>
       <AnimatePresence mode="wait">
         {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
-          <span className="hero-invocation">Shree Ganeshaya Namah</span>
-          <span className="hero-overline">With blessings from</span>
+          <span className="hero-invocation">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
           <div className="hero-families"><span>{wedding.welcomeFamilies[0]}</span><i>&amp;</i><span>{wedding.welcomeFamilies[1]}</span></div>
           <h1>{wedding.title}</h1>
-          <p className="hero-theme">A wedding woven with love and tradition</p>
-          <span className="hero-date">{wedding.weddingDate}</span>
           <button className="open-invitation" onClick={() => setOpened(true)} aria-label="Open the wedding invitation">
             <span>Open invitation</span><ArrowDown size={16}/>
           </button>
