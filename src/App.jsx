@@ -185,7 +185,7 @@ function App() {
     if (!opened) return
     const timer = window.setTimeout(() => {
       setActive(true)
-      document.getElementById('story')?.scrollIntoView({
+      document.getElementById('blessing')?.scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
       })
     }, 1900)
@@ -221,7 +221,21 @@ function App() {
           <span>Open invitation</span><ArrowDown size={16}/>
         </motion.button>
       </motion.div>
+      <motion.img className="hero-divine-art" src="/images/divine-wedding.webp" alt="Traditional illustration of a divine wedding ceremony" animate={opened ? { opacity: 0, y: 36, scale: .94 } : { opacity: 1, y: 0, scale: 1 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} />
       <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
+    </section>
+
+    <section className="blessing-section" id="blessing" aria-label="A blessing for our wedding">
+      <div className="blessing-copy">
+        <LotusMark className="blessing-lotus" />
+        <span className="blessing-kicker">An auspicious beginning</span>
+        <h2>Shree Ganeshaya Namah</h2>
+        <span className="blessing-rule" aria-hidden="true">✦</span>
+        <p className="blessing-names">{wedding.bride.split(' ')[0]} <i>&amp;</i> {wedding.groom.split(' ')[0]}</p>
+        <p className="blessing-date">{wedding.weddingDate} <span aria-hidden="true">·</span> Hindupura</p>
+        <a className="blessing-continue" href="#story">Continue to our story <ArrowDown size={15}/></a>
+      </div>
+      <img className="blessing-art" src="/images/ganesh-blessing.webp" alt="Illustration of Lord Ganesha blessing the celebration, with ceremonial elephants" loading="lazy" decoding="async" />
     </section>
 
     <AnimatePresence>{active && <motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">

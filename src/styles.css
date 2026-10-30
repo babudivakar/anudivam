@@ -283,3 +283,85 @@ a { color: inherit; }
   .hero-topline { font-size: 10px; }
   .hero-sanskrit { font-size: 12px; }
 }
+
+/* Two connected devotional scenes, sharing the same temple image. */
+.hero-shade {
+  background: linear-gradient(180deg, #28160fa8 0%, #33201886 36%, #26160f12 58%, #1c100967 100%);
+}
+.hero-title {
+  top: clamp(100px, 13vh, 150px); bottom: auto;
+}
+.hero-divine-art {
+  position: absolute; z-index: 7; bottom: -2px; left: 0; right: 0; margin: auto;
+  width: min(98%, 860px); height: min(38svh, 430px);
+  object-fit: contain; object-position: center bottom;
+  filter: drop-shadow(0 -8px 25px #28160975);
+  pointer-events: none;
+}
+.blessing-section {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 100svh; padding: 9vh 20px 43vh;
+  display: flex; justify-content: center; text-align: center;
+  background:
+    linear-gradient(180deg, #fff7e8ed 0%, #fff1d9d9 56%, #f1dfc0c9 100%),
+    url('/images/temple-courtyard.webp') center center / cover no-repeat;
+  color: #652632;
+  scroll-margin-top: 0;
+}
+.blessing-section::before {
+  content: ''; position: absolute; inset: 18px; z-index: 0;
+  border: 1px solid #b9975d8a; pointer-events: none;
+}
+.blessing-copy { width: min(100%, 600px); position: relative; z-index: 2; }
+.blessing-lotus {
+  width: 48px; height: 30px; margin: 0 auto 16px;
+  display: block; stroke: #9d783d; stroke-width: 1.5;
+}
+.blessing-kicker {
+  display: block; font-size: 10px; letter-spacing: .28em;
+  text-transform: uppercase; color: #886c49;
+}
+.blessing-copy h2 {
+  margin: 15px 0 4px; color: #743041;
+  font: 500 clamp(31px, 5vw, 49px)/1.1 'Cormorant Garamond', serif;
+}
+.blessing-rule { display: block; color: #ae8648; font-size: 13px; margin: 9px 0; }
+.blessing-names {
+  margin: 6px 0 0; color: #742c3b;
+  font: 500 clamp(42px, 8vw, 76px)/1 'Cormorant Garamond', serif;
+}
+.blessing-names i { font-size: .6em; font-weight: 400; color: #a37e48; }
+.blessing-date {
+  margin: 17px 0 0; font-size: 10px; letter-spacing: .17em;
+  text-transform: uppercase; color: #725642;
+}
+.blessing-date span { margin: 0 6px; }
+.blessing-continue {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 28px; padding: 10px 0;
+  border-bottom: 1px solid #a47b43; text-decoration: none;
+  text-transform: uppercase; letter-spacing: .16em; font-size: 9px;
+  color: #6e3340;
+}
+.blessing-continue:hover { color: #a26532; }
+.blessing-art {
+  position: absolute; bottom: 0; left: 50%; z-index: 1;
+  transform: translateX(-50%); width: min(100%, 950px);
+  height: min(43svh, 430px); object-fit: contain; object-position: center bottom;
+  filter: drop-shadow(0 8px 12px #68321a26);
+}
+@media (max-width: 600px) {
+  .hero-title { top: max(80px, 11svh); bottom: auto; }
+  .hero-title h1 { font-size: clamp(59px, 15vw, 79px); }
+  .hero-divine-art { width: 100%; height: 34svh; }
+  .blessing-section { padding: 11vh 22px 38vh; }
+  .blessing-section::before { inset: 10px; }
+  .blessing-art { width: 110%; height: 39svh; }
+  .blessing-copy h2 { font-size: 35px; }
+  .blessing-names { font-size: clamp(43px, 11vw, 63px); }
+}
+@media (max-height: 700px) {
+  .hero-title { top: max(58px, 8svh); }
+  .hero-divine-art { height: 28svh; }
+  .blessing-art { height: 33svh; }
+}
