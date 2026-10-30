@@ -143,7 +143,7 @@ function Countdown() {
 
 /* ── MAIN APP ─────────────────────────────────────────── */
 function App() {
-  const [opened, setOpened] = useState(true)
+  const [opened, setOpened] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const [active, setActive] = useState(false)
   const [music, setMusic] = useState(false)
@@ -160,13 +160,15 @@ function App() {
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
-  useEffect(() => {
+  const openDoors = () => {
+    if (opened) return
+    setOpened(true)
     setBurstCount(c => c + 1)
     const timer = window.setTimeout(() => {
       setRevealed(true); setActive(true)
     }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1800)
     return () => window.clearTimeout(timer)
-  }, [])
+  }
 
   /* Fireworks when scrolling to celebrations */
   useEffect(() => {
@@ -215,22 +217,51 @@ function App() {
     <ParticleCanvas active={active} triggerBurst={burstCount} triggerConfetti={confettiCount} triggerFireworks={fireworksCount} />
     <SparkleTrail />
 
-    {/* ── HERO (fixed behind everything) ── */}
-    <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
+    {/* ── HERO ── */}
+    <section className="hero" id="home" aria-label="AnuDivam wedding invitation" onClick={openDoors}>
       <EntranceArtwork open={opened} />
       <div className="hero-shade" />
-      {revealed && <motion.div className="hero-title hero-revealed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
-        {guestName && <span className="hero-guest-name">Dear {guestName},</span>}
-        <span className="hero-overline">Together with our families</span>
-        <h1>Anusha &amp; Divakar</h1>
-        <div className="hero-couple-grid">
-          <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
-          <i aria-hidden="true">✦</i>
-          <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
-        </div>
-        <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
-        <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>
-      </motion.div>}
+
+      <AnimatePresence mode="wait">
+        {/* GANESH WELCOME — visible before doors open */}
+        {!opened && <motion.div key="ganesh-welcome" className="hero-title ganesh-welcome"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.5 }}>
+          <span className="ganesh-invocation">ॐ శ్రీ గణేశాయ నమః</span>
+          {guestName && <p className="ganesh-guest">Dear {guestName},</p>}
+          <LotusMark className="ganesh-lotus" />
+          <span className="ganesh-blessing">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
+          <div className="ganesh-families">
+            <span>{wedding.welcomeFamilies[0]}</span>
+            <i>&amp;</i>
+            <span>{wedding.welcomeFamilies[1]}</span>
+          </div>
+          <span className="ganesh-invite-label">Invite you to celebrate the wedding of</span>
+          <h1>{wedding.title}</h1>
+          <span className="ganesh-date">{wedding.weddingDate}</span>
+          <motion.p className="ganesh-tap" animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity }}>
+            Tap anywhere to open
+          </motion.p>
+        </motion.div>}
+
+        {/* COUPLE REVEAL — visible after doors open */}
+        {revealed && <motion.div key="couple-reveal" className="hero-title hero-revealed"
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
+          <span className="hero-overline">Together with our families</span>
+          <h1>Anusha &amp; Divakar</h1>
+          <div className="hero-couple-grid">
+            <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
+            <i aria-hidden="true">✦</i>
+            <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+          </div>
+          <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
+          <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>
+        </motion.div>}
+      </AnimatePresence>
+
+      <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }}
+        animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
     </section>
 
     {/* ── NAV ── */}

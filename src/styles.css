@@ -496,6 +496,66 @@ a { color: inherit; }
 }
 .envelope-tap { margin: 36px 0 0; color: #c9a665; font-size: 11px; letter-spacing: .12em; }
 
+/* ── Ganesh Welcome Screen ── */
+.ganesh-welcome {
+  cursor: pointer; user-select: none;
+  display: flex; flex-direction: column; align-items: center;
+}
+.ganesh-invocation {
+  display: block; color: #ffd78a;
+  font: 500 clamp(14px, 2.5vw, 20px)/1.2 'Noto Serif Telugu', 'Cormorant Garamond', serif;
+  letter-spacing: .06em; text-shadow: 0 2px 15px #1a0f0caa;
+  margin-bottom: 10px;
+}
+.ganesh-guest {
+  margin: 0 0 8px; color: #ffd78a;
+  font: italic 500 clamp(20px, 3.5vw, 28px)/1.2 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 12px #1a0f0c90;
+}
+.ganesh-lotus {
+  width: 60px; height: 30px; stroke: #e3c47e; stroke-width: 1.5;
+  margin: 8px 0 12px; filter: drop-shadow(0 0 8px #dbb86840);
+}
+.ganesh-blessing {
+  display: block; max-width: 500px; margin: 0 auto 18px;
+  color: #f0dfb4; font: 500 clamp(16px, 2.5vw, 22px)/1.25 'Cormorant Garamond', serif;
+  letter-spacing: .03em; text-shadow: 0 2px 12px #1a0f0c90;
+}
+.ganesh-families {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  color: #f0dfb4; font: 500 clamp(15px, 2.4vw, 20px)/1.1 'Cormorant Garamond', serif;
+  margin-bottom: 18px;
+}
+.ganesh-families i { font-size: .7em; color: #dbb868; }
+.ganesh-invite-label {
+  display: block; margin-bottom: 6px; color: #c9a665;
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+}
+.ganesh-welcome h1 {
+  margin: 0; color: #fff0ce; font-weight: 500;
+  font-size: clamp(58px, 13vw, 120px); line-height: .88; letter-spacing: -.04em;
+  text-shadow: 0 4px 30px #ffd78a40, 0 0 60px #dbb86820;
+  background: linear-gradient(90deg, #fff0ce 0%, #fff0ce 35%, #ffd78a 50%, #fff0ce 65%, #fff0ce 100%);
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; animation: shimmer 4s ease-in-out infinite;
+}
+.ganesh-date {
+  display: block; margin-top: 12px; color: #e8d0a0;
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+}
+.ganesh-tap {
+  margin: 28px 0 0; color: #c9a665;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .ganesh-invocation { font-size: 14px; }
+  .ganesh-blessing { font-size: 16px; margin-bottom: 14px; }
+  .ganesh-families { font-size: 15px; }
+  .ganesh-welcome h1 { font-size: clamp(52px, 15vw, 80px); }
+  .ganesh-tap { margin-top: 20px; font-size: 10px; }
+}
+
 /* ── Guest Name on Hero ── */
 .hero-guest-name {
   display: block; margin-bottom: 14px; color: #ffd78a;
