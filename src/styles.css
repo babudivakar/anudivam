@@ -500,60 +500,61 @@ a { color: inherit; }
 .ganesh-welcome {
   cursor: pointer; user-select: none;
   display: flex; flex-direction: column; align-items: center;
+  padding: 24px 20px; border-radius: 18px;
+  background: radial-gradient(ellipse at 50% 40%, #1a0f0cd0 0%, #1a0f0cb0 50%, #1a0f0c80 100%);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
 }
 .ganesh-invocation {
-  display: block; color: #ffd78a;
-  font: 500 clamp(14px, 2.5vw, 20px)/1.2 'Noto Serif Telugu', 'Cormorant Garamond', serif;
-  letter-spacing: .06em; text-shadow: 0 2px 15px #1a0f0caa;
+  display: block; color: #ffe8a8;
+  font: 600 clamp(17px, 3vw, 24px)/1.2 'Noto Serif Telugu', 'Cormorant Garamond', serif;
+  letter-spacing: .06em;
+  text-shadow: 0 2px 20px #000a, 0 0 40px #dbb86840;
   margin-bottom: 10px;
 }
 .ganesh-guest {
-  margin: 0 0 8px; color: #ffd78a;
-  font: italic 500 clamp(20px, 3.5vw, 28px)/1.2 'Cormorant Garamond', serif;
-  text-shadow: 0 2px 12px #1a0f0c90;
+  margin: 0 0 10px; color: #ffe8a8;
+  font: italic 600 clamp(22px, 4vw, 32px)/1.2 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 16px #000a;
 }
 .ganesh-lotus {
-  width: 60px; height: 30px; stroke: #e3c47e; stroke-width: 1.5;
-  margin: 8px 0 12px; filter: drop-shadow(0 0 8px #dbb86840);
+  width: 60px; height: 30px; stroke: #ffd78a; stroke-width: 2;
+  margin: 8px 0 14px; filter: drop-shadow(0 0 12px #dbb86860);
 }
 .ganesh-blessing {
-  display: block; max-width: 500px; margin: 0 auto 18px;
-  color: #f0dfb4; font: 500 clamp(16px, 2.5vw, 22px)/1.25 'Cormorant Garamond', serif;
-  letter-spacing: .03em; text-shadow: 0 2px 12px #1a0f0c90;
+  display: block; max-width: 500px; margin: 0 auto 14px;
+  color: #fff0ce; font: 600 clamp(18px, 3vw, 26px)/1.25 'Cormorant Garamond', serif;
+  letter-spacing: .04em; text-shadow: 0 2px 16px #000a;
 }
 .ganesh-families {
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  color: #f0dfb4; font: 500 clamp(15px, 2.4vw, 20px)/1.1 'Cormorant Garamond', serif;
-  margin-bottom: 18px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  color: #fff0ce; font: 600 clamp(18px, 3vw, 24px)/1.2 'Cormorant Garamond', serif;
+  margin-bottom: 20px; text-shadow: 0 2px 14px #000a;
 }
-.ganesh-families i { font-size: .7em; color: #dbb868; }
+.ganesh-families i { font-size: .7em; color: #ffd78a; }
 .ganesh-invite-label {
-  display: block; margin-bottom: 6px; color: #c9a665;
-  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  display: block; margin-bottom: 8px; color: #ffe8a8;
+  font-size: clamp(10px, 1.8vw, 13px); letter-spacing: .2em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
 }
 .ganesh-welcome h1 {
-  margin: 0; color: #fff0ce; font-weight: 500;
+  margin: 0; font-weight: 500;
   font-size: clamp(58px, 13vw, 120px); line-height: .88; letter-spacing: -.04em;
-  text-shadow: 0 4px 30px #ffd78a40, 0 0 60px #dbb86820;
-  background: linear-gradient(90deg, #fff0ce 0%, #fff0ce 35%, #ffd78a 50%, #fff0ce 65%, #fff0ce 100%);
-  background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; animation: shimmer 4s ease-in-out infinite;
 }
 .ganesh-monogram {
   display: flex; align-items: center; justify-content: center; gap: 0;
   margin: 0; line-height: 1;
 }
 .mono-letter {
-  font: 500 clamp(80px, 18vw, 150px)/1 'Cormorant Garamond', serif;
+  font: 600 clamp(90px, 20vw, 160px)/1 'Cormorant Garamond', serif;
   background: linear-gradient(180deg, #fff5de 0%, #ffd78a 40%, #c9a04a 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 20px #dbb86850);
+  filter: drop-shadow(0 4px 24px #000a) drop-shadow(0 0 40px #dbb86850);
 }
 .mono-heart {
-  font-size: clamp(22px, 5vw, 38px); color: #e8444a;
-  margin: 0 clamp(4px, 1.5vw, 12px);
+  font-size: clamp(26px, 5.5vw, 42px); color: #e8444a;
+  margin: 0 clamp(6px, 2vw, 14px);
   animation: heartbeat 1.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 12px #e8444a60);
+  filter: drop-shadow(0 0 16px #e8444a80);
 }
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
@@ -563,30 +564,35 @@ a { color: inherit; }
   60% { transform: scale(1); }
 }
 .ganesh-theme {
-  display: block; margin-top: 4px;
-  font: italic 500 clamp(20px, 4vw, 32px)/1 'Cormorant Garamond', serif;
-  color: #ffd78a; letter-spacing: .12em;
-  text-shadow: 0 2px 18px #1a0f0caa;
+  display: block; margin-top: 6px;
+  font: italic 600 clamp(24px, 5vw, 38px)/1 'Cormorant Garamond', serif;
+  color: #ffe8a8; letter-spacing: .12em;
+  text-shadow: 0 2px 20px #000a;
 }
 .ganesh-tagline {
-  display: block; margin-top: 8px;
-  color: #c9a665; font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  display: block; margin-top: 10px;
+  color: #ffe8a8; font-size: clamp(10px, 1.8vw, 13px);
+  letter-spacing: .22em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
 }
 .ganesh-date {
-  display: block; margin-top: 12px; color: #e8d0a0;
-  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  display: block; margin-top: 14px; color: #fff0ce;
+  font: 600 clamp(12px, 2vw, 15px)/1 'Cormorant Garamond', serif;
+  letter-spacing: .16em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
 }
 .ganesh-tap {
-  margin: 28px 0 0; color: #c9a665;
-  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  margin: 30px 0 0; color: #ffe8a8;
+  font-size: clamp(11px, 1.8vw, 14px); letter-spacing: .14em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
 }
 
 @media (max-width: 600px) {
-  .ganesh-invocation { font-size: 14px; }
-  .ganesh-blessing { font-size: 16px; margin-bottom: 14px; }
-  .ganesh-families { font-size: 15px; }
-  .ganesh-welcome h1 { font-size: clamp(52px, 15vw, 80px); }
-  .ganesh-tap { margin-top: 20px; font-size: 10px; }
+  .ganesh-welcome { padding: 20px 16px; }
+  .ganesh-invocation { font-size: 16px; }
+  .ganesh-blessing { font-size: 18px; }
+  .ganesh-families { font-size: 18px; }
+  .ganesh-tap { margin-top: 22px; }
 }
 
 /* ── Guest Name on Hero ── */
