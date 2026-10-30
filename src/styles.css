@@ -539,10 +539,38 @@ a { color: inherit; }
   background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; animation: shimmer 4s ease-in-out infinite;
 }
-.ganesh-amp {
-  display: block; font-size: .35em; color: #dbb868;
-  font-style: italic; font-weight: 400; letter-spacing: 0;
-  margin: 4px 0;
+.ganesh-monogram {
+  display: flex; align-items: center; justify-content: center; gap: 0;
+  margin: 0; line-height: 1;
+}
+.mono-letter {
+  font: 500 clamp(80px, 18vw, 150px)/1 'Cormorant Garamond', serif;
+  background: linear-gradient(180deg, #fff5de 0%, #ffd78a 40%, #c9a04a 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 20px #dbb86850);
+}
+.mono-heart {
+  font-size: clamp(22px, 5vw, 38px); color: #e8444a;
+  margin: 0 clamp(4px, 1.5vw, 12px);
+  animation: heartbeat 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px #e8444a60);
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.18); }
+  60% { transform: scale(1); }
+}
+.ganesh-theme {
+  display: block; margin-top: 4px;
+  font: italic 500 clamp(20px, 4vw, 32px)/1 'Cormorant Garamond', serif;
+  color: #ffd78a; letter-spacing: .12em;
+  text-shadow: 0 2px 18px #1a0f0caa;
+}
+.ganesh-tagline {
+  display: block; margin-top: 8px;
+  color: #c9a665; font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
 }
 .ganesh-date {
   display: block; margin-top: 12px; color: #e8d0a0;
