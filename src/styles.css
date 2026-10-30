@@ -191,37 +191,72 @@ a { color: inherit; }
   *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
 
-/* Temple gate: the Ganesh scene opens to reveal the wedding on the same screen. */
+/* Keep Ganesh whole while independent temple doors reveal the wedding scene. */
 .hero { background: #805537; }
 .entrance-art {
-  background: #ad7d4b url('/images/temple-divine-wedding.webp') center center / cover no-repeat;
+  background: #ad7d4b url('/images/temple-courtyard.webp') center center / cover no-repeat;
 }
 .entrance-art::after { display: none; }
+.temple-scene {
+  position: absolute; inset: 0; background-position: center;
+  background-repeat: no-repeat; background-size: cover;
+}
+.ganesh-scene { z-index: 2; background-image: url('/images/temple-ganesh.webp'); }
+.wedding-scene { z-index: 1; opacity: 0; background-image: url('/images/temple-divine-wedding.webp'); }
+.is-open .ganesh-scene { animation: fadeGaneshScene 2s linear both; }
+.is-open .wedding-scene { animation: revealWeddingScene 2s linear both; }
+@keyframes fadeGaneshScene {
+  0%, 3% { opacity: 1; } 27%, 100% { opacity: 0; }
+}
+@keyframes revealWeddingScene {
+  0%, 43% { opacity: 0; } 54%, 100% { opacity: 1; }
+}
 .door-pair {
   position: absolute; z-index: 5; inset: 0; display: flex;
   overflow: hidden; perspective: 1400px; pointer-events: none;
 }
 .door-leaf {
-  position: relative; width: 50%; height: 100%; flex: none;
-  background-image: url('/images/temple-ganesh.webp');
-  background-repeat: no-repeat; background-size: 200% 100%;
-  border: 0; opacity: 1; box-shadow: none; backface-visibility: hidden;
+  position: relative; width: 50%; height: 100%; flex: none; opacity: 0;
+  background: repeating-linear-gradient(90deg, #2d1a15 0 9%, #754321 10% 15%, #ad7843 18%, #56301d 22% 26%);
+  border: 0; backface-visibility: hidden;
+  box-shadow: inset 0 0 0 6px #482614, inset 0 0 0 9px #c49a58, inset 0 0 36px #21110b;
 }
 .left-door {
-  background-position: left center; transform-origin: left center;
-  border-right: 1px solid #e7c28088;
+  transform: translateX(-101%); transform-origin: left center;
+  border-right: 3px solid #e7c280;
 }
 .right-door {
-  background-position: right center; transform-origin: right center;
-  border-left: 1px solid #e7c28088;
+  transform: translateX(101%); transform-origin: right center;
+  border-left: 3px solid #e7c280;
+}
+.is-open .left-door { animation: closeOpenLeft 2s cubic-bezier(.65,0,.22,1) both; }
+.is-open .right-door { animation: closeOpenRight 2s cubic-bezier(.65,0,.22,1) both; }
+@keyframes closeOpenLeft {
+  0%, 24% { opacity: 0; transform: translateX(-101%); }
+  27% { opacity: 1; }
+  45%, 54% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 1; transform: translateX(-101%) rotateY(-12deg); }
+}
+@keyframes closeOpenRight {
+  0%, 24% { opacity: 0; transform: translateX(101%); }
+  27% { opacity: 1; }
+  45%, 54% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 1; transform: translateX(101%) rotateY(12deg); }
+}
+.door-leaf::before {
+  content: ''; position: absolute; inset: 4% 6%;
+  border: 3px double #e2bc78; border-radius: 45% 45% 3px 3px / 9% 9% 3px 3px;
+  box-shadow: inset 0 0 0 13px #2c180f49, inset 0 0 0 15px #d4ad6f7a;
+  background: radial-gradient(circle at 50% 31%, #d1a45b 0 5%, #6d40229e 6% 12%, transparent 13%),
+    repeating-linear-gradient(0deg, transparent 0 34px, #d9b57472 35px, transparent 36px);
 }
 .door-leaf::after {
-  content: ''; position: absolute; top: 50%; width: 8px; height: 28px;
-  transform: translateY(-50%); border: 1px solid #f2d4979c;
-  border-radius: 8px; background: #96673570; box-shadow: 0 2px 8px #25140e66;
+  content: ''; position: absolute; inset: auto; top: 50%; width: 17px; height: 35px;
+  transform: translateY(-50%); border: 2px solid #f2d497;
+  border-radius: 9px; background: #966735; box-shadow: 0 2px 8px #25140e88;
 }
-.left-door::after { right: 7px; }
-.right-door::after { left: 7px; }
+.left-door::after { right: 8%; }
+.right-door::after { left: 8%; }
 .hero-shade {
   background: linear-gradient(180deg, #29170fae 0%, #3320188b 35%, #26160f1d 60%, #1c100962 100%);
 }
@@ -322,4 +357,9 @@ a { color: inherit; }
   .hero-families { font-size: 17px; }
   .hero-title h1 { margin-top: 7px; }
   .open-invitation { margin-top: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-open .ganesh-scene { opacity: 0; animation: none; }
+  .is-open .wedding-scene { opacity: 1; animation: none; }
+  .is-open .door-leaf { display: none; animation: none; }
 }

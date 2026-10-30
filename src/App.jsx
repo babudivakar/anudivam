@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX } from 'lucide-react'
 import { wedding } from './data/wedding.js'
 
@@ -61,11 +61,12 @@ function Deepam({ className = '' }) {
 }
 
 function EntranceArtwork({ open }) {
-  const reduced = useReducedMotion()
   return <div className={`entrance-art${open ? ' is-open' : ''}`} aria-hidden="true">
+    <div className="temple-scene wedding-scene" />
+    <div className="temple-scene ganesh-scene" />
     <div className="door-pair">
-      <motion.div className="door-leaf left-door" animate={open ? { x: '-101%', rotateY: reduced ? 0 : -18 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.6, ease: [0.76,0,0.24,1] }} />
-      <motion.div className="door-leaf right-door" animate={open ? { x: '101%', rotateY: reduced ? 0 : 18 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.6, ease: [0.76,0,0.24,1] }} />
+      <div className="door-leaf left-door" />
+      <div className="door-leaf right-door" />
     </div>
   </div>
 }
@@ -153,7 +154,7 @@ function App() {
     const timer = window.setTimeout(() => {
       setRevealed(true)
       setActive(true)
-    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1050)
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1900)
     return () => window.clearTimeout(timer)
   }, [opened])
 
