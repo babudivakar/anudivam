@@ -1,0 +1,311 @@
+import { useEffect, useMemo, useState } from 'react'
+import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'motion/react'
+import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, Heart, MapPin, Music2, Share2, Volume2, VolumeX } from 'lucide-react'
+import { wedding } from './data/wedding.js'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+}
+
+function useCountdown(target) {
+  const [now, setNow] = useState(Date.now())
+  useEffect(() => {
+    if (!target) return
+    const timer = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [target])
+  return useMemo(() => {
+    const end = target ? new Date(target).getTime() : NaN
+    if (!Number.isFinite(end)) return null
+    const distance = Math.max(0, end - now)
+    return [
+      ['days', Math.floor(distance / 86400000)],
+      ['hours', Math.floor((distance / 3600000) % 24)],
+      ['minutes', Math.floor((distance / 60000) % 60)],
+      ['seconds', Math.floor((distance / 1000) % 60)],
+    ]
+  }, [target, now])
+}
+
+function LotusMark({ className = '' }) {
+  return <svg className={className} viewBox="0 0 100 52" aria-hidden="true" fill="none">
+    <path d="M50 45C35 36 34 21 50 7c16 14 15 29 0 38Z" />
+    <path d="M47 44C26 42 14 31 13 17c16 2 28 11 34 27ZM53 44c21-2 33-13 34-27-16 2-28 11-34 27Z" />
+    <path d="M45 46C27 52 13 49 5 40c14-7 28-5 42 4Zm10 0c18 6 32 3 40-6-14-7-28-5-42 4Z" />
+    <path d="M50 46v5M32 49h36" />
+  </svg>
+}
+
+function Mandala({ className = '' }) {
+  return <svg className={className} viewBox="0 0 320 320" aria-hidden="true" fill="none">
+    <circle cx="160" cy="160" r="151" /><circle cx="160" cy="160" r="137" />
+    <circle cx="160" cy="160" r="112" /><circle cx="160" cy="160" r="86" />
+    {Array.from({ length: 16 }, (_, i) => <g key={i} transform={`rotate(${i * 22.5} 160 160)`}>
+      <path d="M160 10c17 19 17 38 0 58-17-20-17-39 0-58Z" />
+      <path d="M160 57c9 11 9 22 0 33-9-11-9-22 0-33Z" />
+    </g>)}
+    <path d="M160 121c12 12 28 28 39 39-11 11-27 27-39 39-12-12-28-28-39-39 11-11 27-27 39-39Z" />
+    <circle cx="160" cy="160" r="23" />
+  </svg>
+}
+
+function DoorCarving({ mirror = false }) {
+  return <svg className={`door-carving${mirror ? ' mirror' : ''}`} viewBox="0 0 300 760" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id={mirror ? 'gold-b' : 'gold-a'} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#edcf87"/><stop offset=".45" stopColor="#8e5b25"/><stop offset="1" stopColor="#d6b466"/></linearGradient></defs>
+    <rect x="15" y="15" width="270" height="730" rx="8" fill="none" stroke={`url(#${mirror ? 'gold-b' : 'gold-a'})`} strokeWidth="3"/>
+    <rect x="28" y="28" width="244" height="704" rx="5" fill="none" stroke="#b18a4c" strokeWidth="1"/>
+    <path d="M50 700V190Q150 35 250 190V700M66 680V195Q150 70 234 195V680" stroke="#c5a261" strokeWidth="2" fill="none"/>
+    <path d="M150 135c-37 28-43 63 0 101 43-38 37-73 0-101ZM150 235c-60 23-73 65-41 101 18-30 32-48 41-54 9 6 23 24 41 54 32-36 19-78-41-101Z" fill="none" stroke="#d5b36f" strokeWidth="2"/>
+    <circle cx="150" cy="324" r="35" fill="none" stroke="#d5b36f" strokeWidth="2"/><circle cx="150" cy="324" r="23" fill="none" stroke="#d5b36f"/>
+    <path d="M150 289c-17 13-17 27 0 39 17-12 17-26 0-39ZM115 324c13-17 27-17 39 0-12 17-26 17-39 0ZM150 359c-17-13-17-27 0-39 17 12 17 26 0 39ZM185 324c-13 17-27 17-39 0 12-17 26-17 39 0Z" fill="none" stroke="#d5b36f"/>
+    {[390, 465, 540, 615].map(y => <g key={y}><path d={`M77 ${y}h146M88 ${y-12}c22-20 42-20 62 0 20-20 40-20 62 0M88 ${y+12}c22 20 42 20 62 0 20 20 40 20 62 0`} stroke="#a77b3d" fill="none"/><circle cx="150" cy={y} r="7" fill="#d5b36f"/></g>)}
+    <circle cx="250" cy="408" r="11" fill="#e3c67a"/><circle cx="250" cy="408" r="4" fill="#563220"/>
+    <path d="M43 77h36m-18-18v36M221 77h36m-18-18v36M43 682h36m-18-18v36m160-18h36m-18-18v36" stroke="#e1c37e" strokeWidth="2"/>
+  </svg>
+}
+
+function Deepam({ className = '' }) {
+  return <svg viewBox="0 0 76 128" className={className} aria-hidden="true" fill="none">
+    <path d="M37.8 3c-15 15-10 25 0 32 10-8 14-18 0-32Z" fill="#ffd78a"/>
+    <path d="M38 22c-8 9-6 15 0 19 6-4 8-10 0-19Z" fill="#fff4c8"/>
+    <path d="M14 56c5 17 43 17 48 0-14-6-34-6-48 0Z" fill="#c18b3f" stroke="#f0d18a" strokeWidth="2"/>
+    <path d="M20 61c2 8 10 12 18 12s16-4 18-12M38 73v35m-13 0h26m-33 9h40m-45 8h50" stroke="#d9b568" strokeWidth="3" strokeLinecap="round"/>
+    <path d="M38 73c-9 3-13 11-13 19m13-19c9 3 13 11 13 19" stroke="#d9b568" strokeWidth="2"/>
+  </svg>
+}
+
+function EntranceArtwork({ open }) {
+  const reduced = useReducedMotion()
+  return <div className={`entrance-art${open ? ' is-open' : ''}`} aria-hidden="true">
+    <div className="temple-glow" />
+    <div className="gopuram">
+      <span /><span /><span /><span /><span />
+      <div className="gopuram-crown">✧</div>
+    </div>
+    <div className="courtyard">
+      <div className="courtyard-halo" />
+      <div className="mandap"><div className="mandap-roof">♢</div><div className="mandap-top" />
+        <div className="mandap-pillars"><i/><i/><i/><i/></div><div className="mandap-floor" />
+        <div className="mandap-seat"><Heart size={22} fill="currentColor" /></div>
+      </div>
+      <div className="courtyard-lotus"><LotusMark /></div>
+      <Deepam className="courtyard-lamp left"/><Deepam className="courtyard-lamp right"/>
+    </div>
+    <div className="entrance-pillar left"/><div className="entrance-pillar right"/>
+    <div className="door-pair">
+      <motion.div className="door-leaf left-door" animate={open ? { x: '-102%', rotateY: reduced ? 0 : -12 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.7, ease: [0.76,0,0.24,1] }}>
+        <DoorCarving />
+      </motion.div>
+      <motion.div className="door-leaf right-door" animate={open ? { x: '102%', rotateY: reduced ? 0 : 12 } : { x: 0, rotateY: 0 }} transition={{ duration: reduced ? .01 : 1.7, ease: [0.76,0,0.24,1] }}>
+        <DoorCarving mirror />
+      </motion.div>
+    </div>
+    <div className="toran"><span>❋</span><i/><span>❋</span><i/><span>❋</span><i/><span>❋</span><i/><span>❋</span></div>
+  </div>
+}
+
+function SectionHeading({ eyebrow, title, telugu, light = false }) {
+  return <motion.div className={`section-heading${light ? ' light' : ''}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .35 }}>
+    <span className="eyebrow">{eyebrow}</span>
+    <LotusMark className="heading-lotus" />
+    <h2>{title}</h2>
+    {telugu && <span className="telugu-heading">{telugu}</span>}
+  </motion.div>
+}
+
+function PersonPortrait({ name, role, image }) {
+  return <motion.div className="person-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
+    <div className="portrait-frame">
+      <div className="portrait-art">
+        {image ? <img className="portrait-image" src={image} alt={`${name} portrait`} loading="lazy" decoding="async" /> : <><Mandala className="portrait-mandala"/><div className="portrait-silhouette"><i/><b/></div><span className="photo-placeholder">Add {role.toLowerCase()} photo</span></>}
+      </div>
+      <span className="portrait-corner top-left"/><span className="portrait-corner top-right"/><span className="portrait-corner bottom-left"/><span className="portrait-corner bottom-right"/>
+    </div>
+    <p className="person-role">{role}</p><h3>{name}</h3>
+    <p className="family-placeholder">{role === 'The bride' ? wedding.family.bride : wedding.family.groom}</p>
+  </motion.div>
+}
+
+function EventIllustration({ style }) {
+  const ritualMark = {
+    haldi: <><span className="ritual-vessel"/><span className="ritual-powder">✧</span><span className="event-leaf l1"/><span className="event-leaf l2"/></>,
+    mehendi: <><span className="ritual-hand">❧</span><span className="ritual-hand second">❧</span><Mandala className="ritual-mandala"/></>,
+    sangeet: <><span className="ritual-veena">♬</span><span className="ritual-note n1">♪</span><span className="ritual-note n2">♫</span></>,
+    pelli: <><span className="event-moon">✦</span><span className="ritual-bride"><i/><b/></span><span className="event-leaf l1"/><span className="event-leaf l2"/></>,
+  }[style]
+  return <div className={`event-art ${style}`} aria-hidden="true">
+    <div className="event-art-halo" />
+    {style === 'wedding' ? <><span className="event-canopy"/><span className="event-arch"/><span className="event-column one"/><span className="event-column two"/><span className="event-flame"/><LotusMark className="event-lotus"/></> : style === 'reception' ? <><span className="event-moon">✦</span><span className="event-leaf l1"/><span className="event-leaf l2"/><span className="event-leaf l3"/><span className="event-diya"/><LotusMark className="event-lotus"/></> : <>{ritualMark}<LotusMark className="event-lotus"/></>}
+  </div>
+}
+
+function CeremonyCard({ ceremony, index }) {
+  const [expanded, setExpanded] = useState(false)
+  return <motion.article className={`ceremony-card ${index % 2 ? 'right' : 'left'}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }}>
+    <div className="timeline-dot"><span /></div>
+    <EventIllustration style={ceremony.style} />
+    <div className="ceremony-copy">
+      <span className="ceremony-telugu">{ceremony.telugu}</span>
+      <h3>{ceremony.name}</h3>
+      <div className="event-facts"><p><CalendarDays size={14}/>{ceremony.date}</p><p><Clock3 size={14}/>{ceremony.time}</p><p><MapPin size={14}/>{ceremony.venue}</p></div>
+      <button className="text-toggle" aria-expanded={expanded} onClick={() => setExpanded(v => !v)}>{expanded ? 'Close details' : 'A little more'}<ChevronDown size={15} className={expanded ? 'turned' : ''}/></button>
+      <AnimatePresence initial={false}>{expanded && <motion.p className="ceremony-detail" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: .35 }}>{ceremony.detail}</motion.p>}</AnimatePresence>
+    </div>
+  </motion.article>
+}
+
+function VenueCard({ title, data, icon }) {
+  const query = data.mapQuery || [data.name, data.address].filter(v => !/to be (announced|added)/i.test(v)).join(' ')
+  const mapUrl = query ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}` : ''
+  return <motion.article className="venue-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
+    <div className="venue-top"><span>{icon === 'wedding' ? 'I' : 'II'}</span><span className="venue-ornament">✧</span></div>
+    <p className="venue-type">{title}</p><h3>{data.name}</h3><p className="venue-address">{data.address}</p>
+    {mapUrl ? <a className="map-link" href={mapUrl} target="_blank" rel="noreferrer">Open in Google Maps <ArrowUpRight size={16}/></a> : <span className="map-link disabled" aria-disabled="true">Map link will appear when venue is set <MapPin size={15}/></span>}
+  </motion.article>
+}
+
+function Countdown() {
+  const units = useCountdown(wedding.countdownDate)
+  return <div className="countdown" aria-live="off">
+    {units ? units.map(([unit, value]) => <div className="count-unit" key={unit}><strong>{String(value).padStart(2, '0')}</strong><span>{unit}</span></div>) : <div className="count-placeholder"><span className="count-sun">✧</span><p>Our countdown begins when the wedding date is announced.</p></div>}
+  </div>
+}
+
+function App() {
+  const [opened, setOpened] = useState(false)
+  const [active, setActive] = useState(false)
+  const [music, setMusic] = useState(false)
+  const [musicNotice, setMusicNotice] = useState(false)
+  const ceremonies = wedding.ceremonies.filter(item => item && item.name)
+
+  useEffect(() => {
+    if (!opened) return
+    const timer = window.setTimeout(() => setActive(true), 950)
+    return () => window.clearTimeout(timer)
+  }, [opened])
+
+  const share = async () => {
+    const message = `Join us to celebrate ${wedding.bride} & ${wedding.groom} — ${wedding.title}. ${window.location.href}`
+    if (navigator.share) {
+      try { await navigator.share({ title: wedding.title, text: message, url: window.location.href }) } catch { /* user dismissed share sheet */ }
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(message)
+      window.alert('Invitation link copied. Share it with your loved ones!')
+    } else {
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer')
+    }
+  }
+
+  const toggleMusic = async () => {
+    const audio = document.getElementById('wedding-audio')
+    if (!wedding.musicTrack || !audio) {
+      setMusicNotice(true)
+      window.setTimeout(() => setMusicNotice(false), 4200)
+      return
+    }
+    if (music) { audio.pause(); setMusic(false); return }
+    try { await audio.play(); setMusic(true) } catch { setMusicNotice(true); window.setTimeout(() => setMusicNotice(false), 4200) }
+  }
+
+  return <MotionConfig reducedMotion="user"><main>
+    {wedding.musicTrack && <audio id="wedding-audio" src={wedding.musicTrack} loop preload="none" />}
+    <section className="hero" id="home" aria-label="AnuDivam wedding invitation">
+      <EntranceArtwork open={opened} />
+      <div className={`hero-shade${opened ? ' fade' : ''}`} />
+      <div className="hero-topline"><span className="hero-kicker">A celebration of love &amp; tradition</span><span className="hero-sanskrit">శుభమస్తు</span></div>
+      <motion.div className="hero-title" animate={opened ? { opacity: 0, y: -16 } : { opacity: 1, y: 0 }} transition={{ duration: .7 }}>
+        <span className="hero-overline">Together with our families</span>
+        <h1>{wedding.title}</h1>
+        <LotusMark className="hero-lotus" />
+        <p>{wedding.bride}<i>&amp;</i>{wedding.groom}</p>
+        <span className="hero-date">{wedding.weddingDate}</span>
+      </motion.div>
+      <motion.button className="open-invitation" onClick={() => setOpened(true)} disabled={opened} animate={opened ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }} aria-label="Open the wedding invitation">
+        <span>Open invitation</span><ArrowDown size={15}/>
+      </motion.button>
+      <div className="hero-foot"><span>Scroll to explore</span><span className="scroll-line"/></div>
+      <AnimatePresence>{opened && <motion.div className="welcome-flash" initial={{ opacity: 0 }} animate={{ opacity: [0, .22, 0] }} transition={{ duration: 1.35, times: [0,.35,1] }} />}</AnimatePresence>
+    </section>
+
+    <AnimatePresence>{active && <motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
+      <a className="nav-brand" href="#home">A<span>✧</span>D</a><div><a href="#story">Our story</a><a href="#celebrations">Celebrations</a><a href="#venue">Venue</a></div>
+      <button className="music-button" onClick={toggleMusic} aria-label={music ? 'Turn music off' : 'Turn music on'} title={music ? 'Music on' : 'Music off'}>{music ? <Volume2 size={17}/> : <VolumeX size={17}/>}<span>{music ? 'Music on' : 'Music off'}</span></button>
+    </motion.nav>}</AnimatePresence>
+
+    <section className="story-section paper-section" id="story">
+      <div className="paper-ornament top"/><div className="paper-ornament bottom"/>
+      <div className="section-wrap">
+        <SectionHeading eyebrow="Two hearts, one forever" title="A story written in the stars" telugu="మంగళం భగవాన్ విష్ణుః" />
+        <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>{wedding.message}</motion.p>
+        <div className="couple-grid">
+          <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
+          <div className="ampersand">&amp;</div>
+          <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
+        </div>
+        <motion.div className="family-note" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <span>With the blessings of</span><p>{wedding.family.bride}</p><i>and</i><p>{wedding.family.groom}</p>
+        </motion.div>
+        <div className="scroll-cue"><span>Our celebrations</span><a href="#celebrations" aria-label="Continue to celebrations"><ArrowDown size={15}/></a></div>
+      </div>
+    </section>
+
+    <section className="celebrations-section" id="celebrations">
+      <div className="section-wrap">
+        <SectionHeading eyebrow="A gathering of joy" title="Wedding celebrations" telugu="శుభ ఘడియలు" />
+        <p className="section-intro">Every ritual, a blessing. Every gathering, a memory.</p>
+        <div className="timeline">
+          <div className="timeline-rail" />
+          {ceremonies.map((ceremony, index) => <CeremonyCard key={ceremony.id || ceremony.name} ceremony={ceremony} index={index}/>) }
+        </div>
+      </div>
+    </section>
+
+    <section className="mandap-section">
+      <div className="mandap-backdrop"><Mandala className="mandap-mandala"/><div className="mandap-spotlight"/></div>
+      <div className="mandap-content section-wrap">
+        <SectionHeading eyebrow="The sacred moment" title="Beneath the mandap" telugu={wedding.ceremonies.find(c => c.style === 'wedding')?.telugu || 'శుభ వివాహం'} light />
+        <motion.div className="full-mandap-art" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
+          <div className="mandap-garland garland-left"/><div className="mandap-garland garland-right"/>
+          <div className="mandap-arch"><div className="arch-top"><span>✥</span><i/><span>✥</span><i/><span>✥</span></div>
+            <div className="arch-lintel"><LotusMark /></div><div className="arch-side left"><span/><span/><span/></div><div className="arch-side right"><span/><span/><span/></div>
+            <div className="arch-inner"><div className="arch-inner-glow"/><div className="wedding-fire"><i/><b/><span/></div><div className="arch-lotus"><LotusMark/></div></div>
+            <div className="arch-base"><span/><span/><span/><span/><span/></div>
+          </div>
+          <Deepam className="mandap-deepam left"/><Deepam className="mandap-deepam right"/>
+          <div className="mandap-petal petal-one">✿</div><div className="mandap-petal petal-two">✿</div>
+        </motion.div>
+        <motion.div className="muhurtham-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <span className="muhurtham-label">The auspicious hour</span><div className="muhurtham-date">{wedding.weddingDate}</div><span className="muhurtham-divider">✧</span><p>{wedding.muhurtham}</p><span className="muhurtham-venue">{wedding.venue.name}</span>
+        </motion.div>
+      </div>
+    </section>
+
+    <section className="venue-section paper-section" id="venue">
+      <div className="section-wrap">
+        <SectionHeading eyebrow="Find your way to us" title="Where we celebrate" telugu="సుస్వాగతం" />
+        <p className="section-intro">We can’t wait to welcome you.</p>
+        <div className="venue-grid">
+          <VenueCard title="Wedding ceremony" data={wedding.venue} icon="wedding"/>
+          <VenueCard title="Reception" data={wedding.receptionVenue} icon="reception"/>
+        </div>
+        <div className="countdown-panel">
+          <Mandala className="countdown-ornament"/><div className="countdown-inner"><span className="eyebrow">Until our forever begins</span><h3>Counting the moments</h3><Countdown /></div>
+          <Mandala className="countdown-ornament right"/>
+        </div>
+      </div>
+    </section>
+
+    <footer className="closing-section">
+      <div className="closing-sparkles">✧ &nbsp; ✦ &nbsp; ✧</div>
+      <LotusMark className="closing-lotus" />
+      <p className="closing-eyebrow">With love,</p><h2>{wedding.bride}<span>&amp;</span>{wedding.groom}</h2>
+      <p className="closing-message">We look forward to celebrating this beautiful beginning with you.</p>
+      <button className="share-button" onClick={share}><Share2 size={16}/> Share the invitation</button>
+      <div className="closing-footer"><span>Made with love for {wedding.title}</span><span>శుభమస్తు</span></div>
+    </footer>
+    {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
+  </main></MotionConfig>
+}
+
+export default App
