@@ -315,12 +315,18 @@ function App() {
           {guestName ? `Dear ${guestName}, ` : ''}{side?.message || wedding.message}
         </motion.p>
         <div className="couple-grid">
-          <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
-          <div className="ampersand">&amp;</div>
-          <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
+          {from === 'divakar' ? <>
+            <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
+            <div className="ampersand">&amp;</div>
+            <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
+          </> : <>
+            <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
+            <div className="ampersand">&amp;</div>
+            <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
+          </>}
         </div>
         <motion.div className="family-note" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          <span>With the blessings of</span>{side ? <><p>{side.invitedBy}</p><i>together with</i><p>{side.otherFamily}</p></> : <><p>{wedding.family.bride}</p><i>and</i><p>{wedding.family.groom}</p></>}
+          <span>With the blessings of</span>{side ? <><p>{side.invitedBy}</p><i>together with</i><p>{side.otherFamily}</p></> : from === 'divakar' ? <><p>{wedding.family.groom}</p><i>and</i><p>{wedding.family.bride}</p></> : <><p>{wedding.family.bride}</p><i>and</i><p>{wedding.family.groom}</p></>}
         </motion.div>
         <div className="scroll-cue"><span>Our celebrations</span><a href="#celebrations" aria-label="Continue to celebrations"><ArrowDown size={15}/></a></div>
       </div>
@@ -408,7 +414,7 @@ function App() {
     <footer className="closing-section">
       <div className="closing-sparkles">✧ &nbsp; ✦ &nbsp; ✧</div>
       <LotusMark className="closing-lotus" />
-      <p className="closing-eyebrow">With love,</p><h2>{wedding.bride}<span>&amp;</span>{wedding.groom}</h2>
+      <p className="closing-eyebrow">With love,</p><h2>{from === 'divakar' ? <>{wedding.groom}<span>&amp;</span>{wedding.bride}</> : <>{wedding.bride}<span>&amp;</span>{wedding.groom}</>}</h2>
       <p className="closing-message">We look forward to celebrating this beautiful beginning with you.</p>
       <div className="closing-actions">
         <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Share on WhatsApp</a>
