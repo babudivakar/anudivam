@@ -281,6 +281,10 @@ a { color: inherit; }
   font: 500 clamp(19px, 3vw, 26px)/1.05 'Cormorant Garamond', serif;
 }
 .hero-families i { font-size: .7em; color: #edc987; font-weight: 400; }
+.hero-welcome-label {
+  display: block; margin-top: 22px; color: #f2daae;
+  font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+}
 .hero-title h1 {
   margin: 13px 0 0; color: #fff0ce; font-weight: 500;
   font-size: clamp(66px, 12vw, 128px); line-height: .88; letter-spacing: -.045em;
@@ -298,8 +302,17 @@ a { color: inherit; }
   text-decoration: none;
 }
 .open-invitation:hover { background: #fff3da; color: #42251d; }
-.hero-welcome h1 { margin-top: 22px; }
-.hero-welcome .open-invitation { margin-top: 30px; }
+.hero-welcome h1 { margin-top: 14px; }
+.hero-welcome-theme {
+  margin: 22px 0 0; color: #fff0d3;
+  font: italic 500 clamp(20px, 2.8vw, 27px)/1.15 'Cormorant Garamond', serif;
+  letter-spacing: .02em;
+}
+.hero-welcome-date {
+  display: block; margin-top: 12px; color: #f2daae;
+  font-size: 11px; letter-spacing: .14em;
+}
+.hero-welcome .open-invitation { margin-top: 25px; }
 .hero-revealed h1 { font-size: clamp(49px, 8vw, 83px); margin-top: 10px; }
 .hero-couple-grid {
   display: grid; grid-template-columns: 1fr 18px 1fr;
@@ -330,8 +343,11 @@ a { color: inherit; }
   .hero-title h1 { font-size: clamp(60px, 15vw, 80px); margin-top: 10px; }
   .hero-date { font-size: 9px; letter-spacing: .14em; margin-top: 11px; }
   .open-invitation { min-width: 198px; margin-top: 18px; padding: 14px 18px; }
-  .hero-welcome h1 { margin-top: 18px; }
-  .hero-welcome .open-invitation { margin-top: 26px; }
+  .hero-welcome-label { margin-top: 14px; font-size: 9px; }
+  .hero-welcome h1 { margin-top: 10px; }
+  .hero-welcome-theme { margin-top: 16px; font-size: 20px; }
+  .hero-welcome-date { margin-top: 8px; font-size: 10px; }
+  .hero-welcome .open-invitation { margin-top: 21px; }
   .hero-revealed h1 { font-size: clamp(44px, 11vw, 59px); }
   .hero-couple-grid { margin-top: 19px; gap: 5px; grid-template-columns: 1fr 12px 1fr; }
   .hero-couple-grid h2 { font-size: clamp(22px, 6vw, 27px); }
@@ -345,8 +361,10 @@ a { color: inherit; }
   .hero-invocation { margin-bottom: 10px; }
   .hero-families { font-size: 17px; }
   .hero-title h1 { margin-top: 7px; }
+  .hero-welcome-label { margin-top: 9px; }
   .open-invitation { margin-top: 14px; }
-  .hero-welcome .open-invitation { margin-top: 18px; }
+  .hero-welcome-theme { margin-top: 9px; }
+  .hero-welcome .open-invitation { margin-top: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .is-open .ganesh-scene { opacity: 0; animation: none; }

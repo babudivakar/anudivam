@@ -179,7 +179,10 @@ function App() {
         {!opened && <motion.div key="welcome" className="hero-title hero-welcome" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: .45 }}>
           <span className="hero-invocation">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
           <div className="hero-families"><span>{wedding.welcomeFamilies[0]}</span><i>&amp;</i><span>{wedding.welcomeFamilies[1]}</span></div>
+          <span className="hero-welcome-label">Wedding Invitation</span>
           <h1>{wedding.title}</h1>
+          <p className="hero-welcome-theme">A wedding woven with love and tradition</p>
+          <span className="hero-welcome-date">{wedding.weddingDate}</span>
           <button className="open-invitation" onClick={() => setOpened(true)} aria-label="Open the wedding invitation">
             <span>Open invitation</span><ArrowDown size={16}/>
           </button>
