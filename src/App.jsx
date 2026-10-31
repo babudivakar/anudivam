@@ -126,30 +126,48 @@ function CeremonyPage({ ceremony, index, t }) {
     obs.observe(el); return () => obs.disconnect()
   }, [])
 
-  return <section ref={pageRef} className={`event-page event-page--${ceremony.style}`}>
+  const cls = revealed ? 'revealed' : ''
+
+  return <section ref={pageRef} className={`event-page event-page--${ceremony.style} ${cls}`}>
     <EventParticles style={ceremony.style} burst={revealed} />
+    <div className="event-page__bg" />
     <div className="event-page__overlay" />
+
+    {/* Decorative frame — animates in on reveal */}
+    <div className={`ep-frame ${cls}`}>
+      <div className="ep-toran">
+        <span /><span /><span /><span /><span /><span /><span />
+      </div>
+      <div className="ep-drape ep-drape--left" />
+      <div className="ep-drape ep-drape--right" />
+      <div className="ep-corner ep-corner--tl" />
+      <div className="ep-corner ep-corner--tr" />
+      <div className="ep-corner ep-corner--bl" />
+      <div className="ep-corner ep-corner--br" />
+      <div className="ep-base" />
+    </div>
+
     <div className="event-page__content">
       <motion.span className="event-page__telugu"
-        initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2, duration: 0.7 }}>
+        initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.2, duration: 0.7 }}>
         {ceremony.telugu}
       </motion.span>
       <motion.h2 className="event-page__title"
-        initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.5, duration: 0.8, ease: 'easeOut' }}>
+        initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 1.5, duration: 0.8, ease: 'easeOut' }}>
         {ceremony.name}
       </motion.h2>
       <motion.div className="event-page__details"
-        initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.1, duration: 0.7 }}>
+        initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 2.2, duration: 0.7 }}>
         <p className="event-page__date"><CalendarDays size={16}/>{ceremony.date}</p>
         <p className="event-page__time"><Clock3 size={16}/>{ceremony.time}</p>
         <p className="event-page__venue"><MapPin size={16}/>{ceremony.venue}</p>
       </motion.div>
       <motion.p className="event-page__detail"
-        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 1.6, duration: 0.6 }}>
+        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.8, duration: 0.6 }}>
         {ceremony.detail}
       </motion.p>
       <motion.div className="event-page__scroll-hint"
-        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2, duration: 0.5 }}>
+        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 3.2, duration: 0.5 }}>
         <ArrowDown size={16} />
       </motion.div>
     </div>

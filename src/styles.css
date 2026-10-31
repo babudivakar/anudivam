@@ -168,10 +168,103 @@ a { color: inherit; }
 }
 @keyframes bobDown { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
-/* HALDI theme */
-.event-page--haldi {
-  background: #f5e6c0 url('/images/haldi-bg.jpg') center center / cover no-repeat;
+/* ── EVENT PAGE FRAME ANIMATIONS ── */
+.event-page__bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  opacity: 0; transform: scale(1.1);
+  transition: opacity 1.2s ease, transform 1.8s ease;
 }
+.event-page.revealed .event-page__bg { opacity: 1; transform: scale(1); }
+
+.ep-frame { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+/* Toran — garland hanging from top */
+.ep-toran {
+  position: absolute; top: -60px; left: 0; right: 0; height: 80px;
+  display: flex; justify-content: center; gap: clamp(12px, 4vw, 30px);
+  transition: top 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ep-frame.revealed .ep-toran { top: 0; }
+.ep-toran span {
+  display: block; width: clamp(16px, 3vw, 28px); height: 0;
+  border-radius: 0 0 50% 50%;
+  opacity: 0; transform: scaleY(0); transform-origin: top center;
+  transition: height 0.5s ease, opacity 0.3s ease, transform 0.5s ease;
+}
+.ep-frame.revealed .ep-toran span {
+  opacity: 1; transform: scaleY(1);
+}
+.ep-frame.revealed .ep-toran span:nth-child(1) { transition-delay: 0.3s; }
+.ep-frame.revealed .ep-toran span:nth-child(2) { transition-delay: 0.4s; }
+.ep-frame.revealed .ep-toran span:nth-child(3) { transition-delay: 0.5s; }
+.ep-frame.revealed .ep-toran span:nth-child(4) { transition-delay: 0.55s; }
+.ep-frame.revealed .ep-toran span:nth-child(5) { transition-delay: 0.5s; }
+.ep-frame.revealed .ep-toran span:nth-child(6) { transition-delay: 0.4s; }
+.ep-frame.revealed .ep-toran span:nth-child(7) { transition-delay: 0.3s; }
+
+/* Drapes — side curtains sweep in */
+.ep-drape {
+  position: absolute; top: 0; width: clamp(30px, 8vw, 70px); height: 100%;
+  opacity: 0; transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.ep-drape--left { left: 0; transform: translateX(-100%); }
+.ep-drape--right { right: 0; transform: translateX(100%); }
+.ep-frame.revealed .ep-drape { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
+
+/* Corners — decorative ornaments pop in */
+.ep-corner {
+  position: absolute; width: clamp(35px, 8vw, 65px); height: clamp(35px, 8vw, 65px);
+  opacity: 0; transform: scale(0) rotate(-45deg);
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ep-corner--tl { top: 8px; left: 8px; }
+.ep-corner--tr { top: 8px; right: 8px; transform: scale(0) rotate(45deg); }
+.ep-corner--bl { bottom: 8px; left: 8px; transform: scale(0) rotate(-135deg); }
+.ep-corner--br { bottom: 8px; right: 8px; transform: scale(0) rotate(135deg); }
+.ep-frame.revealed .ep-corner {
+  opacity: 1; transform: scale(1) rotate(0deg);
+}
+.ep-frame.revealed .ep-corner--tl { transition-delay: 0.7s; }
+.ep-frame.revealed .ep-corner--tr { transition-delay: 0.75s; }
+.ep-frame.revealed .ep-corner--bl { transition-delay: 0.8s; }
+.ep-frame.revealed .ep-corner--br { transition-delay: 0.85s; }
+
+/* Base — bottom decoration slides up */
+.ep-base {
+  position: absolute; bottom: -30px; left: 10%; right: 10%; height: clamp(20px, 4vw, 35px);
+  opacity: 0; transition: bottom 0.7s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.5s ease;
+  transition-delay: 0.9s;
+}
+.ep-frame.revealed .ep-base { bottom: 8px; opacity: 1; }
+
+/* ── HALDI frame colors ── */
+.event-page--haldi .ep-toran span { background: linear-gradient(180deg, #ffa000, #ff8f00); height: clamp(30px, 6vw, 55px); box-shadow: 0 2px 8px #ffa00066; }
+.event-page--haldi .ep-drape { background: linear-gradient(180deg, #ffd54f40 0%, #f4a62320 50%, transparent 100%); }
+.event-page--haldi .ep-corner { background: radial-gradient(circle, #ffd54f, #f4a623); border-radius: 50%; box-shadow: 0 0 15px #ffa00088; }
+.event-page--haldi .ep-base { background: linear-gradient(90deg, transparent, #ffd54f60, #f4a62380, #ffd54f60, transparent); border-radius: 4px; }
+
+/* ── MEHENDI frame colors ── */
+.event-page--mehendi .ep-toran span { background: linear-gradient(180deg, #2e7d32, #1b5e20); height: clamp(25px, 5vw, 45px); border-radius: 50% 0 50% 50%; box-shadow: 0 2px 8px #2e7d3266; }
+.event-page--mehendi .ep-drape { background: linear-gradient(180deg, #4caf5030 0%, #2e7d3220 50%, transparent 100%); }
+.event-page--mehendi .ep-corner { background: radial-gradient(circle, #81c784, #388e3c); border-radius: 50%; box-shadow: 0 0 12px #66bb6a88; }
+.event-page--mehendi .ep-base { background: linear-gradient(90deg, transparent, #66bb6a50, #2e7d3270, #66bb6a50, transparent); border-radius: 4px; }
+
+/* ── RECEPTION frame colors ── */
+.event-page--reception .ep-toran span { background: linear-gradient(180deg, #ffd700, #ff6b6b); height: clamp(20px, 4vw, 35px); border-radius: 2px; box-shadow: 0 0 12px #ffd70088; }
+.event-page--reception .ep-drape { background: linear-gradient(180deg, #ffd70015 0%, #ff69b410 50%, transparent 100%); }
+.event-page--reception .ep-corner { background: radial-gradient(circle, #ffd700, #ff6b6b); border-radius: 50%; box-shadow: 0 0 20px #ffd700aa, 0 0 40px #ff69b444; }
+.event-page--reception .ep-base { background: linear-gradient(90deg, transparent, #ffd70040, #ff69b450, #ffd70040, transparent); border-radius: 4px; }
+
+/* ── WEDDING frame colors ── */
+.event-page--wedding .ep-toran span { background: linear-gradient(180deg, #ff5722, #e64a19); height: clamp(28px, 5.5vw, 50px); box-shadow: 0 2px 10px #ff572266; }
+.event-page--wedding .ep-drape { background: linear-gradient(180deg, #d32f2f30 0%, #b7171720 50%, transparent 100%); }
+.event-page--wedding .ep-corner { background: radial-gradient(circle, #ffd054, #c9a04a); border-radius: 50%; box-shadow: 0 0 18px #ffd05488; }
+.event-page--wedding .ep-base { background: linear-gradient(90deg, transparent, #ffd05450, #c9a04a70, #ffd05450, transparent); border-radius: 4px; }
+
+/* HALDI theme */
+.event-page--haldi { background: #f5e6c0; }
+.event-page--haldi .event-page__bg { background-image: url('/images/haldi-bg.jpg'); }
 .event-page--haldi .event-page__overlay {
   background: linear-gradient(180deg, transparent 0%, #f5e6c020 40%, #c67c1a50 100%);
 }
@@ -186,9 +279,8 @@ a { color: inherit; }
 .event-page--haldi .event-page__scroll-hint { color: #7a4a0a; }
 
 /* MEHENDI theme */
-.event-page--mehendi {
-  background: #e0ecd8 url('/images/mehendi-bg.jpg') center center / cover no-repeat;
-}
+.event-page--mehendi { background: #e0ecd8; }
+.event-page--mehendi .event-page__bg { background-image: url('/images/mehendi-bg.jpg'); }
 .event-page--mehendi .event-page__overlay {
   background: linear-gradient(180deg, transparent 0%, #e0ecd820 40%, #1b5e2040 100%);
 }
@@ -203,9 +295,8 @@ a { color: inherit; }
 .event-page--mehendi .event-page__scroll-hint { color: #1b3a1b; }
 
 /* RECEPTION theme */
-.event-page--reception {
-  background: #1a1a2e url('/images/reception-bg.jpg') center center / cover no-repeat;
-}
+.event-page--reception { background: #1a1a2e; }
+.event-page--reception .event-page__bg { background-image: url('/images/reception-bg.jpg'); }
 .event-page--reception .event-page__overlay {
   background: linear-gradient(180deg, #0a0a1e60 0%, transparent 30%, transparent 60%, #0a0a1e80 100%);
 }
@@ -220,9 +311,8 @@ a { color: inherit; }
 .event-page--reception .event-page__scroll-hint { color: #ffd700; }
 
 /* WEDDING theme */
-.event-page--wedding {
-  background: #3d1a0a url('/images/wedding-bg.jpg') center center / cover no-repeat;
-}
+.event-page--wedding { background: #3d1a0a; }
+.event-page--wedding .event-page__bg { background-image: url('/images/wedding-bg.jpg'); }
 .event-page--wedding .event-page__overlay {
   background: linear-gradient(180deg, transparent 0%, #3d1a0a20 40%, #2a050550 100%);
 }
