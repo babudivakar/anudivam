@@ -116,6 +116,50 @@ function EventIllustration({ style }) {
   </div>
 }
 
+function JourneyDoli() {
+  const doliRef = useRef(null)
+  const pathRef = useRef(null)
+
+  useEffect(() => {
+    const doli = doliRef.current, path = pathRef.current
+    if (!doli || !path) return
+    const container = path.closest('.event-journey')
+    if (!container) return
+
+    const onScroll = () => {
+      const rect = container.getBoundingClientRect()
+      const scrolled = -rect.top
+      const total = container.scrollHeight - window.innerHeight
+      if (total <= 0) return
+      const progress = Math.max(0, Math.min(1, scrolled / total))
+
+      const pathHeight = path.offsetHeight
+      const y = progress * pathHeight
+      const sway = Math.sin(progress * 30) * 12
+      const tilt = Math.sin(progress * 15) * 5
+      const bounce = Math.abs(Math.sin(progress * 40)) * 4
+
+      doli.style.transform = `translateY(${y}px) translateX(${sway}px) rotate(${tilt}deg) translateY(${-bounce}px)`
+
+      const inView = scrolled > -200 && scrolled < total + 200
+      doli.style.opacity = inView ? '1' : '0'
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return <div className="journey-path" ref={pathRef}>
+    <div className="journey-path-line" />
+    <div className="journey-doli" ref={doliRef}>
+      <span className="doli-top">🪔</span>
+      <span className="doli-body">🛕</span>
+      <span className="doli-couple">👫</span>
+      <span className="doli-trail">✦✧✦</span>
+    </div>
+  </div>
+}
+
 function CeremonyPage({ ceremony, index, t, isLast }) {
   const [revealed, setRevealed] = useState(false)
   const pageRef = useRef(null)
@@ -468,6 +512,7 @@ function App() {
 
     {/* ── CELEBRATIONS — cinematic journey ── */}
     <div className="event-journey" id="celebrations">
+      <JourneyDoli />
       {ceremonies.map((ceremony, index) => (
         <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} isLast={index === ceremonies.length - 1} />
       ))}
