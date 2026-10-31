@@ -120,18 +120,26 @@ function EventIllustration({ style }) {
 function useAutoScroll() {
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
+  const heldRef = useRef(false)
   const [held, setHeld] = useState(false)
   const rafRef = useRef(0)
   const lastRef = useRef(0)
-  const SPEED = 300
+  const playingRef = useRef(false)
+  const SPEED = 600
 
-  const active = playing && !held
+  useEffect(() => { playingRef.current = playing }, [playing])
 
   useEffect(() => {
-    if (!active) { cancelAnimationFrame(rafRef.current); return }
+    if (!playing) { cancelAnimationFrame(rafRef.current); return }
     lastRef.current = 0
 
     const tick = (now) => {
+      if (!playingRef.current) return
+      if (heldRef.current) {
+        rafRef.current = requestAnimationFrame(tick)
+        lastRef.current = 0
+        return
+      }
       if (!lastRef.current) { lastRef.current = now }
       const dt = Math.min(now - lastRef.current, 50) / 1000
       lastRef.current = now
@@ -147,12 +155,13 @@ function useAutoScroll() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [active])
+  }, [playing])
 
   useEffect(() => {
-    if (!playing) return
-    const hold = () => setHeld(true)
-    const release = () => setHeld(false)
+    if (!playing) { heldRef.current = false; setHeld(false); return }
+    const isBtn = (el) => !!el?.closest?.('.autoscroll-control')
+    const hold = (e) => { if (!isBtn(e.target)) { heldRef.current = true; setHeld(true) } }
+    const release = () => { heldRef.current = false; setHeld(false) }
     window.addEventListener('touchstart', hold, { passive: true })
     window.addEventListener('touchend', release, { passive: true })
     window.addEventListener('touchcancel', release, { passive: true })
