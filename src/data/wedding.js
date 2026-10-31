@@ -34,6 +34,7 @@ export const wedding = {
     anusha: {
       label: 'Anusha’s family',
       familyName: 'Kollakunta Addamma Gari family',
+      blessing: 'Sri Lakshmi Narasimha Swamy Prasanna',
       invitedBy: 'Smt. Shivamma & Sri Shivareddy',
       blessingsOf: 'Late Smt. Adilakshmamma & Sri Narasimhareddy',
       otherFamily: 'Smt. Sunitha & Sri Babu Reddy',

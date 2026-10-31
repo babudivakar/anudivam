@@ -414,7 +414,7 @@ function App() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.5 }}>
           <span className="ganesh-invocation"><T k="omLine" t={t} /></span>
-          <span className="ganesh-blessing"><T k="blessing" t={t} /></span>
+          <span className="ganesh-blessing">{side?.blessing || t('blessing')}</span>
           <LotusMark className="ganesh-lotus" />
           {guestName && <p className="ganesh-guest">{t('dear')} {guestName},</p>}
           <div className="ganesh-families">
@@ -445,7 +445,7 @@ function App() {
           <motion.div className="reveal-header"
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: .9 }}>
             <span className="reveal-shubhamastu"><T k="shubhamastu" t={t} /></span>
-            <span className="reveal-blessing"><T k="blessing" t={t} /></span>
+            <span className="reveal-blessing">{side?.blessing || t('blessing')}</span>
             <span className="reveal-kalyanam"><T k="kalyanamasthu" t={t} /></span>
           </motion.div>
 
