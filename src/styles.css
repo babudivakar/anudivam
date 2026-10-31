@@ -256,8 +256,8 @@ a { color: inherit; }
 }
 .door-leaf::before, .door-leaf::after { display: none; }
 .hero-shade {
-  background: radial-gradient(ellipse at 50% 45%, #1a0f0c18 0%, #1a0f0c60 100%),
-              linear-gradient(180deg, #29170f50 0%, #33201830 35%, #26160f15 55%, #1c100940 100%);
+  background: radial-gradient(ellipse at 50% 45%, #1a0f0c10 0%, #1a0f0c40 100%),
+              linear-gradient(180deg, #29170f30 0%, #33201818 35%, #26160f0a 55%, #1c100930 100%);
 }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
@@ -279,7 +279,8 @@ a { color: inherit; }
   letter-spacing: .04em;
 }
 .hero-overline {
-  color: #f3dfb7; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+  color: #ffe8a8; font-size: clamp(12px, 2vw, 15px); letter-spacing: .22em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
 }
 .hero-overline::before, .hero-overline::after {
   content: ''; display: inline-block; vertical-align: middle;
@@ -289,19 +290,19 @@ a { color: inherit; }
   text-align: center; margin-bottom: 6px;
 }
 .hero-blessings-label {
-  display: block; color: #d4b980; font-size: 10px;
-  letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px;
-  font-style: italic;
+  display: block; color: #ffe8a8; font-size: clamp(12px, 2vw, 15px);
+  letter-spacing: .18em; text-transform: uppercase; margin-bottom: 10px;
+  font-style: italic; text-shadow: 0 1px 10px #000a;
 }
 .hero-blessings-elders {
-  margin: 0 0 4px; color: #f0dfb4;
-  font: 500 clamp(16px, 2.8vw, 22px)/1.2 'Cormorant Garamond', serif;
-  text-shadow: 0 2px 12px #1a0f0c90;
+  margin: 0 0 6px; color: #fff0ce;
+  font: 500 clamp(18px, 3.2vw, 26px)/1.2 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 14px #000a;
 }
 .hero-blessings-parents {
-  margin: 0; color: #fff0ce;
-  font: 600 clamp(20px, 3.5vw, 28px)/1.2 'Cormorant Garamond', serif;
-  text-shadow: 0 2px 14px #1a0f0c90;
+  margin: 0; color: #fff5de;
+  font: 600 clamp(22px, 4vw, 32px)/1.2 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 16px #000a;
 }
 .hero-families {
   display: flex; flex-direction: column; align-items: center; gap: 1px;
@@ -318,8 +319,10 @@ a { color: inherit; }
   font-size: clamp(66px, 12vw, 128px); line-height: .88; letter-spacing: -.045em;
 }
 .hero-date {
-  display: block; margin-top: 14px; color: #f2daae;
-  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  display: block; margin-top: 16px; color: #fff0ce;
+  font: 600 clamp(13px, 2.2vw, 17px)/1 'Cormorant Garamond', serif;
+  letter-spacing: .16em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
 }
 .open-invitation {
   position: relative; left: auto; bottom: auto; transform: none;
@@ -349,15 +352,16 @@ a { color: inherit; }
 }
 .hero-couple-grid > i { align-self: center; color: #eec990; font-size: 13px; }
 .hero-couple-grid div > span {
-  display: block; font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
-  color: #f5d6a1;
+  display: block; font-size: clamp(10px, 1.8vw, 12px); letter-spacing: .18em; text-transform: uppercase;
+  color: #ffe8a8; text-shadow: 0 1px 8px #000a;
 }
 .hero-couple-grid h2 {
-  margin: 5px 0 3px; font: 500 clamp(24px, 3.8vw, 35px)/1 'Cormorant Garamond', serif;
+  margin: 5px 0 4px; font: 500 clamp(26px, 4.5vw, 40px)/1 'Cormorant Garamond', serif;
+  text-shadow: 0 2px 12px #000a;
 }
 .hero-couple-grid p {
-  display: block; margin: 0; color: #f6dfb5; font: 400 11px/1.35 'Manrope', sans-serif;
-  letter-spacing: 0;
+  display: block; margin: 0; color: #fff0ce; font: 400 clamp(12px, 1.8vw, 14px)/1.35 'Cormorant Garamond', serif;
+  text-shadow: 0 1px 8px #000a;
 }
 .hero-revealed .hero-date { margin-top: 18px; }
 .hero-next { width: fit-content; }
@@ -554,7 +558,7 @@ a { color: inherit; }
 }
 .ganesh-invite-label {
   display: block; margin-bottom: 8px; color: #ffe8a8;
-  font-size: clamp(10px, 1.8vw, 13px); letter-spacing: .2em; text-transform: uppercase;
+  font-size: clamp(12px, 2.2vw, 16px); letter-spacing: .18em; text-transform: uppercase;
   text-shadow: 0 1px 10px #000a;
 }
 .ganesh-welcome h1 {
@@ -592,19 +596,19 @@ a { color: inherit; }
 }
 .ganesh-tagline {
   display: block; margin-top: 10px;
-  color: #ffe8a8; font-size: clamp(10px, 1.8vw, 13px);
-  letter-spacing: .22em; text-transform: uppercase;
+  color: #ffe8a8; font-size: clamp(13px, 2.2vw, 16px);
+  letter-spacing: .2em; text-transform: uppercase;
   text-shadow: 0 1px 10px #000a;
 }
 .ganesh-date {
-  display: block; margin-top: 14px; color: #fff0ce;
-  font: 600 clamp(12px, 2vw, 15px)/1 'Cormorant Garamond', serif;
-  letter-spacing: .16em; text-transform: uppercase;
+  display: block; margin-top: 16px; color: #fff0ce;
+  font: 600 clamp(15px, 2.5vw, 20px)/1 'Cormorant Garamond', serif;
+  letter-spacing: .14em; text-transform: uppercase;
   text-shadow: 0 1px 10px #000a;
 }
 .ganesh-tap {
   margin: 30px 0 0; color: #ffe8a8;
-  font-size: clamp(11px, 1.8vw, 14px); letter-spacing: .14em; text-transform: uppercase;
+  font-size: clamp(13px, 2.2vw, 16px); letter-spacing: .12em; text-transform: uppercase;
   text-shadow: 0 1px 10px #000a;
 }
 
