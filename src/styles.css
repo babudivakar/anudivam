@@ -211,8 +211,9 @@ a { color: inherit; }
   background-repeat: no-repeat; background-size: cover;
 }
 .ganesh-scene { z-index: 2; background-image: url('/images/temple-ganesh.webp'); }
-.wedding-scene { z-index: 1; opacity: 0; display: none; }
+.wedding-scene { z-index: 1; opacity: 0; background-image: url('/images/divine-wedding.webp'); }
 .is-open .ganesh-scene { animation: fadeGaneshScene 2s linear both; }
+.is-open .wedding-scene { animation: revealWeddingScene 2s linear both; }
 @keyframes fadeGaneshScene {
   0%, 3% { opacity: 1; } 27%, 100% { opacity: 0; }
 }
@@ -260,8 +261,8 @@ a { color: inherit; }
   transition: background .8s ease;
 }
 .entrance-art.is-open ~ .hero-shade {
-  background: radial-gradient(ellipse at 50% 45%, #1a0f0ce8 0%, #1a0f0cf5 100%),
-              linear-gradient(180deg, #29170fe0 0%, #332018d0 35%, #26160fc0 55%, #1c1009e0 100%);
+  background: radial-gradient(ellipse at 50% 45%, #1a0f0c88 0%, #1a0f0cbb 100%),
+              linear-gradient(180deg, #29170fa0 0%, #33201870 35%, #26160f60 55%, #1c100990 100%);
 }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
