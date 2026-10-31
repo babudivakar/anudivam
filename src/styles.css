@@ -170,82 +170,69 @@ a { color: inherit; }
 /* ── JOURNEY WRAPPER ── */
 .event-journey { position: relative; }
 
-/* ── JOURNEY TRAVELER — floats along left side ── */
-.journey-traveler {
-  position: absolute; left: clamp(8px, 3vw, 24px); top: 0; z-index: 20;
-  pointer-events: none; transition: opacity 0.3s;
+/* ── CURTAIN TRANSITIONS between events ── */
+.curtain-transition {
+  position: relative; height: 50vh; overflow: hidden;
+  display: flex; perspective: 800px;
 }
-.traveler-doli {
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-  animation: travelerFloat 2s ease-in-out infinite;
+.curtain {
+  position: absolute; top: 0; width: 50%; height: 100%;
+  transform-origin: top;
+  animation: curtainOpen 1.5s ease-in-out both paused;
 }
-@keyframes travelerFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.traveler-top { font-size: 14px; color: #ffd054; text-shadow: 0 0 10px #ffd05488; line-height: 1; }
-.traveler-body {
-  font-size: 28px; filter: drop-shadow(0 2px 8px #00000066);
-  animation: travelerGlow 1.5s ease-in-out infinite alternate;
-}
-@keyframes travelerGlow {
-  from { filter: drop-shadow(0 2px 8px #ffd05444); }
-  to { filter: drop-shadow(0 2px 16px #ffd054aa); }
-}
-.traveler-trail {
-  font-size: 10px; color: #ffd054; opacity: 0.5;
-  animation: trailPulse 1s ease-in-out infinite alternate;
-}
-@keyframes trailPulse { from { opacity: 0.3; } to { opacity: 0.7; } }
-
-/* ── JOURNEY TRANSITIONS between events ── */
-.journey-transition {
-  position: relative; height: clamp(80px, 15vw, 140px); overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
-.jt-wave {
-  position: absolute; left: 0; right: 0; height: 60%;
-  border-radius: 50%; opacity: 0.5;
-}
-.jt-wave--1 { top: -30%; animation: jtWave 3s ease-in-out infinite; }
-.jt-wave--2 { top: -20%; animation: jtWave 3s ease-in-out infinite 0.5s; opacity: 0.3; }
-.jt-wave--3 { bottom: -30%; animation: jtWave 3s ease-in-out infinite 1s; opacity: 0.2; }
-@keyframes jtWave {
-  0%, 100% { transform: scaleX(1) scaleY(1); }
-  50% { transform: scaleX(1.05) scaleY(1.15); }
-}
-.jt-icon {
-  position: relative; z-index: 2; font-size: clamp(28px, 5vw, 42px);
-  animation: jtBounce 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 2px 12px #00000066);
-}
-@keyframes jtBounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-8px) scale(1.1); }
+.curtain--left { left: 0; transform-origin: left center; }
+.curtain--right { right: 0; transform-origin: right center; }
+.ct-zoom {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, #000 70%);
+  opacity: 0;
+  animation: ctZoomPulse 2s ease-in-out both paused;
 }
 
-/* Transition theme colors */
-.jt-haldi-to-mehendi { background: linear-gradient(180deg, #c67c1a, #2e7d32); }
-.jt-haldi-to-mehendi .jt-wave { background: #66bb6a33; }
-.jt-mehendi-to-reception { background: linear-gradient(180deg, #1b5e20, #1a1a2e); }
-.jt-mehendi-to-reception .jt-wave { background: #ffd70022; }
-.jt-reception-to-wedding { background: linear-gradient(180deg, #1a1a2e, #8b1a1a); }
-.jt-reception-to-wedding .jt-wave { background: #ff572233; }
-.jt-haldi-to-reception { background: linear-gradient(180deg, #c67c1a, #1a1a2e); }
-.jt-haldi-to-reception .jt-wave { background: #ffd70022; }
-.jt-mehendi-to-wedding { background: linear-gradient(180deg, #1b5e20, #8b1a1a); }
-.jt-mehendi-to-wedding .jt-wave { background: #ff572233; }
-.jt-reception-to-haldi { background: linear-gradient(180deg, #1a1a2e, #c67c1a); }
-.jt-reception-to-haldi .jt-wave { background: #ffd54f33; }
+/* Activate curtain animation on scroll */
+.curtain-transition { animation: ctReveal 0.1s forwards; }
+@keyframes ctReveal { to { --ct-active: 1; } }
+
+.ct--haldi { background: linear-gradient(180deg, #4a2500, #0d2b0d); }
+.ct--haldi .curtain--left { background: linear-gradient(90deg, #c67c1a, #8b6914); animation: curtainSwipeLeft 1.2s ease-in-out both; }
+.ct--haldi .curtain--right { background: linear-gradient(-90deg, #c67c1a, #8b6914); animation: curtainSwipeRight 1.2s ease-in-out both; }
+.ct--haldi .ct-zoom { animation: ctZoomPulse 1.5s ease-in-out 0.6s both; }
+
+.ct--mehendi { background: linear-gradient(180deg, #0d2b0d, #0a0a1e); }
+.ct--mehendi .curtain--left { background: linear-gradient(90deg, #1b5e20, #2e7d32); animation: curtainSwipeLeft 1.2s ease-in-out both; }
+.ct--mehendi .curtain--right { background: linear-gradient(-90deg, #1b5e20, #2e7d32); animation: curtainSwipeRight 1.2s ease-in-out both; }
+.ct--mehendi .ct-zoom { animation: ctZoomPulse 1.5s ease-in-out 0.6s both; }
+
+.ct--reception { background: linear-gradient(180deg, #0a0a1e, #2a0505); }
+.ct--reception .curtain--left { background: linear-gradient(90deg, #1a1a2e, #0f3460); animation: curtainSwipeLeft 1.2s ease-in-out both; }
+.ct--reception .curtain--right { background: linear-gradient(-90deg, #1a1a2e, #0f3460); animation: curtainSwipeRight 1.2s ease-in-out both; }
+.ct--reception .ct-zoom { animation: ctZoomPulse 1.5s ease-in-out 0.6s both; }
+
+@keyframes curtainSwipeLeft {
+  0% { transform: scaleX(1) rotateY(0); }
+  60% { transform: scaleX(1) rotateY(0); }
+  100% { transform: scaleX(0.9) rotateY(-85deg); opacity: 0.3; }
+}
+@keyframes curtainSwipeRight {
+  0% { transform: scaleX(1) rotateY(0); }
+  60% { transform: scaleX(1) rotateY(0); }
+  100% { transform: scaleX(0.9) rotateY(85deg); opacity: 0.3; }
+}
+@keyframes ctZoomPulse {
+  0% { opacity: 0; transform: scale(1); }
+  40% { opacity: 0.6; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(3); }
+}
 
 /* ── EVENT PAGE FRAME ANIMATIONS ── */
 .event-page__bg {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: -30px; z-index: 0;
   background-size: cover; background-position: center; background-repeat: no-repeat;
-  opacity: 0; transform: scale(1.1);
-  transition: opacity 1.2s ease, transform 1.8s ease;
+  opacity: 0; transform: scale(1.15);
+  transition: opacity 1s ease;
+  will-change: transform;
 }
-.event-page.revealed .event-page__bg { opacity: 1; transform: scale(1); }
+.event-page.revealed .event-page__bg { opacity: 1; }
 
 .ep-frame { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 

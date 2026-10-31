@@ -116,100 +116,81 @@ function EventIllustration({ style }) {
   </div>
 }
 
-function JourneyTraveler({ count }) {
-  const ref = useRef(null)
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    const traveler = ref.current
-    if (!traveler) return
-    const container = traveler.closest('.event-journey')
-    if (!container) return
-    containerRef.current = container
-
-    const onScroll = () => {
-      const rect = container.getBoundingClientRect()
-      const containerTop = -rect.top
-      const containerHeight = container.scrollHeight - window.innerHeight
-      const progress = Math.max(0, Math.min(1, containerTop / containerHeight))
-
-      const bounce = Math.sin(progress * count * Math.PI * 2) * 8
-      const sway = Math.sin(progress * 20) * 3
-      traveler.style.top = `${progress * 100}%`
-      traveler.style.transform = `translateY(-50%) translateX(${sway}px) rotate(${bounce}deg)`
-      traveler.style.opacity = (containerTop > -100 && containerTop < containerHeight + 100) ? '1' : '0'
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [count])
-
-  return <div className="journey-traveler" ref={ref}>
-    <div className="traveler-doli">
-      <span className="traveler-top">✦</span>
-      <span className="traveler-body">🪷</span>
-      <span className="traveler-trail">✧</span>
-    </div>
-  </div>
-}
-
-function CeremonyPage({ ceremony, index, t }) {
+function CeremonyPage({ ceremony, index, t, isLast }) {
   const [revealed, setRevealed] = useState(false)
   const pageRef = useRef(null)
+  const bgRef = useRef(null)
 
   useEffect(() => {
     const el = pageRef.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.35 })
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.25 })
     obs.observe(el); return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = pageRef.current, bg = bgRef.current
+    if (!el || !bg) return
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect()
+      const vh = window.innerHeight
+      const progress = 1 - (rect.top / vh)
+      const parallax = Math.max(-30, Math.min(30, (progress - 0.5) * 60))
+      bg.style.transform = `scale(1.15) translateY(${parallax}px)`
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const cls = revealed ? 'revealed' : ''
 
-  return <section ref={pageRef} className={`event-page event-page--${ceremony.style} ${cls}`}>
-    <EventParticles style={ceremony.style} burst={revealed} />
-    <div className="event-page__bg" />
-    <div className="event-page__overlay" />
+  return <>
+    <section ref={pageRef} className={`event-page event-page--${ceremony.style} ${cls}`}>
+      <EventParticles style={ceremony.style} burst={revealed} />
+      <div className="event-page__bg" ref={bgRef} />
+      <div className="event-page__overlay" />
 
-    {/* Decorative frame — animates in on reveal */}
-    <div className={`ep-frame ${cls}`}>
-      <div className="ep-toran">
-        <span /><span /><span /><span /><span /><span /><span />
+      <div className={`ep-frame ${cls}`}>
+        <div className="ep-toran"><span /><span /><span /><span /><span /><span /><span /></div>
+        <div className="ep-drape ep-drape--left" />
+        <div className="ep-drape ep-drape--right" />
+        <div className="ep-corner ep-corner--tl" />
+        <div className="ep-corner ep-corner--tr" />
+        <div className="ep-corner ep-corner--bl" />
+        <div className="ep-corner ep-corner--br" />
+        <div className="ep-base" />
       </div>
-      <div className="ep-drape ep-drape--left" />
-      <div className="ep-drape ep-drape--right" />
-      <div className="ep-corner ep-corner--tl" />
-      <div className="ep-corner ep-corner--tr" />
-      <div className="ep-corner ep-corner--bl" />
-      <div className="ep-corner ep-corner--br" />
-      <div className="ep-base" />
-    </div>
 
-    <div className="event-page__content">
-      <motion.span className="event-page__telugu"
-        initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.2, duration: 0.7 }}>
-        {ceremony.telugu}
-      </motion.span>
-      <motion.h2 className="event-page__title"
-        initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 1.5, duration: 0.8, ease: 'easeOut' }}>
-        {ceremony.name}
-      </motion.h2>
-      <motion.div className="event-page__details"
-        initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 2.2, duration: 0.7 }}>
-        <p className="event-page__date"><CalendarDays size={16}/>{ceremony.date}</p>
-        <p className="event-page__time"><Clock3 size={16}/>{ceremony.time}</p>
-        <p className="event-page__venue"><MapPin size={16}/>{ceremony.venue}</p>
-      </motion.div>
-      <motion.p className="event-page__detail"
-        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.8, duration: 0.6 }}>
-        {ceremony.detail}
-      </motion.p>
-      <motion.div className="event-page__scroll-hint"
-        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 3.2, duration: 0.5 }}>
-        <ArrowDown size={16} />
-      </motion.div>
-    </div>
-  </section>
+      <div className="event-page__content">
+        <motion.span className="event-page__telugu"
+          initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.8, duration: 0.7 }}>
+          {ceremony.telugu}
+        </motion.span>
+        <motion.h2 className="event-page__title"
+          initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 1.1, duration: 0.8, ease: 'easeOut' }}>
+          {ceremony.name}
+        </motion.h2>
+        <motion.div className="event-page__details"
+          initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.8, duration: 0.7 }}>
+          <p className="event-page__date"><CalendarDays size={16}/>{ceremony.date}</p>
+          <p className="event-page__time"><Clock3 size={16}/>{ceremony.time}</p>
+          <p className="event-page__venue"><MapPin size={16}/>{ceremony.venue}</p>
+        </motion.div>
+        <motion.p className="event-page__detail"
+          initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.4, duration: 0.6 }}>
+          {ceremony.detail}
+        </motion.p>
+        {!isLast && <motion.div className="event-page__scroll-hint"
+          initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.8, duration: 0.5 }}>
+          <ArrowDown size={16} />
+        </motion.div>}
+      </div>
+    </section>
+    {!isLast && <div className={`curtain-transition ct--${ceremony.style}`}>
+      <div className="curtain curtain--left" />
+      <div className="curtain curtain--right" />
+      <div className="ct-zoom" />
+    </div>}
+  </>
 }
 
 function VenueCard({ title, data, icon }) {
@@ -470,17 +451,10 @@ function App() {
       </div>
     </section>}
 
-    {/* ── CELEBRATIONS — journey scroll ── */}
+    {/* ── CELEBRATIONS — cinematic journey ── */}
     <div className="event-journey" id="celebrations">
-      <JourneyTraveler count={ceremonies.length} />
       {ceremonies.map((ceremony, index) => (
-        <React.Fragment key={ceremony.id || ceremony.name}>
-          {index > 0 && <div className={`journey-transition jt-${ceremonies[index - 1].style}-to-${ceremony.style}`}>
-            <div className="jt-wave jt-wave--1" /><div className="jt-wave jt-wave--2" /><div className="jt-wave jt-wave--3" />
-            <span className="jt-icon">{ceremony.style === 'mehendi' ? '🌿' : ceremony.style === 'reception' ? '✨' : ceremony.style === 'wedding' ? '🪔' : '🌸'}</span>
-          </div>}
-          <CeremonyPage ceremony={ceremony} index={index} t={t} />
-        </React.Fragment>
+        <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} isLast={index === ceremonies.length - 1} />
       ))}
     </div>
 
