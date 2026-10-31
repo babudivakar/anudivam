@@ -270,7 +270,23 @@ function CeremonyPage({ ceremony, index, t, isLast }) {
         <div className="ep-base" />
       </div>
 
+      <div className="event-page__couple" aria-hidden="true">
+        <motion.div className="event-page__couple-frame"
+          initial={{ opacity: 0, x: -70, y: 18, scale: .94 }}
+          animate={revealed ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
+          transition={{ delay: .25, duration: 1.15, ease: [0.22, 1, 0.36, 1] }}>
+          <img src={ceremony.coupleImage || wedding.photos.couple || '/images/temple-divine-wedding.webp'}
+            alt="" loading="lazy" decoding="async" />
+        </motion.div>
+        <span className="event-page__couple-caption">Together, into every celebration</span>
+      </div>
+
       <div className="event-page__content">
+        <motion.span className="event-page__eyebrow"
+          initial={{ opacity: 0, y: 12 }} animate={revealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: .45, duration: .6 }}>
+          ANUDIVAM · OUR WEDDING JOURNEY
+        </motion.span>
         <motion.span className="event-page__telugu"
           initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.6, duration: 0.6 }}>
           {ceremony.telugu}
