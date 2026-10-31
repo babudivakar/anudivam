@@ -118,15 +118,30 @@ function EventIllustration({ style }) {
 
 function CeremonyCard({ ceremony, index }) {
   const [expanded, setExpanded] = useState(false)
-  return <motion.article className={`ceremony-card ${index % 2 ? 'right' : 'left'}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }}>
-    <EventParticles style={ceremony.style} />
+  const [revealed, setRevealed] = useState(false)
+  const cardRef = useRef(null)
+
+  useEffect(() => {
+    const el = cardRef.current; if (!el) return
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.3 })
+    obs.observe(el); return () => obs.disconnect()
+  }, [])
+
+  return <motion.article ref={cardRef} className={`ceremony-card ${index % 2 ? 'right' : 'left'} ${revealed ? 'revealed' : ''}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }}>
+    <EventParticles style={ceremony.style} burst={revealed} />
     <div className="timeline-dot"><span /></div>
     <EventIllustration style={ceremony.style} />
     <div className="ceremony-copy">
-      <span className="ceremony-telugu">{ceremony.telugu}</span>
-      <h3>{ceremony.name}</h3>
-      <div className="event-facts"><p><CalendarDays size={14}/>{ceremony.date}</p><p><Clock3 size={14}/>{ceremony.time}</p><p><MapPin size={14}/>{ceremony.venue}</p></div>
-      <button className="text-toggle" aria-expanded={expanded} onClick={() => setExpanded(v => !v)}>{expanded ? 'Close details' : 'A little more'}<ChevronDown size={15} className={expanded ? 'turned' : ''}/></button>
+      <motion.span className="ceremony-telugu" initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 0.3, duration: 0.6 }}>{ceremony.telugu}</motion.span>
+      <motion.h3 initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.5, duration: 0.6 }}>{ceremony.name}</motion.h3>
+      <motion.div className="event-facts" initial={{ opacity: 0, y: 12 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.9, duration: 0.6 }}>
+        <p><CalendarDays size={14}/>{ceremony.date}</p>
+        <p><Clock3 size={14}/>{ceremony.time}</p>
+        <p><MapPin size={14}/>{ceremony.venue}</p>
+      </motion.div>
+      <motion.button className="text-toggle" aria-expanded={expanded} onClick={() => setExpanded(v => !v)} initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 1.3, duration: 0.5 }}>
+        {expanded ? 'Close details' : 'A little more'}<ChevronDown size={15} className={expanded ? 'turned' : ''}/>
+      </motion.button>
       <AnimatePresence initial={false}>{expanded && <motion.p className="ceremony-detail" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: .35 }}>{ceremony.detail}</motion.p>}</AnimatePresence>
     </div>
   </motion.article>

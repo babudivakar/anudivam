@@ -293,9 +293,75 @@ function drawEvent(ctx, p) {
   ctx.restore()
 }
 
-export const EventParticles = memo(function EventParticles({ style }) {
-  const ref = useRef(null), parts = useRef([]), anim = useRef(null), vis = useRef(false)
+function createBurstParticle(cx, cy, theme) {
+  const col = theme.colors[~~(Math.random() * theme.colors.length)]
+  const ptype = theme.types[~~(Math.random() * theme.types.length)]
+  const angle = Math.random() * Math.PI * 2
+  const speed = 2 + Math.random() * 6
+
+  if (ptype === 'grain' || ptype === 'rice') {
+    return {
+      etype: ptype, x: cx + (Math.random() - 0.5) * 60, y: cy - Math.random() * 40,
+      size: 2.5 + Math.random() * 3.5, speedY: -2 + Math.random() * 4,
+      speedX: (Math.random() - 0.5) * 3, rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.12, opacity: 0.7 + Math.random() * 0.3,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.03, wobbleAmp: 0.5,
+      life: 50 + Math.random() * 60, maxLife: 110, gravity: 0.06,
+    }
+  }
+  if (ptype === 'dust' || ptype === 'kumkum') {
+    return {
+      etype: ptype, x: cx + (Math.random() - 0.5) * 80, y: cy + (Math.random() - 0.5) * 40,
+      size: 2 + Math.random() * 5, speedY: Math.sin(angle) * speed * 0.5,
+      speedX: Math.cos(angle) * speed * 0.5, rotation: 0,
+      rotSpeed: 0, opacity: 0.5 + Math.random() * 0.4,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.02, wobbleAmp: 0.5,
+      life: 40 + Math.random() * 50, maxLife: 90, gravity: 0.02,
+    }
+  }
+  if (ptype === 'leaf') {
+    return {
+      etype: 'leaf', x: cx + (Math.random() - 0.5) * 100, y: cy + (Math.random() - 0.5) * 60,
+      size: 5 + Math.random() * 7, speedY: Math.sin(angle) * speed * 0.3,
+      speedX: Math.cos(angle) * speed * 0.4, rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.06, opacity: 0.5 + Math.random() * 0.4,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.015, wobbleAmp: 0.8,
+      life: 60 + Math.random() * 60, maxLife: 120, gravity: 0.01,
+    }
+  }
+  if (ptype === 'sparkle' || ptype === 'glitter') {
+    return {
+      etype: ptype, x: cx + (Math.random() - 0.5) * 40, y: cy + (Math.random() - 0.5) * 30,
+      size: 1.5 + Math.random() * 3, speedY: Math.sin(angle) * speed,
+      speedX: Math.cos(angle) * speed, rotation: Math.random() * Math.PI * 2,
+      rotSpeed: 0.08, opacity: 0.9,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.04, wobbleAmp: 0.3,
+      life: 40 + Math.random() * 50, maxLife: 90, gravity: 0.03,
+      twinkle: true,
+    }
+  }
+  return createEventParticle(cx * 2, cy * 2, theme)
+}
+
+export const EventParticles = memo(function EventParticles({ style, burst }) {
+  const ref = useRef(null), parts = useRef([]), anim = useRef(null), vis = useRef(false), hasBurst = useRef(false)
   const theme = EVENT_THEMES[style]
+
+  useEffect(() => {
+    if (!burst || hasBurst.current || !ref.current || !theme) return
+    hasBurst.current = true
+    const r = ref.current.parentElement.getBoundingClientRect()
+    const cx = r.width / 2, cy = r.height / 2
+    const count = style === 'reception' ? 60 : style === 'wedding' ? 50 : 40
+    for (let i = 0; i < count; i++) {
+      parts.current.push(createBurstParticle(cx, cy, theme))
+    }
+  }, [burst, theme, style])
+
   useEffect(() => {
     const c = ref.current; if (!c || !theme) return
     const ctx = c.getContext('2d'), dpr = window.devicePixelRatio || 1
@@ -315,7 +381,7 @@ export const EventParticles = memo(function EventParticles({ style }) {
       const r = c.parentElement.getBoundingClientRect()
       const w = r.width, h = r.height
       ctx.clearRect(0, 0, w, h)
-      if (vis.current && Math.random() < theme.rate) {
+      if (vis.current && hasBurst.current && Math.random() < theme.rate * 0.4) {
         parts.current.push(createEventParticle(w, h, theme))
       }
       parts.current = parts.current.filter(p => {
