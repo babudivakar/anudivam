@@ -453,16 +453,16 @@ function App() {
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, duration: 1, ease: 'easeOut' }}>
             {from === 'divakar' ? <>
               <h1>{n.groom}</h1>
-              <p className="reveal-parents">{n.groomParents}</p>
+              <p className="reveal-parents">{t('sonOf')} {n.groomParents}{t('closeParen')}</p>
               <span className="reveal-and">✦ &amp; ✦</span>
               <h1>{n.bride}</h1>
-              <p className="reveal-parents">{n.brideParents}</p>
+              <p className="reveal-parents">{t('daughterOf')} {n.brideParents}{t('closeParen')}</p>
             </> : <>
               <h1>{n.bride}</h1>
-              <p className="reveal-parents">{n.brideParents}</p>
+              <p className="reveal-parents">{t('daughterOf')} {n.brideParents}{t('closeParen')}</p>
               <span className="reveal-and">✦ &amp; ✦</span>
               <h1>{n.groom}</h1>
-              <p className="reveal-parents">{n.groomParents}</p>
+              <p className="reveal-parents">{t('sonOf')} {n.groomParents}{t('closeParen')}</p>
             </>}
           </motion.div>
 
