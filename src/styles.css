@@ -211,7 +211,7 @@ a { color: inherit; }
   background-repeat: no-repeat; background-size: cover;
 }
 .ganesh-scene { z-index: 2; background-image: url('/images/temple-ganesh.webp'); }
-.wedding-scene { z-index: 1; opacity: 0; background-image: url('/images/temple-divine-wedding.webp'); }
+.wedding-scene { z-index: 1; opacity: 0; background-image: url('/images/temple-divine-wedding.webp'); background-position: center 60%; }
 .is-open .ganesh-scene { animation: fadeGaneshScene 2s linear both; }
 .is-open .wedding-scene { animation: revealWeddingScene 2s linear both; }
 @keyframes fadeGaneshScene {
