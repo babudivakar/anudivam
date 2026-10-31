@@ -356,7 +356,7 @@ function App() {
     {/* ── NAV ── */}
     <AnimatePresence><motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
       <a className="nav-brand" href="#home">A<span>✧</span>D</a>
-      <div><a href="#story">Our story</a><a href="#celebrations">Celebrations</a><a href="#venue">Venue</a><a href="#blessings">Blessings</a></div>
+      <div><a href="#story">{t('navStory')}</a><a href="#celebrations">{t('navCelebrations')}</a><a href="#venue">{t('navVenue')}</a><a href="#blessings">{t('navBlessings')}</a></div>
       <button className="music-button" onClick={toggleMusic} aria-label={music ? 'Turn music off' : 'Turn music on'} title={music ? 'Music on' : 'Music off'}>{music ? <Volume2 size={17}/> : <VolumeX size={17}/>}<span>{music ? 'Music on' : 'Music off'}</span></button>
     </motion.nav></AnimatePresence>
 
@@ -366,32 +366,32 @@ function App() {
       <SelfDrawingRangoli className="section-rangoli left" />
       <SelfDrawingRangoli className="section-rangoli right" />
       <div className="section-wrap">
-        <SectionHeading eyebrow="Two hearts, one forever" title="A story written in the stars" telugu="మంగళం భగవాన్ విష్ణుః" animateTelugu />
+        <SectionHeading eyebrow={t('storyEyebrow')} title={t('storyTitle')} telugu={t('storyTelugu')} animateTelugu />
         <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          {guestName ? `Dear ${guestName}, ` : ''}{side?.message || wedding.message}
+          {guestName ? `${t('dear')} ${guestName}, ` : ''}{side?.message || wedding.message}
         </motion.p>
         <div className="couple-grid">
           {from === 'divakar' ? <>
-            <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
+            <PersonPortrait name={n.groom} role={t('theGroom')} image={wedding.photos.groom}/>
             <div className="ampersand">&amp;</div>
-            <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
+            <PersonPortrait name={n.bride} role={t('theBride')} image={wedding.photos.bride}/>
           </> : <>
-            <PersonPortrait name={wedding.bride} role="The bride" image={wedding.photos.bride}/>
+            <PersonPortrait name={n.bride} role={t('theBride')} image={wedding.photos.bride}/>
             <div className="ampersand">&amp;</div>
-            <PersonPortrait name={wedding.groom} role="The groom" image={wedding.photos.groom}/>
+            <PersonPortrait name={n.groom} role={t('theGroom')} image={wedding.photos.groom}/>
           </>}
         </div>
         <motion.div className="family-note" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          <span>With the blessings of</span>{side ? <><p>{side.invitedBy}</p><i>together with</i><p>{side.otherFamily}</p></> : from === 'divakar' ? <><p>{wedding.family.groom}</p><i>and</i><p>{wedding.family.bride}</p></> : <><p>{wedding.family.bride}</p><i>and</i><p>{wedding.family.groom}</p></>}
+          <span>{t('withBlessings')}</span>{side ? <><p>{side.invitedBy}</p><i>{t('togetherWith')}</i><p>{side.otherFamily}</p></> : from === 'divakar' ? <><p>{wedding.family.groom}</p><i>{t('and')}</i><p>{wedding.family.bride}</p></> : <><p>{wedding.family.bride}</p><i>{t('and')}</i><p>{wedding.family.groom}</p></>}
         </motion.div>
-        <div className="scroll-cue"><span>Our celebrations</span><a href="#celebrations" aria-label="Continue to celebrations"><ArrowDown size={15}/></a></div>
+        <div className="scroll-cue"><span>{t('ourCelebrations')}</span><a href="#celebrations" aria-label="Continue to celebrations"><ArrowDown size={15}/></a></div>
       </div>
     </section>
 
     {/* ── GALLERY ── */}
     {wedding.gallery && wedding.gallery.length > 0 && <section className="gallery-section" id="gallery">
       <div className="section-wrap">
-        <SectionHeading eyebrow="Captured moments" title="Our photo gallery" telugu="మధుర జ్ఞాపకాలు" animateTelugu />
+        <SectionHeading eyebrow={t('galleryEyebrow')} title={t('galleryTitle')} telugu={t('galleryTelugu')} animateTelugu />
         <PhotoGallery photos={wedding.gallery} />
       </div>
     </section>}
@@ -399,8 +399,8 @@ function App() {
     {/* ── CELEBRATIONS ── */}
     <section className="celebrations-section" id="celebrations">
       <div className="section-wrap">
-        <SectionHeading eyebrow="A gathering of joy" title="Wedding celebrations" telugu="శుభ ఘడియలు" animateTelugu />
-        <p className="section-intro">Every ritual, a blessing. Every gathering, a memory.</p>
+        <SectionHeading eyebrow={t('celebEyebrow')} title={t('celebTitle')} telugu={t('celebTelugu')} animateTelugu />
+        <p className="section-intro">{t('celebIntro')}</p>
         <div className="timeline">
           <div className="timeline-rail" />
           {ceremonies.map((ceremony, index) => <CeremonyCard key={ceremony.id || ceremony.name} ceremony={ceremony} index={index}/>) }
@@ -413,7 +413,7 @@ function App() {
       <div className="mandap-backdrop"><Mandala className="mandap-mandala"/><div className="mandap-spotlight"/></div>
       <FloatingDiyas count={7} />
       <div className="mandap-content section-wrap">
-        <SectionHeading eyebrow="The sacred moment" title="Beneath the mandap" telugu={wedding.ceremonies.find(c => c.style === 'wedding')?.telugu || 'శుభ వివాహం'} light animateTelugu />
+        <SectionHeading eyebrow={t('mandapEyebrow')} title={t('mandapTitle')} telugu={t('shubhaVivaham')} light animateTelugu />
         <motion.div className="full-mandap-art" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
           <div className="mandap-garland garland-left"/><div className="mandap-garland garland-right"/>
           <div className="mandap-arch"><div className="arch-top"><span>✥</span><i/><span>✥</span><i/><span>✥</span></div>
@@ -425,7 +425,7 @@ function App() {
           <div className="mandap-petal petal-one">✿</div><div className="mandap-petal petal-two">✿</div>
         </motion.div>
         <motion.div className="muhurtham-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          <span className="muhurtham-label">The auspicious hour</span><div className="muhurtham-date">{wedding.weddingDate}</div><span className="muhurtham-divider">✧</span><p>{wedding.muhurtham}</p><span className="muhurtham-venue">{wedding.venue.name}</span>
+          <span className="muhurtham-label">{t('muhurthamLabel')}</span><div className="muhurtham-date">{t('weddingDate')}</div><span className="muhurtham-divider">✧</span><p>{wedding.muhurtham}</p><span className="muhurtham-venue">{n.venue}</span>
         </motion.div>
         <AddToCalendar />
       </div>
@@ -434,15 +434,15 @@ function App() {
     {/* ── VENUE ── */}
     <section className="venue-section paper-section" id="venue">
       <div className="section-wrap">
-        <SectionHeading eyebrow="Find your way to us" title="Where we celebrate" telugu="సుస్వాగతం" animateTelugu />
-        <p className="section-intro">We can't wait to welcome you.</p>
+        <SectionHeading eyebrow={t('venueEyebrow')} title={t('venueTitle')} telugu={t('venueTelugu')} animateTelugu />
+        <p className="section-intro">{t('venueIntro')}</p>
         <div className="venue-grid">
-          <VenueCard title="Wedding ceremony" data={wedding.venue} icon="wedding"/>
-          <VenueCard title="Reception" data={wedding.receptionVenue} icon="reception"/>
-          {side && <VenueCard title={`${side.label} Haldi & Mehendi`} data={side.venue} icon="reception"/>}
+          <VenueCard title={t('weddingCeremony')} data={wedding.venue} icon="wedding"/>
+          <VenueCard title={t('reception')} data={wedding.receptionVenue} icon="reception"/>
+          {side && <VenueCard title={`${side.label} ${t('haldiMehendi')}`} data={side.venue} icon="reception"/>}
         </div>
         <div className="countdown-panel">
-          <Mandala className="countdown-ornament"/><div className="countdown-inner"><span className="eyebrow">Until our forever begins</span><h3>Counting the moments</h3><Countdown /></div>
+          <Mandala className="countdown-ornament"/><div className="countdown-inner"><span className="eyebrow">{t('countdownEyebrow')}</span><h3>{t('countdownTitle')}</h3><Countdown /></div>
           <Mandala className="countdown-ornament right"/>
         </div>
       </div>
@@ -451,8 +451,8 @@ function App() {
     {/* ── BLESSINGS ── */}
     <section className="blessings-section paper-section" id="blessings">
       <div className="section-wrap">
-        <SectionHeading eyebrow="Your love means the world" title="Send your blessings" telugu="ఆశీర్వాదములు" animateTelugu />
-        <p className="section-intro">Leave a heartfelt wish for the couple.</p>
+        <SectionHeading eyebrow={t('blessEyebrow')} title={t('blessTitle')} telugu={t('blessTelugu')} animateTelugu />
+        <p className="section-intro">{t('blessIntro')}</p>
         <BlessingsWall />
       </div>
     </section>
@@ -460,8 +460,8 @@ function App() {
     {/* ── TRIVIA ── */}
     <section className="trivia-section">
       <div className="section-wrap">
-        <SectionHeading eyebrow="A little fun" title="How well do you know us?" telugu="ఆటలు పాటలు" light animateTelugu />
-        <p className="section-intro trivia-intro">Test your knowledge about Anusha & Divakar!</p>
+        <SectionHeading eyebrow={t('triviaEyebrow')} title={t('triviaTitle')} telugu={t('triviaTelugu')} light animateTelugu />
+        <p className="section-intro trivia-intro">{t('triviaIntro')}</p>
         <TriviaQuiz />
       </div>
     </section>
@@ -470,13 +470,13 @@ function App() {
     <footer className="closing-section">
       <div className="closing-sparkles">✧ &nbsp; ✦ &nbsp; ✧</div>
       <LotusMark className="closing-lotus" />
-      <p className="closing-eyebrow">With love,</p><h2>{from === 'divakar' ? <>{wedding.groom}<span>&amp;</span>{wedding.bride}</> : <>{wedding.bride}<span>&amp;</span>{wedding.groom}</>}</h2>
-      <p className="closing-message">We look forward to celebrating this beautiful beginning with you.</p>
+      <p className="closing-eyebrow">{t('withLove')}</p><h2>{from === 'divakar' ? <>{n.groom}<span>&amp;</span>{n.bride}</> : <>{n.bride}<span>&amp;</span>{n.groom}</>}</h2>
+      <p className="closing-message">{t('closingMsg')}</p>
       <div className="closing-actions">
-        <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Share on WhatsApp</a>
+        <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> {t('shareWhatsApp')}</a>
         <ConfettiButton onTrigger={() => setConfettiCount(c => c + 1)} />
       </div>
-      <div className="closing-footer"><span>Made with love for {wedding.title}</span><span>శుభమస్తు</span></div>
+      <div className="closing-footer"><span>{t('madeWithLove')}</span><span>{t('shubhamasthu')}</span></div>
     </footer>
     </>}
     {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
