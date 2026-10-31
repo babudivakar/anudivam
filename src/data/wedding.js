@@ -40,6 +40,7 @@ export const wedding = {
       otherFamily: 'Smt. Sunitha & Sri Babu Reddy',
       otherBlessings: 'Smt. Parvathamma & Late Sri Vankayilu Rama Reddy',
             inviters: [
+        { value: 'anusha', label: 'Anusha' },
         { value: 'keerthi', label: 'Keerthi' },
         { value: 'ruchitha', label: 'Ruchitha' },
         { value: 'harshitha', label: 'Harshitha' },
@@ -64,6 +65,7 @@ export const wedding = {
       otherFamily: 'Smt. Shivamma & Sri Shivareddy',
       otherBlessings: 'Late Smt. Adilakshmamma & Sri Narasimhareddy',
             inviters: [
+        { value: 'divakar', label: 'Divakar' },
         { value: 'manohar', label: 'Manohar' },
       ],
       message: 'With the blessings of Smt. Sunitha and Sri Babu Reddy, we invite you to celebrate Divakar’s wedding with Anusha.',
