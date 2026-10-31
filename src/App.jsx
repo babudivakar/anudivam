@@ -497,7 +497,7 @@ function App() {
     {/* ── NAV ── */}
     <AnimatePresence><motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
       <a className="nav-brand" href="#home">A<span>✧</span>D</a>
-      <div><a href="#celebrations">{t('navCelebrations')}</a><a href="#blessings">{t('navBlessings')}</a></div>
+      <div><a href="#celebrations">{t('navCelebrations')}</a></div>
       <button className="music-button" onClick={toggleMusic} aria-label={music ? 'Turn music off' : 'Turn music on'} title={music ? 'Music on' : 'Music off'}>{music ? <Volume2 size={17}/> : <VolumeX size={17}/>}<span>{music ? 'Music on' : 'Music off'}</span></button>
     </motion.nav></AnimatePresence>
 
@@ -510,14 +510,6 @@ function App() {
       </div>
     </div>
 
-    {/* ── BLESSINGS ── */}
-    <section className="blessings-section paper-section" id="blessings">
-      <div className="section-wrap">
-        <SectionHeading eyebrow={t('blessEyebrow')} title={t('blessTitle')} telugu={t('blessTelugu')} animateTelugu />
-        <p className="section-intro">{t('blessIntro')}</p>
-        <BlessingsWall />
-      </div>
-    </section>
 
     {/* ── TRIVIA ── */}
     <section className="trivia-section">
