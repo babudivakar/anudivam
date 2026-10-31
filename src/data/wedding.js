@@ -19,7 +19,7 @@ export const wedding = {
   },
   photos: { bride: '', groom: '' },
   gallery: [],
-  musicTrack: '',
+  musicTrack: '/music/wedding-song.mp3',
   venue: {
     name: 'D.C. Anjaneyulu Convention Center',
     address: 'Appala Kunta Main Road, Kirikera, Hindupura, Sri Sathya Sai District, Andhra Pradesh',

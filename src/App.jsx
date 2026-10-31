@@ -125,7 +125,7 @@ function useAutoScroll() {
   const rafRef = useRef(0)
   const lastRef = useRef(0)
   const playingRef = useRef(false)
-  const SPEED = 3000
+  const SPEED = 10000
 
   useEffect(() => { playingRef.current = playing }, [playing])
 
