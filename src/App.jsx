@@ -125,7 +125,7 @@ function useAutoScroll() {
   const rafRef = useRef(0)
   const lastRef = useRef(0)
   const playingRef = useRef(false)
-  const SPEED = 10000
+  const SPEED = 30000
 
   useEffect(() => { playingRef.current = playing }, [playing])
 
@@ -385,7 +385,7 @@ function App() {
   if (isAdmin) return <AdminLinks />
 
   return <MotionConfig reducedMotion="user"><main className={isNight ? 'night-mode' : 'day-mode'}>
-    {wedding.musicTrack && <audio id="wedding-audio" src={wedding.musicTrack} loop preload="none" />}
+    {wedding.musicTrack && <audio id="wedding-audio" src={`${import.meta.env.BASE_URL}${wedding.musicTrack.replace(/^\//, '')}`} loop preload="none" />}
 
     {/* ── SCROLL PROGRESS ── */}
     {active && <div className="scroll-progress" style={{ transform: `scaleX(${scrollPct / 100})` }} />}
