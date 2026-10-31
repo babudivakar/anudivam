@@ -1770,3 +1770,133 @@ a { color: inherit; }
   .admin-table .link-cell a { font-size: 9px; }
   .admin-table .acts { flex-wrap: wrap; }
 }
+
+
+/* ── ANUDIVAM CINEMATIC COUPLE-LED EVENT PAGES ── */
+.event-page {
+  justify-content: flex-end;
+  isolation: isolate;
+  min-height: 100svh;
+  padding: clamp(28px, 5vw, 72px);
+}
+.event-page__overlay {
+  background: linear-gradient(90deg, rgba(15,10,8,.08) 0%, rgba(15,10,8,.2) 38%, rgba(15,10,8,.72) 58%, rgba(15,10,8,.82) 100%);
+}
+.event-page__couple {
+  position: absolute;
+  z-index: 2;
+  left: clamp(16px, 5vw, 76px);
+  bottom: 0;
+  width: min(38vw, 520px);
+  height: 88%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  pointer-events: none;
+}
+.event-page__couple-frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  filter: drop-shadow(0 18px 32px rgba(0,0,0,.28));
+  transform-origin: bottom center;
+  animation: couple-arrive 5.5s ease-in-out infinite;
+}
+.event-page__couple-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+}
+.event-page__couple-caption {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90%;
+  color: #f9e8c5;
+  font: italic 500 15px/1.2 'Cormorant Garamond', serif;
+  letter-spacing: .06em;
+  text-shadow: 0 2px 10px #000;
+}
+@keyframes couple-arrive {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 12px 0; }
+}
+.event-page__content {
+  width: min(58%, 700px);
+  margin-right: clamp(0px, 2vw, 30px);
+  padding: clamp(28px, 4vw, 58px);
+  border: 1px solid rgba(238,205,145,.42);
+  background: linear-gradient(145deg, rgba(24,16,12,.62), rgba(24,16,12,.32));
+  box-shadow: 0 24px 80px rgba(0,0,0,.22), inset 0 0 35px rgba(255,231,190,.05);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+.event-page__eyebrow {
+  color: #f0d39a;
+  font: 600 9px/1.4 'Cormorant Garamond', serif;
+  letter-spacing: .28em;
+  margin-bottom: 8px;
+}
+.event-page__title { text-shadow: 0 5px 28px rgba(0,0,0,.25); }
+.event-page__details { align-items: center; }
+.event-page__detail { max-width: 480px; }
+.event-page__map-link {
+  border: 1px solid rgba(240,211,154,.65);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+}
+.event-page__scroll-hint { margin-top: 18px; }
+.event-page--haldi .event-page__overlay {
+  background: linear-gradient(90deg, rgba(44,25,4,.02), rgba(65,39,7,.12) 38%, rgba(65,39,7,.76) 62%, rgba(65,39,7,.86));
+}
+.event-page--mehendi .event-page__overlay {
+  background: linear-gradient(90deg, rgba(5,30,16,.02), rgba(5,30,16,.12) 38%, rgba(5,30,16,.76) 62%, rgba(5,30,16,.86));
+}
+.event-page--reception .event-page__overlay,
+.event-page--wedding .event-page__overlay {
+  background: linear-gradient(90deg, rgba(20,8,12,.02), rgba(20,8,12,.12) 38%, rgba(20,8,12,.78) 62%, rgba(20,8,12,.88));
+}
+@media (max-width: 760px) {
+  .event-page {
+    min-height: 100svh;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 14px 26px;
+  }
+  .event-page__couple {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: auto;
+    width: min(78vw, 340px);
+    height: 48%;
+  }
+  .event-page__couple-caption { display: none; }
+  .event-page__overlay {
+    background: linear-gradient(180deg, rgba(12,8,6,.02) 0%, rgba(12,8,6,.08) 28%, rgba(12,8,6,.78) 52%, rgba(12,8,6,.9) 100%);
+  }
+  .event-page__content {
+    width: 100%;
+    margin: 0;
+    padding: 24px 18px 30px;
+    gap: 6px;
+    background: linear-gradient(145deg, rgba(24,16,12,.72), rgba(24,16,12,.56));
+  }
+  .event-page__title { font-size: clamp(42px, 12vw, 64px); }
+  .event-page__details { gap: 6px; margin-top: 8px; }
+  .event-page__details p { font-size: 15px; }
+  .event-page__detail { margin-top: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .event-page__couple-frame { animation: none; }
+}
