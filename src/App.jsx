@@ -160,14 +160,14 @@ function App() {
   const by = params.get('by') || ''
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
   const resolveInviter = () => {
-    if (!side) return ''
-    if (!by || by === 'family') return side.familyName
-    if (by === 'parents') return side.invitedBy
+    if (!side) return { name: '', showFamily: false }
+    if (!by || by === 'family') return { name: side.familyName, showFamily: false }
+    if (by === 'parents') return { name: side.invitedBy, showFamily: true }
     const match = side.inviters?.find(inv => inv.value === by)
-    if (match) return match.label
-    return decodeURIComponent(by)
+    if (match) return { name: match.label, showFamily: true }
+    return { name: decodeURIComponent(by), showFamily: true }
   }
-  const inviterName = resolveInviter()
+  const inviter = resolveInviter()
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   const openDoors = () => {
@@ -260,13 +260,16 @@ function App() {
           <LotusMark className="ganesh-lotus" />
           {guestName && <p className="ganesh-guest">Dear {guestName},</p>}
           <div className="ganesh-families">
-            {inviterName ? <span>{inviterName}</span> : <>
+            {inviter.name ? <>
+              <span>{inviter.name}</span>
+              {inviter.showFamily && <span className="ganesh-family-sub">{side.familyName}</span>}
+            </> : <>
               <span>{wedding.welcomeFamilies[0]}</span>
               <i>&amp;</i>
               <span>{wedding.welcomeFamilies[1]}</span>
             </>}
           </div>
-          <span className="ganesh-invite-label">{inviterName ? 'Cordially invites you to' : 'Cordially invite you to'}</span>
+          <span className="ganesh-invite-label">{inviter.name ? 'Cordially invites you to' : 'Cordially invite you to'}</span>
           <h1 className="ganesh-monogram"><span className="mono-letter">A</span><span className="mono-heart">♥</span><span className="mono-letter">D</span></h1>
           <span className="ganesh-theme">{wedding.title}</span>
           <span className="ganesh-tagline">A celebration of love</span>

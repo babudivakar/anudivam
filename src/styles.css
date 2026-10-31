@@ -548,6 +548,10 @@ a { color: inherit; }
   margin-bottom: 20px; text-shadow: 0 2px 14px #000a;
 }
 .ganesh-families i { font-size: .7em; color: #ffd78a; }
+.ganesh-family-sub {
+  font-size: clamp(13px, 2.2vw, 16px); color: #d4b980;
+  font-style: italic; margin-top: 2px;
+}
 .ganesh-invite-label {
   display: block; margin-bottom: 8px; color: #ffe8a8;
   font-size: clamp(10px, 1.8vw, 13px); letter-spacing: .2em; text-transform: uppercase;
