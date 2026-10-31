@@ -526,16 +526,16 @@ a { color: inherit; }
   padding: 24px 20px;
 }
 .ganesh-invocation {
-  display: block; color: #ffe8a8;
+  display: block; color: #fff5de;
   font: 600 clamp(17px, 3vw, 24px)/1.2 'Noto Serif Telugu', 'Cormorant Garamond', serif;
   letter-spacing: .06em;
-  text-shadow: 0 2px 20px #000a, 0 0 40px #dbb86840;
+  text-shadow: 0 2px 20px #000c, 0 0 40px #00000050;
   margin-bottom: 10px;
 }
 .ganesh-guest {
-  margin: 0 0 10px; color: #ffe8a8;
+  margin: 0 0 10px; color: #fff5de;
   font: italic 600 clamp(22px, 4vw, 32px)/1.2 'Cormorant Garamond', serif;
-  text-shadow: 0 2px 16px #000a;
+  text-shadow: 0 2px 16px #000c, 0 0 30px #00000050;
 }
 .ganesh-lotus {
   width: 60px; height: 30px; stroke: #ffd78a; stroke-width: 2;
@@ -543,18 +543,19 @@ a { color: inherit; }
 }
 .ganesh-blessing {
   display: block; max-width: 500px; margin: 0 auto 14px;
-  color: #fff0ce; font: 600 clamp(18px, 3vw, 26px)/1.25 'Cormorant Garamond', serif;
-  letter-spacing: .04em; text-shadow: 0 2px 16px #000a;
+  color: #fff5de; font: 600 clamp(18px, 3vw, 26px)/1.25 'Cormorant Garamond', serif;
+  letter-spacing: .04em; text-shadow: 0 2px 16px #000c, 0 0 30px #00000050;
 }
 .ganesh-families {
   display: flex; flex-direction: column; align-items: center; gap: 3px;
-  color: #fff0ce; font: 600 clamp(18px, 3vw, 24px)/1.2 'Cormorant Garamond', serif;
-  margin-bottom: 20px; text-shadow: 0 2px 14px #000a;
+  color: #fff5de; font: 700 clamp(20px, 3.5vw, 28px)/1.2 'Cormorant Garamond', serif;
+  margin-bottom: 20px; text-shadow: 0 2px 18px #000c, 0 0 40px #00000060;
 }
 .ganesh-families i { font-size: .7em; color: #ffd78a; }
 .ganesh-family-sub {
-  font-size: clamp(13px, 2.2vw, 16px); color: #d4b980;
-  font-style: italic; margin-top: 2px;
+  font-size: clamp(14px, 2.5vw, 18px); color: #ffe8a8;
+  font-style: italic; margin-top: 3px;
+  text-shadow: 0 2px 14px #000c;
 }
 .ganesh-invite-label {
   display: block; margin-bottom: 8px; color: #ffe8a8;
