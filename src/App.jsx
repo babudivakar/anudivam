@@ -3,7 +3,7 @@ import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles } from 'lucide-react'
 import { wedding } from './data/wedding.js'
 import { getT, getNames } from './data/i18n.js'
-import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, useDayNight } from './effects.jsx'
+import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, EventParticles, useDayNight } from './effects.jsx'
 import { AddToCalendar, PhotoGallery, BlessingsWall, TriviaQuiz, ConfettiButton } from './features.jsx'
 import AdminLinks from './AdminLinks.jsx'
 
@@ -119,6 +119,7 @@ function EventIllustration({ style }) {
 function CeremonyCard({ ceremony, index }) {
   const [expanded, setExpanded] = useState(false)
   return <motion.article className={`ceremony-card ${index % 2 ? 'right' : 'left'}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }}>
+    <EventParticles style={ceremony.style} />
     <div className="timeline-dot"><span /></div>
     <EventIllustration style={ceremony.style} />
     <div className="ceremony-copy">

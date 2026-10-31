@@ -174,6 +174,165 @@ export function SparkleTrail() {
   return <canvas ref={ref} className="sparkle-canvas" aria-hidden="true" />
 }
 
+/* ── EVENT-THEMED PARTICLES ── */
+const EVENT_THEMES = {
+  haldi: {
+    colors: ['#ffd700','#f4c430','#e8a317','#ff9933','#ffb347','#daa520','#f6e58d'],
+    types: ['grain','dust'],
+    rate: 0.06,
+  },
+  mehendi: {
+    colors: ['#2d8a4e','#3cb371','#556b2f','#6b8e23','#8fbc8f','#8b4513','#a0522d'],
+    types: ['leaf','dust'],
+    rate: 0.04,
+  },
+  reception: {
+    colors: ['#ff4444','#ffd700','#ff69b4','#4169e1','#ff6347','#9b59b6','#e74c3c','#f39c12'],
+    types: ['sparkle','glitter'],
+    rate: 0.08,
+  },
+  wedding: {
+    colors: ['#ffd700','#f4c430','#ff2200','#e8c547','#fff8dc','#fffacd','#ff6347'],
+    types: ['rice','kumkum'],
+    rate: 0.07,
+  },
+}
+
+function createEventParticle(w, h, theme) {
+  const col = theme.colors[~~(Math.random() * theme.colors.length)]
+  const ptype = theme.types[~~(Math.random() * theme.types.length)]
+
+  if (ptype === 'grain' || ptype === 'rice') {
+    return {
+      etype: ptype, x: Math.random() * w, y: -10 - Math.random() * 40,
+      size: 2.5 + Math.random() * 3, speedY: 1.2 + Math.random() * 1.8,
+      speedX: (Math.random() - 0.5) * 0.8, rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.08, opacity: 0.6 + Math.random() * 0.3,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.02 + Math.random() * 0.02, wobbleAmp: 0.3 + Math.random() * 0.5,
+      life: Infinity, gravity: 0.02,
+    }
+  }
+  if (ptype === 'dust' || ptype === 'kumkum') {
+    return {
+      etype: ptype, x: Math.random() * w, y: -10 - Math.random() * 30,
+      size: 1.5 + Math.random() * 3, speedY: 0.5 + Math.random() * 1,
+      speedX: (Math.random() - 0.5) * 0.6, rotation: 0,
+      rotSpeed: 0, opacity: 0.3 + Math.random() * 0.4,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.015 + Math.random() * 0.015, wobbleAmp: 0.8 + Math.random() * 1.2,
+      life: Infinity, gravity: 0.005,
+    }
+  }
+  if (ptype === 'leaf') {
+    return {
+      etype: 'leaf', x: Math.random() * w, y: -10 - Math.random() * 40,
+      size: 4 + Math.random() * 6, speedY: 0.3 + Math.random() * 0.6,
+      speedX: (Math.random() - 0.5) * 0.3, rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.025, opacity: 0.4 + Math.random() * 0.35,
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.01 + Math.random() * 0.01, wobbleAmp: 0.5 + Math.random() * 0.8,
+      life: Infinity, gravity: 0,
+    }
+  }
+  if (ptype === 'sparkle' || ptype === 'glitter') {
+    return {
+      etype: ptype, x: Math.random() * w, y: Math.random() * h,
+      size: 1 + Math.random() * 2.5, speedY: -0.2 + Math.random() * 0.4,
+      speedX: (Math.random() - 0.5) * 0.3, rotation: Math.random() * Math.PI * 2,
+      rotSpeed: 0.05 + Math.random() * 0.05, opacity: Math.random(),
+      color: col, wobble: Math.random() * Math.PI * 2,
+      wobbleSpd: 0.03 + Math.random() * 0.03, wobbleAmp: 0.5,
+      life: 60 + Math.random() * 80, maxLife: 140, gravity: 0,
+      twinkle: true,
+    }
+  }
+  return { etype: 'dust', x: Math.random() * w, y: -10, size: 2, speedY: 1, speedX: 0, rotation: 0, rotSpeed: 0, opacity: 0.5, color: col, wobble: 0, wobbleSpd: 0, wobbleAmp: 0, life: Infinity, gravity: 0 }
+}
+
+function tickEvent(p) {
+  p.y += p.speedY; p.x += p.speedX
+  if (p.wobbleAmp) { p.wobble += p.wobbleSpd; p.x += Math.sin(p.wobble) * p.wobbleAmp }
+  p.rotation += p.rotSpeed
+  if (p.gravity) p.speedY += p.gravity
+  if (p.twinkle) p.opacity = 0.3 + Math.abs(Math.sin(p.wobble * 2)) * 0.7
+  if (p.life !== Infinity) { p.life--; p.opacity = Math.max(0, p.life / (p.maxLife || 1)) }
+}
+
+function drawEvent(ctx, p) {
+  ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rotation); ctx.globalAlpha = p.opacity
+
+  if (p.etype === 'rice' || p.etype === 'grain') {
+    ctx.fillStyle = p.color
+    ctx.beginPath(); ctx.ellipse(0, 0, p.size * 0.35, p.size, 0, 0, Math.PI * 2); ctx.fill()
+    ctx.globalAlpha = p.opacity * 0.3; ctx.strokeStyle = '#fff8dc'; ctx.lineWidth = 0.3
+    ctx.beginPath(); ctx.moveTo(0, -p.size * 0.7); ctx.lineTo(0, p.size * 0.7); ctx.stroke()
+  } else if (p.etype === 'dust' || p.etype === 'kumkum') {
+    ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = p.size * 2
+    ctx.beginPath(); ctx.arc(0, 0, p.size, 0, Math.PI * 2); ctx.fill()
+  } else if (p.etype === 'leaf') {
+    ctx.fillStyle = p.color
+    ctx.beginPath()
+    ctx.moveTo(0, -p.size)
+    ctx.quadraticCurveTo(p.size * 0.6, -p.size * 0.3, p.size * 0.15, p.size * 0.5)
+    ctx.quadraticCurveTo(0, p.size * 0.7, -p.size * 0.15, p.size * 0.5)
+    ctx.quadraticCurveTo(-p.size * 0.6, -p.size * 0.3, 0, -p.size)
+    ctx.fill()
+    ctx.globalAlpha = p.opacity * 0.25; ctx.strokeStyle = '#2d5a1e'; ctx.lineWidth = 0.4
+    ctx.beginPath(); ctx.moveTo(0, -p.size * 0.8); ctx.lineTo(0, p.size * 0.5); ctx.stroke()
+  } else if (p.etype === 'sparkle' || p.etype === 'glitter') {
+    ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = p.size * 3
+    ctx.beginPath()
+    for (let i = 0; i < 4; i++) {
+      const a = (i * Math.PI) / 2
+      ctx.lineTo(Math.cos(a) * p.size, Math.sin(a) * p.size)
+      ctx.lineTo(Math.cos(a + Math.PI / 4) * p.size * 0.2, Math.sin(a + Math.PI / 4) * p.size * 0.2)
+    }
+    ctx.closePath(); ctx.fill()
+  }
+  ctx.restore()
+}
+
+export const EventParticles = memo(function EventParticles({ style }) {
+  const ref = useRef(null), parts = useRef([]), anim = useRef(null), vis = useRef(false)
+  const theme = EVENT_THEMES[style]
+  useEffect(() => {
+    const c = ref.current; if (!c || !theme) return
+    const ctx = c.getContext('2d'), dpr = window.devicePixelRatio || 1
+    const resize = () => {
+      const r = c.parentElement.getBoundingClientRect()
+      c.width = r.width * dpr; c.height = r.height * dpr
+      c.style.width = r.width + 'px'; c.style.height = r.height + 'px'
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+    resize()
+    const ro = new ResizeObserver(resize); ro.observe(c.parentElement)
+
+    const io = new IntersectionObserver(([e]) => { vis.current = e.isIntersecting }, { threshold: 0.1 })
+    io.observe(c)
+
+    const loop = () => {
+      const r = c.parentElement.getBoundingClientRect()
+      const w = r.width, h = r.height
+      ctx.clearRect(0, 0, w, h)
+      if (vis.current && Math.random() < theme.rate) {
+        parts.current.push(createEventParticle(w, h, theme))
+      }
+      parts.current = parts.current.filter(p => {
+        tickEvent(p)
+        if (p.life !== Infinity && p.life <= 0) return false
+        if (p.y > h + 20 || p.x < -20 || p.x > w + 20 || p.opacity <= 0) return false
+        drawEvent(ctx, p); return true
+      })
+      anim.current = requestAnimationFrame(loop)
+    }
+    anim.current = requestAnimationFrame(loop)
+    return () => { cancelAnimationFrame(anim.current); ro.disconnect(); io.disconnect() }
+  }, [theme])
+  if (!theme) return null
+  return <canvas ref={ref} className="event-particles" aria-hidden="true" />
+})
+
 export function SelfDrawingRangoli({ className = '' }) {
   const [vis, setVis] = useState(false), ref = useRef(null)
   useEffect(() => {
