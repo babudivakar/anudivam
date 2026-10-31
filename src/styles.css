@@ -455,8 +455,8 @@ a { color: inherit; }
   text-shadow: 0 1px 10px #000a;
 }
 .reveal-venue {
-  color: #c9a04a; font: 400 clamp(12px, 2vw, 16px)/1.2 'Cormorant Garamond', serif;
-  text-shadow: 0 1px 8px #000a;
+  color: #ffd054; font: 600 clamp(14px, 2.5vw, 19px)/1.2 'Cormorant Garamond', serif;
+  letter-spacing: .06em; text-shadow: 0 2px 12px #000c;
 }
 .hero-next { width: fit-content; }
 @media (max-width: 600px) {
