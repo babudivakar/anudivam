@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { wedding } from './data/wedding.js'
+import { languages } from './data/i18n.js'
 
 const STORE_KEY = 'anudivam-guest-lists'
 const BASE = window.location.origin + window.location.pathname
@@ -21,12 +22,13 @@ const inviterOptions = (side) => {
   return opts
 }
 
-function makeUrl(name, side, by, showFam) {
+function makeUrl(name, side, by, showFam, lang) {
   const p = new URLSearchParams()
   if (name) p.set('guest', name)
   if (side) p.set('from', side)
   if (by && by !== 'family') p.set('by', by)
   if (by && by !== 'family' && showFam === false) p.set('fam', '0')
+  if (lang && lang !== 'en') p.set('lang', lang)
   const qs = p.toString()
   return qs ? BASE + '?' + qs : BASE
 }
@@ -60,17 +62,18 @@ export default function AdminLinks() {
   const [divakarCustom, setDivakarCustom] = useState(stored.divakarCustom || '')
   const [anushaFam, setAnushaFam] = useState(stored.anushaFam !== false)
   const [divakarFam, setDivakarFam] = useState(stored.divakarFam !== false)
+  const [lang, setLang] = useState(stored.lang || 'en')
   const [links, setLinks] = useState([])
   const [copied, setCopied] = useState(null)
   const [lastSaved, setLastSaved] = useState(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      save({ anusha: anushaText, divakar: divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam })
+      save({ anusha: anushaText, divakar: divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam, lang })
       setLastSaved(new Date().toLocaleTimeString())
     }, 500)
     return () => clearTimeout(timer)
-  }, [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam])
+  }, [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam, lang])
 
   useEffect(() => {
     if (stored.anusha || stored.divakar) generateLinks(stored.anusha, stored.divakar, stored.anushaBy, stored.divakarBy, stored.anushaCustom, stored.divakarCustom)
@@ -87,14 +90,15 @@ export default function AdminLinks() {
     const dNames = parse(dText || divakarText)
     const aFam = anushaBy === 'family' ? true : anushaFam
     const dFam = divakarBy === 'family' ? true : divakarFam
-    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend, aFam) }))
-    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend, aFam) })
-    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend, dFam) }))
-    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend, dFam) })
+    const l = lang
+    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend, aFam, l) }))
+    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend, aFam, l) })
+    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend, dFam, l) }))
+    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend, dFam, l) })
     setLinks(result)
   }
 
-  const generate = useCallback(() => generateLinks(), [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam])
+  const generate = useCallback(() => generateLinks(), [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam, lang])
   const flash = (id) => { setCopied(id); setTimeout(() => setCopied(null), 1800) }
   const copyOne = (i) => { navigator.clipboard.writeText(links[i].url); flash(`link-${i}`) }
   const sendWA = (i) => { window.open('https://wa.me/?text=' + encodeURIComponent(waMessage(links[i].name, links[i].url, links[i].side)), '_blank') }
@@ -153,6 +157,13 @@ export default function AdminLinks() {
         <strong>✅ Auto-saved:</strong> Your guest lists are <strong>automatically saved</strong> in this browser.
         Come back anytime and your names will still be here.
         {lastSaved && <span className="save-status"> Last saved: {lastSaved}</span>}
+      </div>
+
+      <div className="admin-lang">
+        <label>🌐 Invitation Language</label>
+        <div className="lang-options">
+          {languages.map(l => <button key={l.code} className={`lang-btn${lang === l.code ? ' active' : ''}`} onClick={() => setLang(l.code)}>{l.label}</button>)}
+        </div>
       </div>
 
       <div className="admin-sides">

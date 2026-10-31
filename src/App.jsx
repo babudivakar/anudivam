@@ -2,9 +2,16 @@ import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles } from 'lucide-react'
 import { wedding } from './data/wedding.js'
+import { getT } from './data/i18n.js'
 import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, useDayNight } from './effects.jsx'
 import { AddToCalendar, PhotoGallery, BlessingsWall, TriviaQuiz, ConfettiButton } from './features.jsx'
 import AdminLinks from './AdminLinks.jsx'
+
+function T({ k, t }) {
+  const val = t(k)
+  if (!val.includes('\n')) return val
+  return val.split('\n').map((line, i) => <span key={i} className="t-line">{line}</span>)
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -159,6 +166,8 @@ function App() {
   const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
   const by = params.get('by') || ''
   const showFam = params.get('fam') !== '0'
+  const lang = params.get('lang') || 'en'
+  const t = getT(lang)
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
   const resolveInviter = () => {
     if (!side) return { name: '', showFamily: false }
@@ -256,10 +265,10 @@ function App() {
         {!opened && <motion.div key="ganesh-welcome" className="hero-title ganesh-welcome"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.5 }}>
-          <span className="ganesh-invocation">ॐ శ్రీ గణేశాయ నమః</span>
-          <span className="ganesh-blessing">Sri Lakshmi Venkateshwara Swamy Prasanna</span>
+          <span className="ganesh-invocation"><T k="omLine" t={t} /></span>
+          <span className="ganesh-blessing"><T k="blessing" t={t} /></span>
           <LotusMark className="ganesh-lotus" />
-          {guestName && <p className="ganesh-guest">Dear {guestName},</p>}
+          {guestName && <p className="ganesh-guest">{t('dear')} {guestName},</p>}
           <div className="ganesh-families">
             {inviter.name ? <>
               <span>{inviter.name}</span>
@@ -270,14 +279,14 @@ function App() {
               <span>{wedding.welcomeFamilies[1]}</span>
             </>}
           </div>
-          <span className="ganesh-invite-label">{inviter.name ? 'Cordially invites you to' : 'Cordially invite you to'}</span>
+          <span className="ganesh-invite-label"><T k={inviter.name ? 'cordiallyInvites' : 'cordiallyInvite'} t={t} /></span>
           <h1 className="ganesh-monogram"><span className="mono-letter">A</span><span className="mono-heart">♥</span><span className="mono-letter">D</span></h1>
           <span className="ganesh-theme">{wedding.title}</span>
-          <span className="ganesh-tagline">A celebration of love</span>
+          <span className="ganesh-tagline"><T k="celebrationOfLove" t={t} /></span>
           <span className="ganesh-date">{wedding.weddingDate}</span>
           <motion.p className="ganesh-tap" animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 2, repeat: Infinity }}>
-            Tap anywhere to open
+            <T k="tapToOpen" t={t} />
           </motion.p>
         </motion.div>}
 
@@ -287,39 +296,39 @@ function App() {
 
           {side ? <motion.div className="hero-blessings"
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: .9 }}>
-            <span className="hero-blessings-label">With the blessings of</span>
+            <span className="hero-blessings-label"><T k="withBlessingsOf" t={t} /></span>
             <p className="hero-blessings-elders">{side.blessingsOf}</p>
             <p className="hero-blessings-parents">{side.invitedBy}</p>
           </motion.div> : <motion.span className="hero-overline"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: .9 }}>
-            Together with our families</motion.span>}
+            <T k="togetherFamilies" t={t} /></motion.span>}
 
           <motion.div className="reveal-names"
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, duration: 1, ease: 'easeOut' }}>
             {from === 'divakar' ? <>
-              <span className="reveal-role">The groom</span>
+              <span className="reveal-role"><T k="theGroom" t={t} /></span>
               <h1>{wedding.groom}</h1>
-              <p className="reveal-parents">Son of {wedding.family.groom}</p>
+              <p className="reveal-parents"><T k="sonOf" t={t} /> {wedding.family.groom}</p>
               <span className="reveal-and">✦ &amp; ✦</span>
-              <span className="reveal-role">The bride</span>
+              <span className="reveal-role"><T k="theBride" t={t} /></span>
               <h1>{wedding.bride}</h1>
-              <p className="reveal-parents">Daughter of {wedding.family.bride}</p>
+              <p className="reveal-parents"><T k="daughterOf" t={t} /> {wedding.family.bride}</p>
             </> : <>
-              <span className="reveal-role">The bride</span>
+              <span className="reveal-role"><T k="theBride" t={t} /></span>
               <h1>{wedding.bride}</h1>
-              <p className="reveal-parents">Daughter of {wedding.family.bride}</p>
+              <p className="reveal-parents"><T k="daughterOf" t={t} /> {wedding.family.bride}</p>
               <span className="reveal-and">✦ &amp; ✦</span>
-              <span className="reveal-role">The groom</span>
+              <span className="reveal-role"><T k="theGroom" t={t} /></span>
               <h1>{wedding.groom}</h1>
-              <p className="reveal-parents">Son of {wedding.family.groom}</p>
+              <p className="reveal-parents"><T k="sonOf" t={t} /> {wedding.family.groom}</p>
             </>}
           </motion.div>
 
           <motion.div className="reveal-married"
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.4, duration: .8 }}>
-            <span className="reveal-telugu">శుభ వివాహం</span>
+            <span className="reveal-telugu"><T k="shubhaVivaham" t={t} /></span>
             <span className="reveal-line" />
-            <span className="reveal-text">are getting married</span>
+            <span className="reveal-text"><T k="gettingMarried" t={t} /></span>
             <span className="reveal-line" />
           </motion.div>
 
