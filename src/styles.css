@@ -109,6 +109,11 @@ a { color: inherit; }
 .section-heading h2 { margin:0; font-family:'Cormorant Garamond',serif; font-size:clamp(37px,7vw,66px); line-height:.98; font-weight:500; color:#41251e; }
 .telugu-heading { display:block; margin-top:13px; font-family:'Noto Serif Telugu',serif; font-size:14px; color:#947546; letter-spacing:.04em; }
 .invitation-message { max-width:590px; margin:30px auto 44px; text-align:center; color:#766153; font-family:'Cormorant Garamond',serif; font-size:clamp(19px,3vw,24px); line-height:1.5; }
+.couple-section { background: var(--paper); padding: 60px 0; position: relative; overflow: hidden; }
+.couple-section::before, .couple-section::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent); opacity: 0.3; }
+.couple-section::before { top: 0; }
+.couple-section::after { bottom: 0; }
+.couple-invite { max-width: 520px; margin: 0 auto 36px; text-align: center; font: italic 400 clamp(17px, 3vw, 22px)/1.6 'Cormorant Garamond', serif; color: #6b5a45; }
 .couple-grid { max-width:720px; margin:0 auto; display:grid; grid-template-columns:1fr 50px 1fr; align-items:center; gap:17px; }
 .person-card { text-align:center; }.portrait-frame { width:min(100%,260px); margin:auto; padding:9px; aspect-ratio:.79; position:relative; border:1px solid #b69055; background:#efe5d1; box-shadow:0 12px 32px #50371a17; }
 .portrait-art { position:relative; height:100%; overflow:hidden; display:grid; place-items:center; background:radial-gradient(ellipse at 50% 38%,#f6e4bd,#d9c29a 54%,#73523b 100%); background-size:cover; background-position:center; }
@@ -131,7 +136,8 @@ a { color: inherit; }
 
 /* ── EVENT PAGES — full-viewport scroll-snap ── */
 .event-page {
-  position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center;
+  position: relative;
+  min-height: 100svh; display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
 .event-page__overlay {
@@ -162,6 +168,15 @@ a { color: inherit; }
   font: italic 400 clamp(13px, 2vw, 16px)/1.5 'Cormorant Garamond', serif;
   opacity: 0.8;
 }
+.event-page__map-link {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+  padding: 8px 18px; border: 1px solid #ffffff44; border-radius: 24px;
+  background: rgba(255,255,255,0.1); backdrop-filter: blur(8px);
+  color: #fff; font: 500 clamp(12px, 1.8vw, 14px)/1 'Manrope', sans-serif;
+  text-decoration: none; letter-spacing: 0.05em;
+  transition: background 0.3s, border-color 0.3s;
+}
+.event-page__map-link:hover { background: rgba(255,255,255,0.2); border-color: #ffffff88; }
 .event-page__scroll-hint {
   margin-top: 20px; animation: bobDown 1.8s ease-in-out infinite; opacity: 0.6;
 }
@@ -220,40 +235,64 @@ a { color: inherit; }
   .doli-trail { font-size: 14px; }
 }
 
-/* ── CURTAIN TRANSITIONS between events ── */
-.curtain-transition {
-  position: relative; height: 50vh; overflow: hidden;
-  display: flex; perspective: 1000px;
+/* ── SCROLL-VIDEO CEREMONY REEL ── */
+.ceremony-reel {
+  position: relative;
 }
-.curtain {
-  position: absolute; top: 0; width: 50%; height: 100%;
-  transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+
+/* ── AUTO-SCROLL CONTROL ── */
+.autoscroll-control {
+  position: fixed; bottom: 28px; right: 28px; z-index: 50;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  transition: opacity 0.4s ease;
 }
-.curtain--left { left: 0; transform-origin: left center; transform: rotateY(0); }
-.curtain--right { right: 0; transform-origin: right center; transform: rotateY(0); }
-.ct-open .curtain--left { transform: rotateY(-92deg); opacity: 0.2; }
-.ct-open .curtain--right { transform: rotateY(92deg); opacity: 0.2; }
-
-.ct-zoom {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse at center, #ffffffcc 0%, #ffffff44 25%, transparent 60%);
-  opacity: 0; transform: scale(0.5);
-  transition: opacity 0.6s ease 0.4s, transform 1.2s ease 0.4s;
+.autoscroll-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border: 1px solid #d4b06888; border-radius: 40px;
+  background: rgba(30, 18, 12, 0.85); backdrop-filter: blur(12px);
+  color: #ffd78a; font: 500 11px/1 'Manrope', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  cursor: pointer; transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 20px #00000055;
 }
-.ct-open .ct-zoom { opacity: 1; transform: scale(4); opacity: 0; transition: opacity 0.5s ease 0.4s, transform 1.5s ease 0.3s; }
+.autoscroll-btn:hover { background: rgba(50, 30, 20, 0.9); border-color: #ffd78a; transform: scale(1.04); }
+.autoscroll-btn:active { transform: scale(0.97); }
 
-/* Curtain theme colors */
-.ct--haldi { background: #0d2b0d; }
-.ct--haldi .curtain--left { background: linear-gradient(120deg, #c67c1a, #daa520, #8b6914); box-shadow: inset -20px 0 40px #00000033; }
-.ct--haldi .curtain--right { background: linear-gradient(-120deg, #c67c1a, #daa520, #8b6914); box-shadow: inset 20px 0 40px #00000033; }
+.autoscroll-icon.play {
+  width: 0; height: 0;
+  border-left: 10px solid #ffd78a; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+}
+.autoscroll-icon.pause {
+  display: flex; gap: 3px; height: 12px;
+}
+.autoscroll-icon.pause i {
+  display: block; width: 3.5px; height: 100%; background: #ffd78a; border-radius: 1px;
+}
+.autoscroll-label { font-size: 11px; }
 
-.ct--mehendi { background: #0a0a1e; }
-.ct--mehendi .curtain--left { background: linear-gradient(120deg, #1b5e20, #388e3c, #2e7d32); box-shadow: inset -20px 0 40px #00000033; }
-.ct--mehendi .curtain--right { background: linear-gradient(-120deg, #1b5e20, #388e3c, #2e7d32); box-shadow: inset 20px 0 40px #00000033; }
+.autoscroll-progress {
+  width: 100px; height: 3px; border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15); overflow: hidden;
+}
+.autoscroll-bar {
+  height: 100%; background: linear-gradient(90deg, #ffd78a, #f4a623);
+  border-radius: 3px; transform-origin: left;
+  transition: transform 0.1s linear;
+}
 
-.ct--reception { background: #2a0505; }
-.ct--reception .curtain--left { background: linear-gradient(120deg, #0f3460, #1a1a3e, #16213e); box-shadow: inset -20px 0 40px #00000055; }
-.ct--reception .curtain--right { background: linear-gradient(-120deg, #0f3460, #1a1a3e, #16213e); box-shadow: inset 20px 0 40px #00000055; }
+.is-playing .autoscroll-btn {
+  background: rgba(40, 22, 14, 0.9); border-color: #ffd78a;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 4px 20px #00000055; }
+  50% { box-shadow: 0 4px 20px #00000055, 0 0 15px #ffd78a33; }
+}
+
+@media (max-width: 600px) {
+  .autoscroll-control { bottom: 18px; right: 18px; }
+  .autoscroll-btn { padding: 8px 14px; }
+}
 
 /* ── EVENT PAGE FRAME ANIMATIONS ── */
 .event-page__bg {
@@ -1610,7 +1649,8 @@ a { color: inherit; }
   display: inline-flex; align-items: center; justify-content: center;
   width: 38px; height: 38px; margin-top: 20px;
   border: 1px solid #dbb86880; border-radius: 50%;
-  color: #f2daae; text-decoration: none;
+  background: transparent; color: #f2daae; text-decoration: none;
+  cursor: pointer;
   animation: bounceDown 2s ease-in-out infinite;
 }
 @keyframes bounceDown {
@@ -1663,18 +1703,14 @@ a { color: inherit; }
   height: 100vh; /* lock hero in place */
 }
 /* Push the rest of the content down and above the hero */
-.hero + .floating-nav ~ .story-section,
-.hero + .floating-nav ~ .gallery-section,
-.hero + .floating-nav ~ .celebrations-section,
-.hero + .floating-nav ~ .mandap-section,
-.hero + .floating-nav ~ .venue-section,
+.hero + .floating-nav ~ .event-journey,
 .hero + .floating-nav ~ .blessings-section,
 .hero + .floating-nav ~ .trivia-section,
 .hero + .floating-nav ~ .closing-section {
   position: relative; z-index: 2;
 }
 /* Spacer so the first content section clears the fixed hero */
-.story-section { margin-top: 100vh; }
+.event-journey { margin-top: 100vh; }
 
 /* Mandap section — fixed mandala background, content slides over */
 .mandap-section {
@@ -1711,16 +1747,14 @@ a { color: inherit; }
 /* Mobile: disable fixed parallax (causes jank on iOS) */
 @media (max-width: 768px), (hover: none) {
   .hero { position: relative; }
-  .story-section { margin-top: 0; }
+  .event-journey { margin-top: 0; }
   .paper-section { background-attachment: scroll; }
-  .mandap-backdrop { position: absolute; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero { position: relative; }
-  .story-section { margin-top: 0; }
+  .event-journey { margin-top: 0; }
   .paper-section { background-attachment: scroll; }
-  .mandap-backdrop { position: absolute; }
   .section-heading h2, .section-heading.light h2, .night-mode .section-heading h2 {
     animation: none; background: none; -webkit-text-fill-color: unset;
   }

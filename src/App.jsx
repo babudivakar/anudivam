@@ -126,27 +126,32 @@ function JourneyDoli() {
     const container = path.closest('.event-journey')
     if (!container) return
 
+    let raf = 0
     const onScroll = () => {
-      const rect = container.getBoundingClientRect()
-      const scrolled = -rect.top
-      const total = container.scrollHeight - window.innerHeight
-      if (total <= 0) return
-      const progress = Math.max(0, Math.min(1, scrolled / total))
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = 0
+        const rect = container.getBoundingClientRect()
+        const scrolled = -rect.top
+        const total = container.scrollHeight - window.innerHeight
+        if (total <= 0) return
+        const progress = Math.max(0, Math.min(1, scrolled / total))
 
-      const pathHeight = path.offsetHeight
-      const y = progress * pathHeight
-      const sway = Math.sin(progress * 30) * 12
-      const tilt = Math.sin(progress * 15) * 5
-      const bounce = Math.abs(Math.sin(progress * 40)) * 4
+        const pathHeight = path.offsetHeight
+        const y = progress * pathHeight
+        const sway = Math.sin(progress * 30) * 12
+        const tilt = Math.sin(progress * 15) * 5
+        const bounce = Math.abs(Math.sin(progress * 40)) * 4
 
-      doli.style.transform = `translateY(${y}px) translateX(${sway}px) rotate(${tilt}deg) translateY(${-bounce}px)`
+        doli.style.transform = `translate3d(${sway | 0}px,${(y - bounce) | 0}px,0) rotate(${tilt}deg)`
 
-      const inView = scrolled > -200 && scrolled < total + 200
-      doli.style.opacity = inView ? '1' : '0'
+        const inView = scrolled > -200 && scrolled < total + 200
+        doli.style.opacity = inView ? '1' : '0'
+      })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf) }
   }, [])
 
   return <div className="journey-path" ref={pathRef}>
@@ -160,6 +165,53 @@ function JourneyDoli() {
   </div>
 }
 
+function useAutoScroll() {
+  const [playing, setPlaying] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const rafRef = useRef(0)
+  const speedRef = useRef(2)
+
+  useEffect(() => {
+    if (!playing) { cancelAnimationFrame(rafRef.current); return }
+
+    const tick = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight
+      if (h <= 0) return
+      const pct = window.scrollY / h
+      setProgress(pct)
+
+      if (pct >= 0.995) { setPlaying(false); return }
+
+      window.scrollBy(0, speedRef.current)
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [playing])
+
+  useEffect(() => {
+    if (!playing) return
+    const stop = () => setPlaying(false)
+    window.addEventListener('wheel', stop, { passive: true })
+    window.addEventListener('touchstart', stop, { passive: true })
+    return () => { window.removeEventListener('wheel', stop); window.removeEventListener('touchstart', stop) }
+  }, [playing])
+
+  const play = () => setPlaying(true)
+  const toggle = () => setPlaying(p => !p)
+  return { playing, progress, play, toggle }
+}
+
+function AutoScrollButton({ playing, progress, toggle }) {
+  return <div className={`autoscroll-control is-visible ${playing ? 'is-playing' : ''}`}>
+    <button className="autoscroll-btn" onClick={toggle} aria-label={playing ? 'Pause' : 'Play'}>
+      {playing ? <span className="autoscroll-icon pause"><i /><i /></span> : <span className="autoscroll-icon play" />}
+      <span className="autoscroll-label">{playing ? 'Pause' : 'Play'}</span>
+    </button>
+    {playing && <div className="autoscroll-progress"><div className="autoscroll-bar" style={{ transform: `scaleX(${progress})` }} /></div>}
+  </div>
+}
+
 function CeremonyPage({ ceremony, index, t, isLast }) {
   const [revealed, setRevealed] = useState(false)
   const pageRef = useRef(null)
@@ -167,31 +219,36 @@ function CeremonyPage({ ceremony, index, t, isLast }) {
 
   useEffect(() => {
     const el = pageRef.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.25 })
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.15 })
     obs.observe(el); return () => obs.disconnect()
   }, [])
 
   useEffect(() => {
     const el = pageRef.current, bg = bgRef.current
     if (!el || !bg) return
+    let raf = 0
     const onScroll = () => {
-      const rect = el.getBoundingClientRect()
-      const vh = window.innerHeight
-      const progress = 1 - (rect.top / vh)
-      const parallax = Math.max(-30, Math.min(30, (progress - 0.5) * 60))
-      bg.style.transform = `scale(1.15) translateY(${parallax}px)`
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = 0
+        const rect = el.getBoundingClientRect()
+        const vh = window.innerHeight
+        const center = (rect.top + rect.bottom) / 2
+        const offset = (center / vh - 0.5) * 2
+        const parallax = offset * -30
+        bg.style.transform = `scale(1.15) translate3d(0,${parallax | 0}px,0)`
+      })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf) }
   }, [])
 
   const cls = revealed ? 'revealed' : ''
 
-  return <>
-    <section ref={pageRef} className={`event-page event-page--${ceremony.style} ${cls}`}>
-      <EventParticles style={ceremony.style} burst={revealed} />
-      <div className="event-page__bg" ref={bgRef} />
-      <div className="event-page__overlay" />
+  return <section ref={pageRef} className={`event-page event-page--${ceremony.style} ${cls}`}>
+    <EventParticles style={ceremony.style} burst={revealed} />
+    <div className="event-page__bg" ref={bgRef} />
+    <div className="event-page__overlay" />
 
       <div className={`ep-frame ${cls}`}>
         <div className="ep-toran"><span /><span /><span /><span /><span /><span /><span /></div>
@@ -206,50 +263,33 @@ function CeremonyPage({ ceremony, index, t, isLast }) {
 
       <div className="event-page__content">
         <motion.span className="event-page__telugu"
-          initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.8, duration: 0.7 }}>
+          initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.6, duration: 0.6 }}>
           {ceremony.telugu}
         </motion.span>
         <motion.h2 className="event-page__title"
-          initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 1.1, duration: 0.8, ease: 'easeOut' }}>
+          initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.9, duration: 0.7, ease: 'easeOut' }}>
           {ceremony.name}
         </motion.h2>
         <motion.div className="event-page__details"
-          initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.8, duration: 0.7 }}>
+          initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.4, duration: 0.6 }}>
           <p className="event-page__date"><CalendarDays size={16}/>{ceremony.date}</p>
           <p className="event-page__time"><Clock3 size={16}/>{ceremony.time}</p>
           <p className="event-page__venue"><MapPin size={16}/>{ceremony.venue}</p>
         </motion.div>
         <motion.p className="event-page__detail"
-          initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.4, duration: 0.6 }}>
+          initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 1.9, duration: 0.5 }}>
           {ceremony.detail}
         </motion.p>
-        {!isLast && <motion.div className="event-page__scroll-hint"
-          initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.8, duration: 0.5 }}>
-          <ArrowDown size={16} />
-        </motion.div>}
-      </div>
-    </section>
-    {!isLast && <CurtainTransition style={ceremony.style} />}
-  </>
-}
-
-function CurtainTransition({ style }) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const el = ref.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setOpen(true); obs.disconnect() }
-    }, { threshold: 0.3 })
-    obs.observe(el); return () => obs.disconnect()
-  }, [])
-
-  return <div ref={ref} className={`curtain-transition ct--${style} ${open ? 'ct-open' : ''}`}>
-    <div className="curtain curtain--left" />
-    <div className="curtain curtain--right" />
-    <div className="ct-zoom" />
-  </div>
+        {ceremony.mapQuery && <motion.a className="event-page__map-link" href={/^https?:\/\//.test(ceremony.mapQuery) ? ceremony.mapQuery : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ceremony.mapQuery)}`} target="_blank" rel="noreferrer"
+          initial={{ opacity: 0, y: 10 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 2.1, duration: 0.5 }}>
+          <MapPin size={14} /> Open in Maps
+        </motion.a>}
+      {!isLast && <motion.div className="event-page__scroll-hint"
+        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2.3, duration: 0.4 }}>
+        <ArrowDown size={16} />
+      </motion.div>}
+    </div>
+  </section>
 }
 
 function VenueCard({ title, data, icon }) {
@@ -280,6 +320,7 @@ function App() {
   const [confettiCount, setConfettiCount] = useState(0)
   const [fireworksCount, setFireworksCount] = useState(0)
   const isNight = useDayNight()
+  const autoScroll = useAutoScroll()
 
   const params = new URLSearchParams(window.location.search)
   const isAdmin = params.get('mode') === 'admin'
@@ -453,10 +494,11 @@ function App() {
             <span className="reveal-venue">{n.venue}</span>
           </motion.div>
 
-          <motion.a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"
+          <motion.button className="scroll-down-cue" aria-label="Play invitation"
+            onClick={(e) => { e.stopPropagation(); autoScroll.play() }}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4, duration: .5 }}>
             <ArrowDown size={18}/>
-          </motion.a>
+          </motion.button>
         </motion.div>}
       </AnimatePresence>
 
@@ -470,93 +512,19 @@ function App() {
     {/* ── NAV ── */}
     <AnimatePresence><motion.nav className="floating-nav" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} aria-label="Page sections">
       <a className="nav-brand" href="#home">A<span>✧</span>D</a>
-      <div><a href="#story">{t('navStory')}</a><a href="#celebrations">{t('navCelebrations')}</a><a href="#venue">{t('navVenue')}</a><a href="#blessings">{t('navBlessings')}</a></div>
+      <div><a href="#celebrations">{t('navCelebrations')}</a><a href="#blessings">{t('navBlessings')}</a></div>
       <button className="music-button" onClick={toggleMusic} aria-label={music ? 'Turn music off' : 'Turn music on'} title={music ? 'Music on' : 'Music off'}>{music ? <Volume2 size={17}/> : <VolumeX size={17}/>}<span>{music ? 'Music on' : 'Music off'}</span></button>
     </motion.nav></AnimatePresence>
-
-    {/* ── STORY ── */}
-    <section className="story-section paper-section" id="story">
-      <div className="paper-ornament top"/><div className="paper-ornament bottom"/>
-      <SelfDrawingRangoli className="section-rangoli left" />
-      <SelfDrawingRangoli className="section-rangoli right" />
-      <div className="section-wrap">
-        <SectionHeading eyebrow={t('storyEyebrow')} title={t('storyTitle')} telugu={t('storyTelugu')} animateTelugu />
-        <motion.p className="invitation-message" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          {guestName ? `${t('dear')} ${guestName}, ` : ''}{side?.message || wedding.message}
-        </motion.p>
-        <div className="couple-grid">
-          {from === 'divakar' ? <>
-            <PersonPortrait name={n.groom} role={t('theGroom')} image={wedding.photos.groom}/>
-            <div className="ampersand">&amp;</div>
-            <PersonPortrait name={n.bride} role={t('theBride')} image={wedding.photos.bride}/>
-          </> : <>
-            <PersonPortrait name={n.bride} role={t('theBride')} image={wedding.photos.bride}/>
-            <div className="ampersand">&amp;</div>
-            <PersonPortrait name={n.groom} role={t('theGroom')} image={wedding.photos.groom}/>
-          </>}
-        </div>
-        <motion.div className="family-note" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          <span>{t('withBlessings')}</span>{side ? <><p>{side.invitedBy}</p><i>{t('togetherWith')}</i><p>{side.otherFamily}</p></> : from === 'divakar' ? <><p>{wedding.family.groom}</p><i>{t('and')}</i><p>{wedding.family.bride}</p></> : <><p>{wedding.family.bride}</p><i>{t('and')}</i><p>{wedding.family.groom}</p></>}
-        </motion.div>
-        <div className="scroll-cue"><span>{t('ourCelebrations')}</span><a href="#celebrations" aria-label="Continue to celebrations"><ArrowDown size={15}/></a></div>
-      </div>
-    </section>
-
-    {/* ── GALLERY ── */}
-    {wedding.gallery && wedding.gallery.length > 0 && <section className="gallery-section" id="gallery">
-      <div className="section-wrap">
-        <SectionHeading eyebrow={t('galleryEyebrow')} title={t('galleryTitle')} telugu={t('galleryTelugu')} animateTelugu />
-        <PhotoGallery photos={wedding.gallery} />
-      </div>
-    </section>}
 
     {/* ── CELEBRATIONS — cinematic journey ── */}
     <div className="event-journey" id="celebrations">
       <JourneyDoli />
-      {ceremonies.map((ceremony, index) => (
-        <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} isLast={index === ceremonies.length - 1} />
-      ))}
+      <div className="ceremony-reel">
+        {ceremonies.map((ceremony, index) => (
+          <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} isLast={index === ceremonies.length - 1} />
+        ))}
+      </div>
     </div>
-
-    {/* ── MANDAP ── */}
-    <section className="mandap-section">
-      <div className="mandap-backdrop"><Mandala className="mandap-mandala"/><div className="mandap-spotlight"/></div>
-      <FloatingDiyas count={7} />
-      <div className="mandap-content section-wrap">
-        <SectionHeading eyebrow={t('mandapEyebrow')} title={t('mandapTitle')} telugu={t('shubhaVivaham')} light animateTelugu />
-        <motion.div className="full-mandap-art" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
-          <div className="mandap-garland garland-left"/><div className="mandap-garland garland-right"/>
-          <div className="mandap-arch"><div className="arch-top"><span>✥</span><i/><span>✥</span><i/><span>✥</span></div>
-            <div className="arch-lintel"><LotusMark /></div><div className="arch-side left"><span/><span/><span/></div><div className="arch-side right"><span/><span/><span/></div>
-            <div className="arch-inner"><div className="arch-inner-glow"/><div className="wedding-fire"><i/><b/><span/></div><div className="arch-lotus"><LotusMark/></div></div>
-            <div className="arch-base"><span/><span/><span/><span/><span/></div>
-          </div>
-          <Deepam className="mandap-deepam left"/><Deepam className="mandap-deepam right"/>
-          <div className="mandap-petal petal-one">✿</div><div className="mandap-petal petal-two">✿</div>
-        </motion.div>
-        <motion.div className="muhurtham-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
-          <span className="muhurtham-label">{t('muhurthamLabel')}</span><div className="muhurtham-date">{t('weddingDate')}</div><span className="muhurtham-divider">✧</span><p>{wedding.muhurtham}</p><span className="muhurtham-venue">{n.venue}</span>
-        </motion.div>
-        <AddToCalendar />
-      </div>
-    </section>
-
-    {/* ── VENUE ── */}
-    <section className="venue-section paper-section" id="venue">
-      <div className="section-wrap">
-        <SectionHeading eyebrow={t('venueEyebrow')} title={t('venueTitle')} telugu={t('venueTelugu')} animateTelugu />
-        <p className="section-intro">{t('venueIntro')}</p>
-        <div className="venue-grid">
-          <VenueCard title={t('weddingCeremony')} data={wedding.venue} icon="wedding"/>
-          <VenueCard title={t('reception')} data={wedding.receptionVenue} icon="reception"/>
-          {side && <VenueCard title={`${side.label} ${t('haldiMehendi')}`} data={side.venue} icon="reception"/>}
-        </div>
-        <div className="countdown-panel">
-          <Mandala className="countdown-ornament"/><div className="countdown-inner"><span className="eyebrow">{t('countdownEyebrow')}</span><h3>{t('countdownTitle')}</h3><Countdown /></div>
-          <Mandala className="countdown-ornament right"/>
-        </div>
-      </div>
-    </section>
 
     {/* ── BLESSINGS ── */}
     <section className="blessings-section paper-section" id="blessings">
@@ -581,6 +549,7 @@ function App() {
       <div className="closing-sparkles">✧ &nbsp; ✦ &nbsp; ✧</div>
       <LotusMark className="closing-lotus" />
       <p className="closing-eyebrow">{t('withLove')}</p><h2>{from === 'divakar' ? <>{n.groom}<span>&amp;</span>{n.bride}</> : <>{n.bride}<span>&amp;</span>{n.groom}</>}</h2>
+      <Countdown />
       <p className="closing-message">{t('closingMsg')}</p>
       <div className="closing-actions">
         <a className="share-button" href={`https://wa.me/?text=${encodeURIComponent(whatsappText)}`} target="_blank" rel="noreferrer"><MessageCircle size={16}/> {t('shareWhatsApp')}</a>
@@ -588,6 +557,8 @@ function App() {
       </div>
       <div className="closing-footer"><span>{t('madeWithLove')}</span><span>{t('shubhamasthu')}</span></div>
     </footer>
+    {/* ── AUTO-SCROLL CONTROL ── */}
+    {active && <AutoScrollButton playing={autoScroll.playing} progress={autoScroll.progress} toggle={autoScroll.toggle} />}
     </>}
     {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
   </main></MotionConfig>

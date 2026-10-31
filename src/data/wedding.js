@@ -51,8 +51,8 @@ export const wedding = {
         mapQuery: 'https://maps.app.goo.gl/hQ7qwg4BFNdvSJB77',
       },
       ceremonies: [
-        { id: 'bride-haldi', name: 'Haldi', telugu: 'పసుపు వేడుక', date: 'Friday, 20 November 2026', time: '12:00 p.m. to 3:00 p.m.', venue: 'Anusha’s family venue', detail: 'Join Anusha’s family for the Haldi celebration. Directions are in the venue section.', style: 'haldi' },
-        { id: 'bride-mehendi', name: 'Mehendi', telugu: 'మెహందీ', date: 'Friday, 20 November 2026', time: '4:00 p.m. to 9:00 p.m.', venue: 'Anusha’s family venue', detail: 'Celebrate Mehendi with Anusha’s family. Directions are in the venue section.', style: 'mehendi' },
+        { id: 'bride-haldi', name: 'Haldi', telugu: 'పసుపు వేడుక', date: 'Friday, 20 November 2026', time: '12:00 p.m. to 3:00 p.m.', venue: 'Anusha’s family venue', detail: 'Join Anusha’s family for the Haldi celebration.', style: 'haldi', mapQuery: 'https://maps.app.goo.gl/hQ7qwg4BFNdvSJB77' },
+        { id: 'bride-mehendi', name: 'Mehendi', telugu: 'మెహందీ', date: 'Friday, 20 November 2026', time: '4:00 p.m. to 9:00 p.m.', venue: 'Anusha’s family venue', detail: 'Celebrate Mehendi with Anusha’s family.', style: 'mehendi', mapQuery: 'https://maps.app.goo.gl/hQ7qwg4BFNdvSJB77' },
       ],
     },
     divakar: {
@@ -73,13 +73,13 @@ export const wedding = {
         mapQuery: 'https://maps.app.goo.gl/aCPSEE3nKBmcxi5o8',
       },
       ceremonies: [
-        { id: 'groom-haldi', name: 'Haldi', telugu: 'పసుపు వేడుక', date: 'Friday, 20 November 2026', time: '4:00 p.m. to 6:00 p.m.', venue: 'Divakar’s family venue', detail: 'Join Divakar’s family for the Haldi celebration. Directions are in the venue section.', style: 'haldi' },
-        { id: 'groom-mehendi', name: 'Mehendi', telugu: 'మెహందీ', date: 'Friday, 20 November 2026', time: '6:00 p.m. to 9:00 p.m.', venue: 'Divakar’s family venue', detail: 'Celebrate Mehendi with Divakar’s family. Directions are in the venue section.', style: 'mehendi' },
+        { id: 'groom-haldi', name: 'Haldi', telugu: 'పసుపు వేడుక', date: 'Friday, 20 November 2026', time: '4:00 p.m. to 6:00 p.m.', venue: 'Divakar’s family venue', detail: 'Join Divakar’s family for the Haldi celebration.', style: 'haldi', mapQuery: 'https://maps.app.goo.gl/aCPSEE3nKBmcxi5o8' },
+        { id: 'groom-mehendi', name: 'Mehendi', telugu: 'మెహందీ', date: 'Friday, 20 November 2026', time: '6:00 p.m. to 9:00 p.m.', venue: 'Divakar’s family venue', detail: 'Celebrate Mehendi with Divakar’s family.', style: 'mehendi', mapQuery: 'https://maps.app.goo.gl/aCPSEE3nKBmcxi5o8' },
       ],
     },
   },
   ceremonies: [
-    { id: 'reception', name: 'The Reception', telugu: 'ఆత్మీయ విందు', date: 'Saturday, 21 November 2026', time: '7:00 p.m. onwards', venue: 'D.C. Anjaneyulu Convention Center', detail: 'An evening of celebration and dinner in Hindupura.', style: 'reception' },
-    { id: 'wedding', name: 'The Wedding', telugu: 'శుభ వివాహం', date: 'Sunday, 22 November 2026', time: 'Muhurtham: 9:00 a.m. to 10:00 a.m.', venue: 'D.C. Anjaneyulu Convention Center', detail: 'Celebrate the auspicious Muhurtham with us.', style: 'wedding' },
+    { id: 'reception', name: 'The Reception', telugu: 'ఆత్మీయ విందు', date: 'Saturday, 21 November 2026', time: '7:00 p.m. onwards', venue: 'D.C. Anjaneyulu Convention Center', detail: 'An evening of celebration and dinner in Hindupura.', style: 'reception', mapQuery: 'D.C. Anjaneyulu Convention Center, Appala Kunta Main Road, Kirikera, Hindupura, Andhra Pradesh' },
+    { id: 'wedding', name: 'The Wedding', telugu: 'శుభ వివాహం', date: 'Sunday, 22 November 2026', time: 'Muhurtham: 9:00 a.m. to 10:00 a.m.', venue: 'D.C. Anjaneyulu Convention Center', detail: 'Celebrate the auspicious Muhurtham with us.', style: 'wedding', mapQuery: 'D.C. Anjaneyulu Convention Center, Appala Kunta Main Road, Kirikera, Hindupura, Andhra Pradesh' },
   ],
 }
