@@ -4,7 +4,7 @@ export const wedding = {
   bride: 'Anusha Reddy',
   groom: 'Divakar Reddy',
   welcomeFamilies: [
-    'Kullakunta Addamma Gari family',
+    'Kollakunta Addamma Gari family',
     'Vankayilu Ram Reddy family',
   ],
   weddingDate: 'Sunday, 22 November 2026',
@@ -33,7 +33,7 @@ export const wedding = {
   sides: {
     anusha: {
       label: 'Anusha’s family',
-      familyName: 'Kullakunta Addamma Gari family',
+      familyName: 'Kollakunta Addamma Gari family',
       invitedBy: 'Smt. Shivamma & Sri Shivareddy',
       blessingsOf: 'Late Smt. Adilakshmamma & Sri Narasimhareddy',
       otherFamily: 'Smt. Sunitha & Sri Babu Reddy',

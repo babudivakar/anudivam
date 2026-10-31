@@ -242,7 +242,7 @@ export const localNames = {
     groomParents: 'Smt. Sunitha & Sri. Babu Reddy',
     brideGrandparents: 'Late. Smt. Adilakshmamma & Sri. Narasimhareddy',
     groomGrandparents: 'Smt. Parvathamma & Late Sri Vankayilu Rama Reddy',
-    brideFamily: 'Kullakunta Addamma Gari family',
+    brideFamily: 'Kollakunta Addamma Gari family',
     groomFamily: 'Vankayilu Rama Reddy family',
     brideAddr: 'Kotsur Village, Hindupuram Taluk, Sri Satyasai Dist.',
     groomAddr: 'Bellachikkanahalli, Tondebhavi Hobli, Gowribidanur Taluk, Chikkaballapura Dist.',
