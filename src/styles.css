@@ -536,15 +536,8 @@ a { color: inherit; }
   background-repeat: no-repeat; background-size: cover;
 }
 .ganesh-scene { z-index: 2; background-image: url('/images/temple-ganesh.webp'); }
-.wedding-scene { z-index: 1; opacity: 0; background-image: url('/images/temple-divine-wedding.webp'); background-position: center 60%; }
-.is-open .ganesh-scene { animation: fadeGaneshScene 2s linear both; }
-.is-open .wedding-scene { animation: revealWeddingScene 2s linear both; }
-@keyframes fadeGaneshScene {
-  0%, 3% { opacity: 1; } 27%, 100% { opacity: 0; }
-}
-@keyframes revealWeddingScene {
-  0%, 43% { opacity: 0; } 54%, 100% { opacity: 1; }
-}
+.wedding-scene { display: none; }
+.is-open .ganesh-scene { opacity: 1; }
 .door-pair {
   position: absolute; z-index: 5; inset: 0; display: flex;
   overflow: hidden; perspective: 1400px; pointer-events: none;
@@ -818,8 +811,7 @@ a { color: inherit; }
   .hero-welcome .open-invitation { margin-top: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .is-open .ganesh-scene { opacity: 0; animation: none; }
-  .is-open .wedding-scene { opacity: 1; animation: none; }
+  .is-open .ganesh-scene { opacity: 1; animation: none; }
   .is-open .door-leaf { display: none; animation: none; }
 }
 
