@@ -279,7 +279,7 @@ a { color: inherit; }
   letter-spacing: .04em;
 }
 .hero-overline {
-  color: #ffe8a8; font-size: clamp(12px, 2vw, 15px); letter-spacing: .22em; text-transform: uppercase;
+  color: #dbb868; font-size: clamp(12px, 2vw, 15px); letter-spacing: .22em; text-transform: uppercase;
   text-shadow: 0 1px 10px #000a;
 }
 .hero-overline::before, .hero-overline::after {
@@ -290,18 +290,18 @@ a { color: inherit; }
   text-align: center; margin-bottom: 6px;
 }
 .hero-blessings-label {
-  display: block; color: #ffe8a8; font-size: clamp(12px, 2vw, 15px);
+  display: block; color: #dbb868; font-size: clamp(12px, 2vw, 15px);
   letter-spacing: .18em; text-transform: uppercase; margin-bottom: 10px;
   font-style: italic; text-shadow: 0 1px 10px #000a;
 }
 .hero-blessings-elders {
-  margin: 0 0 6px; color: #fff0ce;
+  margin: 0 0 6px; color: #f0c96a;
   font: 500 clamp(18px, 3.2vw, 26px)/1.2 'Cormorant Garamond', serif;
   text-shadow: 0 2px 14px #000a;
 }
 .hero-blessings-parents {
-  margin: 0; color: #fff5de;
-  font: 600 clamp(22px, 4vw, 32px)/1.2 'Cormorant Garamond', serif;
+  margin: 0; color: #ffd054;
+  font: 700 clamp(22px, 4vw, 32px)/1.2 'Cormorant Garamond', serif;
   text-shadow: 0 2px 16px #000a;
 }
 .hero-families {
@@ -319,7 +319,7 @@ a { color: inherit; }
   font-size: clamp(66px, 12vw, 128px); line-height: .88; letter-spacing: -.045em;
 }
 .hero-date {
-  display: block; margin-top: 16px; color: #fff0ce;
+  display: block; margin-top: 16px; color: #dbb868;
   font: 600 clamp(13px, 2.2vw, 17px)/1 'Cormorant Garamond', serif;
   letter-spacing: .16em; text-transform: uppercase;
   text-shadow: 0 1px 10px #000a;
@@ -344,7 +344,12 @@ a { color: inherit; }
   font-size: 11px; letter-spacing: .14em;
 }
 .hero-welcome .open-invitation { margin-top: 25px; }
-.hero-revealed h1 { font-size: clamp(49px, 8vw, 83px); margin-top: 10px; }
+.hero-revealed h1 {
+  font-size: clamp(49px, 8vw, 83px); margin-top: 10px;
+  background: linear-gradient(180deg, #ffe8a8 0%, #ffd054 45%, #c9a04a 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 16px #000a);
+}
 .hero-couple-grid {
   display: grid; grid-template-columns: 1fr 18px 1fr;
   align-items: start; gap: 11px; width: min(100%, 620px);
@@ -353,14 +358,14 @@ a { color: inherit; }
 .hero-couple-grid > i { align-self: center; color: #eec990; font-size: 13px; }
 .hero-couple-grid div > span {
   display: block; font-size: clamp(10px, 1.8vw, 12px); letter-spacing: .18em; text-transform: uppercase;
-  color: #ffe8a8; text-shadow: 0 1px 8px #000a;
+  color: #c9a04a; text-shadow: 0 1px 8px #000a;
 }
 .hero-couple-grid h2 {
-  margin: 5px 0 4px; font: 500 clamp(26px, 4.5vw, 40px)/1 'Cormorant Garamond', serif;
-  text-shadow: 0 2px 12px #000a;
+  margin: 5px 0 4px; font: 600 clamp(26px, 4.5vw, 40px)/1 'Cormorant Garamond', serif;
+  color: #ffd054; text-shadow: 0 2px 12px #000a;
 }
 .hero-couple-grid p {
-  display: block; margin: 0; color: #fff0ce; font: 400 clamp(12px, 1.8vw, 14px)/1.35 'Cormorant Garamond', serif;
+  display: block; margin: 0; color: #e8c46a; font: 400 clamp(12px, 1.8vw, 14px)/1.35 'Cormorant Garamond', serif;
   text-shadow: 0 1px 8px #000a;
 }
 .hero-revealed .hero-date { margin-top: 18px; }
