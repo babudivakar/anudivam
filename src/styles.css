@@ -172,50 +172,52 @@ a { color: inherit; }
 
 /* ── JOURNEY PATH + DOLI ── */
 .journey-path {
-  position: absolute; top: 0; bottom: 0; left: clamp(10px, 3.5vw, 28px);
-  width: 3px; z-index: 30; pointer-events: none;
+  position: absolute; top: 0; bottom: 0; left: 15%; 
+  width: 5px; z-index: 30; pointer-events: none;
 }
 .journey-path-line {
   position: absolute; inset: 0;
-  background: repeating-linear-gradient(180deg, #ffd05488 0px, #ffd05488 8px, transparent 8px, transparent 16px);
-  border-radius: 2px;
+  background: repeating-linear-gradient(180deg, #ffd054aa 0px, #ffd054aa 12px, transparent 12px, transparent 24px);
+  border-radius: 3px; box-shadow: 0 0 12px #ffd05444;
 }
 .journey-doli {
   position: absolute; top: 0; left: 50%;
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center;
   transition: opacity 0.4s;
-  filter: drop-shadow(0 4px 16px #00000088);
+  filter: drop-shadow(0 6px 24px #000000aa);
 }
 .doli-top {
-  font-size: 16px; line-height: 1;
+  font-size: 36px; line-height: 1;
   animation: doliFlicker 1.2s ease-in-out infinite alternate;
 }
 @keyframes doliFlicker {
-  from { filter: brightness(1); } to { filter: brightness(1.4); }
+  from { filter: brightness(1); } to { filter: brightness(1.5); }
 }
 .doli-body {
-  font-size: 32px; line-height: 1;
+  font-size: 72px; line-height: 1;
   animation: doliFloat 2s ease-in-out infinite;
 }
 @keyframes doliFloat {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+  50% { transform: translateY(-6px); }
 }
 .doli-couple {
-  font-size: 20px; line-height: 1; margin-top: -4px;
+  font-size: 48px; line-height: 1; margin-top: -8px;
 }
 .doli-trail {
-  font-size: 8px; color: #ffd054; letter-spacing: 2px;
-  opacity: 0.6; margin-top: 2px;
+  font-size: 18px; color: #ffd054; letter-spacing: 4px;
+  opacity: 0.6; margin-top: 4px;
   animation: trailPulse 1.5s ease-in-out infinite alternate;
 }
 @keyframes trailPulse { from { opacity: 0.3; } to { opacity: 0.8; } }
 
 @media (max-width: 600px) {
-  .journey-path { left: 6px; }
-  .doli-body { font-size: 24px; }
-  .doli-couple { font-size: 16px; }
+  .journey-path { left: 10%; }
+  .doli-top { font-size: 28px; }
+  .doli-body { font-size: 56px; }
+  .doli-couple { font-size: 36px; }
+  .doli-trail { font-size: 14px; }
 }
 
 /* ── CURTAIN TRANSITIONS between events ── */
