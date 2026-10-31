@@ -125,13 +125,14 @@ function useAutoScroll() {
   const rafRef = useRef(0)
   const lastRef = useRef(0)
   const playingRef = useRef(false)
-  const SPEED = 30000
+  const SPEED = 200
 
   useEffect(() => { playingRef.current = playing }, [playing])
 
   useEffect(() => {
-    if (!playing) { cancelAnimationFrame(rafRef.current); return }
+    if (!playing) { cancelAnimationFrame(rafRef.current); document.documentElement.style.scrollBehavior = ''; return }
     lastRef.current = 0
+    document.documentElement.style.scrollBehavior = 'auto'
 
     const tick = (now) => {
       if (!playingRef.current) return
