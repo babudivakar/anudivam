@@ -305,7 +305,7 @@ function App() {
   const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
   const by = params.get('by') || ''
   const showFam = params.get('fam') !== '0'
-  const lang = params.get('lang') || 'en'
+  const lang = params.get('lang') || (from === 'divakar' ? 'kn' : 'en')
   const t = getT(lang)
   const n = getNames(lang)
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
