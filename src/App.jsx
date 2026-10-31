@@ -332,7 +332,10 @@ function App() {
         audio.play().then(() => setMusic(true)).catch(() => {})
       }
     }, revealDelay)
-    return () => window.clearTimeout(timer)
+    const scrollTimer = window.setTimeout(() => {
+      autoScroll.play()
+    }, revealDelay + 10000)
+    return () => { window.clearTimeout(timer); window.clearTimeout(scrollTimer) }
   }
 
   /* Scroll / wheel / touch-swipe also opens doors */
