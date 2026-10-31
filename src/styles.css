@@ -256,8 +256,8 @@ a { color: inherit; }
 }
 .door-leaf::before, .door-leaf::after { display: none; }
 .hero-shade {
-  background: radial-gradient(ellipse at 50% 45%, #1a0f0c50 0%, #1a0f0ccc 100%),
-              linear-gradient(180deg, #29170fc0 0%, #3320189a 35%, #26160f60 55%, #1c1009a0 100%);
+  background: radial-gradient(ellipse at 50% 45%, #1a0f0c18 0%, #1a0f0c60 100%),
+              linear-gradient(180deg, #29170f50 0%, #33201830 35%, #26160f15 55%, #1c100940 100%);
 }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
