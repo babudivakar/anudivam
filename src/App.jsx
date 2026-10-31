@@ -366,7 +366,8 @@ function App() {
     return { name: decodeURIComponent(by), showFamily: showFam }
   }
   const inviter = resolveInviter()
-  const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
+  const mainFamilyCeremonies = side ? side.ceremonies : [...wedding.sides.anusha.ceremonies, ...wedding.sides.divakar.ceremonies]
+  const ceremonies = [...(mainFamilyCeremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   const openDoors = () => {
     if (opened) return
