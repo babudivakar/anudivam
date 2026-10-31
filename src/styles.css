@@ -260,8 +260,8 @@ a { color: inherit; }
   transition: background .8s ease;
 }
 .entrance-art.is-open ~ .hero-shade {
-  background: radial-gradient(ellipse at 50% 45%, #1a0f0c90 0%, #1a0f0ccc 100%),
-              linear-gradient(180deg, #29170fb0 0%, #33201880 35%, #26160f70 55%, #1c1009a0 100%);
+  background: radial-gradient(ellipse at 50% 45%, #1a0f0ce8 0%, #1a0f0cf5 100%),
+              linear-gradient(180deg, #29170fe0 0%, #332018d0 35%, #26160fc0 55%, #1c1009e0 100%);
 }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
