@@ -170,73 +170,70 @@ a { color: inherit; }
 
 /* HALDI theme */
 .event-page--haldi {
-  background: linear-gradient(160deg, #fff7e0 0%, #ffd54f 30%, #f4a623 65%, #c67c1a 100%);
+  background: #f5e6c0 url('/images/haldi-bg.jpg') center center / cover no-repeat;
 }
 .event-page--haldi .event-page__overlay {
-  background: radial-gradient(ellipse at 50% 40%, transparent 30%, #c67c1a40 100%);
+  background: linear-gradient(180deg, transparent 0%, #f5e6c020 40%, #c67c1a50 100%);
 }
-.event-page--haldi .event-page__telugu { color: #7a4a0a; }
+.event-page--haldi .event-page__telugu { color: #5c3000; text-shadow: 0 1px 6px #ffd54f88; }
 .event-page--haldi .event-page__title {
-  background: linear-gradient(180deg, #5c3000 0%, #8b4513 50%, #a0522d 100%);
+  background: linear-gradient(180deg, #4a2500 0%, #8b4513 50%, #6b3a0a 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 8px #ffd54f80);
+  filter: drop-shadow(0 2px 10px #ffd54fa0);
 }
-.event-page--haldi .event-page__details p { color: #5c3000; }
-.event-page--haldi .event-page__detail { color: #6b3a0a; }
+.event-page--haldi .event-page__details p { color: #4a2500; text-shadow: 0 1px 4px #ffd54f66; }
+.event-page--haldi .event-page__detail { color: #5c3000; text-shadow: 0 1px 4px #ffd54f44; }
 .event-page--haldi .event-page__scroll-hint { color: #7a4a0a; }
 
 /* MEHENDI theme */
 .event-page--mehendi {
-  background: linear-gradient(160deg, #e8f5e9 0%, #66bb6a 30%, #2e7d32 65%, #1b5e20 100%);
+  background: #e0ecd8 url('/images/mehendi-bg.jpg') center center / cover no-repeat;
 }
 .event-page--mehendi .event-page__overlay {
-  background: radial-gradient(ellipse at 50% 40%, transparent 30%, #1b5e2040 100%);
+  background: linear-gradient(180deg, transparent 0%, #e0ecd820 40%, #1b5e2040 100%);
 }
-.event-page--mehendi .event-page__telugu { color: #1b3a1b; }
+.event-page--mehendi .event-page__telugu { color: #1b3a1b; text-shadow: 0 1px 6px #66bb6a88; }
 .event-page--mehendi .event-page__title {
-  background: linear-gradient(180deg, #1b3a1b 0%, #2e5a1e 50%, #4a7c3f 100%);
+  background: linear-gradient(180deg, #0d2b0d 0%, #1b5e20 50%, #2e7d32 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 8px #66bb6a80);
+  filter: drop-shadow(0 2px 10px #66bb6aa0);
 }
-.event-page--mehendi .event-page__details p { color: #1b3a1b; }
-.event-page--mehendi .event-page__detail { color: #2d4a2d; }
+.event-page--mehendi .event-page__details p { color: #1b3a1b; text-shadow: 0 1px 4px #a0d99866; }
+.event-page--mehendi .event-page__detail { color: #2d4a2d; text-shadow: 0 1px 4px #a0d99844; }
 .event-page--mehendi .event-page__scroll-hint { color: #1b3a1b; }
 
 /* RECEPTION theme */
 .event-page--reception {
-  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 30%, #0f3460 65%, #1a1a2e 100%);
+  background: #1a1a2e url('/images/reception-bg.jpg') center center / cover no-repeat;
 }
 .event-page--reception .event-page__overlay {
-  background: radial-gradient(ellipse at 50% 35%, #e94560 08 0%, transparent 60%),
-              radial-gradient(circle at 20% 70%, #ffd70015 0%, transparent 40%),
-              radial-gradient(circle at 80% 20%, #4169e115 0%, transparent 40%);
+  background: linear-gradient(180deg, #0a0a1e60 0%, transparent 30%, transparent 60%, #0a0a1e80 100%);
 }
-.event-page--reception .event-page__telugu { color: #ffd700; }
+.event-page--reception .event-page__telugu { color: #ffd700; text-shadow: 0 1px 10px #ffd70088; }
 .event-page--reception .event-page__title {
-  background: linear-gradient(180deg, #ffd700 0%, #ff69b4 50%, #e94560 100%);
+  background: linear-gradient(180deg, #fff8e0 0%, #ffd700 45%, #ffaa00 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 3px 16px #ffd70060);
+  filter: drop-shadow(0 3px 18px #ffd70080);
 }
-.event-page--reception .event-page__details p { color: #f0e6d0; }
-.event-page--reception .event-page__detail { color: #c0b8a8; }
+.event-page--reception .event-page__details p { color: #fff0d0; text-shadow: 0 1px 8px #00000088; }
+.event-page--reception .event-page__detail { color: #e0d0b0; text-shadow: 0 1px 6px #00000066; }
 .event-page--reception .event-page__scroll-hint { color: #ffd700; }
 
 /* WEDDING theme */
 .event-page--wedding {
-  background: linear-gradient(160deg, #3d0c0c 0%, #8b1a1a 30%, #a02020 50%, #6b1010 80%, #2a0505 100%);
+  background: #3d1a0a url('/images/wedding-bg.jpg') center center / cover no-repeat;
 }
 .event-page--wedding .event-page__overlay {
-  background: radial-gradient(ellipse at 50% 40%, #ffd70012 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 100%, #1a080840 0%, transparent 50%);
+  background: linear-gradient(180deg, transparent 0%, #3d1a0a20 40%, #2a050550 100%);
 }
-.event-page--wedding .event-page__telugu { color: #ffd054; }
+.event-page--wedding .event-page__telugu { color: #ffd054; text-shadow: 0 1px 8px #8b1a1a88; }
 .event-page--wedding .event-page__title {
   background: linear-gradient(180deg, #ffe8a8 0%, #ffd054 45%, #c9a04a 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 3px 16px #ffd05460);
+  filter: drop-shadow(0 3px 16px #ffd054a0);
 }
-.event-page--wedding .event-page__details p { color: #ffe0b0; }
-.event-page--wedding .event-page__detail { color: #d4a868; }
+.event-page--wedding .event-page__details p { color: #4a2500; text-shadow: 0 1px 6px #ffd05466; }
+.event-page--wedding .event-page__detail { color: #5c3000; text-shadow: 0 1px 4px #ffd05444; }
 .event-page--wedding .event-page__scroll-hint { color: #ffd054; }
 
 .celebrations-section { background:#eae1d0; position:relative; overflow:hidden; }
