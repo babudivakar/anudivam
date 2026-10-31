@@ -295,48 +295,68 @@ function App() {
         {revealed && <motion.div key="couple-reveal" className="hero-title hero-revealed"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: .5 }}>
 
-          {side ? <motion.div className="hero-blessings"
+          <motion.div className="reveal-header"
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: .9 }}>
-            <span className="hero-blessings-label"><T k="withBlessingsOf" t={t} /></span>
-            <p className="hero-blessings-elders">{from === 'divakar' ? n.groomGrandparents : n.brideGrandparents}</p>
-            <p className="hero-blessings-parents">{from === 'divakar' ? n.groomParents : n.brideParents}</p>
-          </motion.div> : <motion.span className="hero-overline"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: .9 }}>
-            <T k="togetherFamilies" t={t} /></motion.span>}
+            <span className="reveal-shubhamastu"><T k="shubhamastu" t={t} /></span>
+            <span className="reveal-blessing"><T k="blessing" t={t} /></span>
+            <span className="reveal-kalyanam"><T k="kalyanamasthu" t={t} /></span>
+          </motion.div>
 
-          <motion.div className="reveal-names"
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, duration: 1, ease: 'easeOut' }}>
+          <motion.div className="reveal-blessings"
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: .9 }}>
+            <span className="reveal-blessings-label"><T k="withBlessingsOf" t={t} /></span>
             {from === 'divakar' ? <>
-              <span className="reveal-role"><T k="theGroom" t={t} /></span>
-              <h1>{n.groom}</h1>
-              <p className="reveal-parents"><T k="sonOf" t={t} /> {n.groomParents}</p>
-              <span className="reveal-and">✦ &amp; ✦</span>
-              <span className="reveal-role"><T k="theBride" t={t} /></span>
-              <h1>{n.bride}</h1>
-              <p className="reveal-parents"><T k="daughterOf" t={t} /> {n.brideParents}</p>
+              <p className="reveal-elders">{n.groomGrandparents}</p>
+              <p className="reveal-parents-name">{n.groomParents}</p>
+              <p className="reveal-addr">{n.groomAddr}</p>
             </> : <>
-              <span className="reveal-role"><T k="theBride" t={t} /></span>
-              <h1>{n.bride}</h1>
-              <p className="reveal-parents"><T k="daughterOf" t={t} /> {n.brideParents}</p>
-              <span className="reveal-and">✦ &amp; ✦</span>
-              <span className="reveal-role"><T k="theGroom" t={t} /></span>
-              <h1>{n.groom}</h1>
-              <p className="reveal-parents"><T k="sonOf" t={t} /> {n.groomParents}</p>
+              <p className="reveal-elders">{n.brideGrandparents}</p>
+              <p className="reveal-parents-name">{n.brideParents}</p>
+              <p className="reveal-addr">{n.brideAddr}</p>
             </>}
           </motion.div>
 
-          <motion.div className="reveal-married"
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.4, duration: .8 }}>
-            <span className="reveal-telugu"><T k="shubhaVivaham" t={t} /></span>
-            <span className="reveal-line" />
-            <span className="reveal-text"><T k="gettingMarried" t={t} /></span>
-            <span className="reveal-line" />
+          <motion.div className="reveal-invitation-text"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: .8 }}>
+            <p>{from === 'divakar' ? t('requestPresenceGroom') : t('requestPresenceBride')}</p>
+          </motion.div>
+
+          <motion.div className="reveal-names"
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.6, duration: 1, ease: 'easeOut' }}>
+            {from === 'divakar' ? <>
+              <span className="reveal-role"><T k="theGroom" t={t} /></span>
+              <h1>{n.groom} <span className="reveal-qual">{n.groomQual}</span></h1>
+              <span className="reveal-and">✦ &amp; ✦</span>
+              <span className="reveal-role"><T k="theBride" t={t} /></span>
+              <h1>{n.bride} <span className="reveal-qual">{n.brideQual}</span></h1>
+              <p className="reveal-parents">{t('daughterOf')} {n.brideParents}{t('closeParen')}</p>
+            </> : <>
+              <span className="reveal-role"><T k="theBride" t={t} /></span>
+              <h1>{n.bride} <span className="reveal-qual">{n.brideQual}</span></h1>
+              <span className="reveal-and">✦ &amp; ✦</span>
+              <span className="reveal-role"><T k="theGroom" t={t} /></span>
+              <h1>{n.groom} <span className="reveal-qual">{n.groomQual}</span></h1>
+              <p className="reveal-parents">{t('sonOf')} {n.groomParents}{t('closeParen')}</p>
+            </>}
           </motion.div>
 
           <motion.div className="reveal-details"
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3.2, duration: .8 }}>
-            <span className="reveal-date">{t('weddingDate')}</span>
-            <span className="reveal-venue">{n.venue}, {n.venueAddr ? n.venueAddr.split(',')[0] : 'Hindupura'}</span>
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.8, duration: .8 }}>
+            <span className="reveal-date"><T k="onSunday" t={t} /></span>
+            <span className="reveal-at">{t('atVenue') ? `${t('atVenue')} ` : ''}"<strong>{n.venue}</strong>"</span>
+            <span className="reveal-venue">{n.venueAddr}</span>
+          </motion.div>
+
+          <motion.div className="reveal-awaiting"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3.4, duration: .8 }}>
+            <span><T k="awaitingPresence" t={t} /></span>
+            {from === 'divakar' ? <>
+              <p>{n.groomParents}</p>
+              <p>{n.brideParents}</p>
+            </> : <>
+              <p>{n.brideParents}</p>
+              <p>{n.groomParents}</p>
+            </>}
           </motion.div>
 
           <motion.a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"
