@@ -286,16 +286,16 @@ function App() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: .5 }}>
 
           {side ? <motion.div className="hero-blessings"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: .7 }}>
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: .9 }}>
             <span className="hero-blessings-label">With the blessings of</span>
             <p className="hero-blessings-elders">{side.blessingsOf}</p>
             <p className="hero-blessings-parents">{side.invitedBy}</p>
           </motion.div> : <motion.span className="hero-overline"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: .7 }}>
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: .9 }}>
             Together with our families</motion.span>}
 
           <motion.div className="reveal-names"
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6, duration: .8, ease: 'easeOut' }}>
+            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, duration: 1, ease: 'easeOut' }}>
             {from === 'divakar' ? <>
               <span className="reveal-role">The groom</span>
               <h1>{wedding.groom}</h1>
@@ -312,7 +312,7 @@ function App() {
           </motion.div>
 
           <motion.div className="reveal-married"
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.4, duration: .7 }}>
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.4, duration: .8 }}>
             <span className="reveal-telugu">శుభ వివాహం</span>
             <span className="reveal-line" />
             <span className="reveal-text">are getting married</span>
@@ -320,13 +320,13 @@ function App() {
           </motion.div>
 
           <motion.div className="reveal-details"
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2, duration: .7 }}>
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3.2, duration: .8 }}>
             <span className="reveal-date">{wedding.weddingDate}</span>
             <span className="reveal-venue">{wedding.venue.name}, Hindupura</span>
           </motion.div>
 
           <motion.a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.6, duration: .5 }}>
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4, duration: .5 }}>
             <ArrowDown size={18}/>
           </motion.a>
         </motion.div>}
