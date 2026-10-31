@@ -35,6 +35,18 @@ function waMessage(name, url, side) {
   return `Dear ${name},\n\nYou are cordially invited to celebrate the wedding of ${wedding.bride} & ${wedding.groom} — ${wedding.title} 💐\n\n📅 ${wedding.weddingDate}\n📍 ${wedding.venue.name}, ${wedding.venue.address}\n\nOpen your personal invitation here:\n${url}\n\nWith love,\n${fam} family 🙏`
 }
 
+function InviterSelect({ side, value, onChange, customValue, onCustomChange }) {
+  return <div className="inviter-select">
+    <label>Who is inviting?</label>
+    <div className="inviter-row">
+      <select value={value} onChange={e => onChange(e.target.value)}>
+        {inviterOptions(side).map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+      </select>
+      {value === 'custom' && <input type="text" value={customValue} onChange={e => onCustomChange(e.target.value)} placeholder="e.g. Ramesh Garu" />}
+    </div>
+  </div>
+}
+
 export default function AdminLinks() {
   const [stored] = useState(load)
   const [anushaText, setAnushaText] = useState(stored.anusha)
@@ -121,18 +133,6 @@ export default function AdminLinks() {
 
   const anushaCount = links.filter(l => l.side === 'anusha').length
   const divakarCount = links.filter(l => l.side === 'divakar').length
-
-  const InviterSelect = ({ side, value, onChange, customValue, onCustomChange }) => (
-    <div className="inviter-select">
-      <label>Who is inviting?</label>
-      <div className="inviter-row">
-        <select value={value} onChange={e => onChange(e.target.value)}>
-          {inviterOptions(side).map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
-        {value === 'custom' && <input type="text" value={customValue} onChange={e => onCustomChange(e.target.value)} placeholder="e.g. Ramesh Garu" />}
-      </div>
-    </div>
-  )
 
   return <div className="admin-page">
     <div className="admin-container">
