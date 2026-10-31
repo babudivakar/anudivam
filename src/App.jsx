@@ -171,7 +171,7 @@ function useAutoScroll() {
   const rafRef = useRef(0)
   const lastRef = useRef(0)
   const guardRef = useRef(0)
-  const SPEED = 90
+  const SPEED = 300
 
   useEffect(() => {
     if (!playing) { cancelAnimationFrame(rafRef.current); return }
