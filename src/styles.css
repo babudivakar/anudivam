@@ -916,6 +916,11 @@ a { color: inherit; }
 }
 .inviter-row input:focus { border-color: #ffd78a; outline: none; box-shadow: 0 0 0 2px #dbb86830; }
 .inviter-row input::placeholder { color: #6b5a40; }
+.fam-toggle {
+  display: flex; align-items: center; gap: 6px; margin-top: 6px;
+  color: #9a8a70; font-size: 12px; cursor: pointer; text-transform: none; letter-spacing: 0;
+}
+.fam-toggle input { accent-color: #dbb868; cursor: pointer; }
 .side-hint { color: #7a6a50; font-size: 11px; margin: 0 0 6px; font-style: italic; }
 .inviter { color: #c9a665; font-size: 12px; }
 .admin-side textarea {

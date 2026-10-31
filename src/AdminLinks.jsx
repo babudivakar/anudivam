@@ -21,11 +21,12 @@ const inviterOptions = (side) => {
   return opts
 }
 
-function makeUrl(name, side, by) {
+function makeUrl(name, side, by, showFam) {
   const p = new URLSearchParams()
   if (name) p.set('guest', name)
   if (side) p.set('from', side)
   if (by && by !== 'family') p.set('by', by)
+  if (by && by !== 'family' && showFam === false) p.set('fam', '0')
   const qs = p.toString()
   return qs ? BASE + '?' + qs : BASE
 }
@@ -35,7 +36,8 @@ function waMessage(name, url, side) {
   return `Dear ${name},\n\nYou are cordially invited to celebrate the wedding of ${wedding.bride} & ${wedding.groom} — ${wedding.title} 💐\n\n📅 ${wedding.weddingDate}\n📍 ${wedding.venue.name}, ${wedding.venue.address}\n\nOpen your personal invitation here:\n${url}\n\nWith love,\n${fam} family 🙏`
 }
 
-function InviterSelect({ side, value, onChange, customValue, onCustomChange }) {
+function InviterSelect({ side, value, onChange, customValue, onCustomChange, showFam, onShowFamChange }) {
+  const isPersonal = value !== 'family'
   return <div className="inviter-select">
     <label>Who is inviting?</label>
     <div className="inviter-row">
@@ -44,6 +46,7 @@ function InviterSelect({ side, value, onChange, customValue, onCustomChange }) {
       </select>
       {value === 'custom' && <input type="text" value={customValue} onChange={e => onCustomChange(e.target.value)} placeholder="e.g. Ramesh Garu" />}
     </div>
+    {isPersonal && <label className="fam-toggle"><input type="checkbox" checked={showFam} onChange={e => onShowFamChange(e.target.checked)} /> Show family name below inviter</label>}
   </div>
 }
 
@@ -55,17 +58,19 @@ export default function AdminLinks() {
   const [divakarBy, setDivakarBy] = useState(stored.divakarBy || 'family')
   const [anushaCustom, setAnushaCustom] = useState(stored.anushaCustom || '')
   const [divakarCustom, setDivakarCustom] = useState(stored.divakarCustom || '')
+  const [anushaFam, setAnushaFam] = useState(stored.anushaFam !== false)
+  const [divakarFam, setDivakarFam] = useState(stored.divakarFam !== false)
   const [links, setLinks] = useState([])
   const [copied, setCopied] = useState(null)
   const [lastSaved, setLastSaved] = useState(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      save({ anusha: anushaText, divakar: divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom })
+      save({ anusha: anushaText, divakar: divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam })
       setLastSaved(new Date().toLocaleTimeString())
     }, 500)
     return () => clearTimeout(timer)
-  }, [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom])
+  }, [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam])
 
   useEffect(() => {
     if (stored.anusha || stored.divakar) generateLinks(stored.anusha, stored.divakar, stored.anushaBy, stored.divakarBy, stored.anushaCustom, stored.divakarCustom)
@@ -80,14 +85,16 @@ export default function AdminLinks() {
     const dBySend = dByVal === 'custom' ? (dCust || divakarCustom || 'family') : dByVal
     const aNames = parse(aText || anushaText)
     const dNames = parse(dText || divakarText)
-    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend) }))
-    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend) })
-    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend) }))
-    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend) })
+    const aFam = anushaBy === 'family' ? true : anushaFam
+    const dFam = divakarBy === 'family' ? true : divakarFam
+    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend, aFam) }))
+    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend, aFam) })
+    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend, dFam) }))
+    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend, dFam) })
     setLinks(result)
   }
 
-  const generate = useCallback(() => generateLinks(), [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom])
+  const generate = useCallback(() => generateLinks(), [anushaText, divakarText, anushaBy, divakarBy, anushaCustom, divakarCustom, anushaFam, divakarFam])
   const flash = (id) => { setCopied(id); setTimeout(() => setCopied(null), 1800) }
   const copyOne = (i) => { navigator.clipboard.writeText(links[i].url); flash(`link-${i}`) }
   const sendWA = (i) => { window.open('https://wa.me/?text=' + encodeURIComponent(waMessage(links[i].name, links[i].url, links[i].side)), '_blank') }
@@ -152,7 +159,7 @@ export default function AdminLinks() {
         <div className="admin-side">
           <h2>🌸 Anusha's Side</h2>
           <p className="side-desc">Invited by {wedding.family.bride}</p>
-          <InviterSelect side="anusha" value={anushaBy} onChange={setAnushaBy} customValue={anushaCustom} onCustomChange={setAnushaCustom} />
+          <InviterSelect side="anusha" value={anushaBy} onChange={setAnushaBy} customValue={anushaCustom} onCustomChange={setAnushaCustom} showFam={anushaFam} onShowFamChange={setAnushaFam} />
           <p className="side-hint">Guest names (one per line). Leave empty for a generic link.</p>
           <textarea value={anushaText} onChange={e => setAnushaText(e.target.value)}
             placeholder={"Rajesh Uncle\nPriya Aunty\nSrinivas & Family\n(leave empty for generic link)"} rows={7} />
@@ -160,7 +167,7 @@ export default function AdminLinks() {
         <div className="admin-side">
           <h2>💙 Divakar's Side</h2>
           <p className="side-desc">Invited by {wedding.family.groom}</p>
-          <InviterSelect side="divakar" value={divakarBy} onChange={setDivakarBy} customValue={divakarCustom} onCustomChange={setDivakarCustom} />
+          <InviterSelect side="divakar" value={divakarBy} onChange={setDivakarBy} customValue={divakarCustom} onCustomChange={setDivakarCustom} showFam={divakarFam} onShowFamChange={setDivakarFam} />
           <p className="side-hint">Guest names (one per line). Leave empty for a generic link.</p>
           <textarea value={divakarText} onChange={e => setDivakarText(e.target.value)}
             placeholder={"Ramesh Anna\nSunitha Aunty\nVenkat & Family\n(leave empty for generic link)"} rows={7} />

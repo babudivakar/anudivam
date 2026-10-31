@@ -158,14 +158,15 @@ function App() {
   const from = params.get('from')
   const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
   const by = params.get('by') || ''
+  const showFam = params.get('fam') !== '0'
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
   const resolveInviter = () => {
     if (!side) return { name: '', showFamily: false }
     if (!by || by === 'family') return { name: side.familyName, showFamily: false }
-    if (by === 'parents') return { name: side.invitedBy, showFamily: true }
+    if (by === 'parents') return { name: side.invitedBy, showFamily: showFam }
     const match = side.inviters?.find(inv => inv.value === by)
-    if (match) return { name: match.label, showFamily: true }
-    return { name: decodeURIComponent(by), showFamily: true }
+    if (match) return { name: match.label, showFamily: showFam }
+    return { name: decodeURIComponent(by), showFamily: showFam }
   }
   const inviter = resolveInviter()
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
