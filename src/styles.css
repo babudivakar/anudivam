@@ -129,6 +129,116 @@ a { color: inherit; }
 .family-note span { text-transform:uppercase; font-size:9px; letter-spacing:.2em; }.family-note p { margin:8px 0 0; font-family:'Cormorant Garamond',serif; color:#4b3427; font-size:20px; }.family-note i { display:block; color:#ad8748; font-family:'Cormorant Garamond',serif; font-size:16px; margin-top:3px; }
 .scroll-cue { display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:58px; color:#967849; text-transform:uppercase; letter-spacing:.19em; font-size:8px; }.scroll-cue a { width:34px;height:34px;display:grid;place-items:center;border:1px solid #c9ae79;border-radius:50%;text-decoration:none; }
 
+/* ── EVENT PAGES — full-viewport scroll-snap ── */
+.event-pages { scroll-snap-type: y mandatory; }
+.event-page {
+  position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center;
+  scroll-snap-align: start; overflow: hidden;
+}
+.event-page__overlay {
+  position: absolute; inset: 0; z-index: 1;
+}
+.event-page__content {
+  position: relative; z-index: 2; text-align: center; padding: 40px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.event-page__telugu {
+  display: block; font: 600 clamp(14px, 2.5vw, 20px)/1.2 'Noto Serif Telugu', serif;
+  letter-spacing: .06em; margin-bottom: 4px;
+}
+.event-page__title {
+  font: 800 clamp(42px, 10vw, 80px)/0.95 'Cormorant Garamond', serif;
+  letter-spacing: -0.01em; margin: 0;
+}
+.event-page__details {
+  display: flex; flex-direction: column; gap: 8px; margin-top: 16px;
+}
+.event-page__details p {
+  display: flex; align-items: center; gap: 8px; justify-content: center;
+  font: 500 clamp(14px, 2.2vw, 18px)/1.3 'Cormorant Garamond', serif;
+  letter-spacing: .03em;
+}
+.event-page__detail {
+  max-width: 400px; margin-top: 12px;
+  font: italic 400 clamp(13px, 2vw, 16px)/1.5 'Cormorant Garamond', serif;
+  opacity: 0.8;
+}
+.event-page__scroll-hint {
+  margin-top: 20px; animation: bobDown 1.8s ease-in-out infinite; opacity: 0.6;
+}
+@keyframes bobDown { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+/* HALDI theme */
+.event-page--haldi {
+  background: linear-gradient(160deg, #fff7e0 0%, #ffd54f 30%, #f4a623 65%, #c67c1a 100%);
+}
+.event-page--haldi .event-page__overlay {
+  background: radial-gradient(ellipse at 50% 40%, transparent 30%, #c67c1a40 100%);
+}
+.event-page--haldi .event-page__telugu { color: #7a4a0a; }
+.event-page--haldi .event-page__title {
+  background: linear-gradient(180deg, #5c3000 0%, #8b4513 50%, #a0522d 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px #ffd54f80);
+}
+.event-page--haldi .event-page__details p { color: #5c3000; }
+.event-page--haldi .event-page__detail { color: #6b3a0a; }
+.event-page--haldi .event-page__scroll-hint { color: #7a4a0a; }
+
+/* MEHENDI theme */
+.event-page--mehendi {
+  background: linear-gradient(160deg, #e8f5e9 0%, #66bb6a 30%, #2e7d32 65%, #1b5e20 100%);
+}
+.event-page--mehendi .event-page__overlay {
+  background: radial-gradient(ellipse at 50% 40%, transparent 30%, #1b5e2040 100%);
+}
+.event-page--mehendi .event-page__telugu { color: #1b3a1b; }
+.event-page--mehendi .event-page__title {
+  background: linear-gradient(180deg, #1b3a1b 0%, #2e5a1e 50%, #4a7c3f 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px #66bb6a80);
+}
+.event-page--mehendi .event-page__details p { color: #1b3a1b; }
+.event-page--mehendi .event-page__detail { color: #2d4a2d; }
+.event-page--mehendi .event-page__scroll-hint { color: #1b3a1b; }
+
+/* RECEPTION theme */
+.event-page--reception {
+  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 30%, #0f3460 65%, #1a1a2e 100%);
+}
+.event-page--reception .event-page__overlay {
+  background: radial-gradient(ellipse at 50% 35%, #e94560 08 0%, transparent 60%),
+              radial-gradient(circle at 20% 70%, #ffd70015 0%, transparent 40%),
+              radial-gradient(circle at 80% 20%, #4169e115 0%, transparent 40%);
+}
+.event-page--reception .event-page__telugu { color: #ffd700; }
+.event-page--reception .event-page__title {
+  background: linear-gradient(180deg, #ffd700 0%, #ff69b4 50%, #e94560 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 16px #ffd70060);
+}
+.event-page--reception .event-page__details p { color: #f0e6d0; }
+.event-page--reception .event-page__detail { color: #c0b8a8; }
+.event-page--reception .event-page__scroll-hint { color: #ffd700; }
+
+/* WEDDING theme */
+.event-page--wedding {
+  background: linear-gradient(160deg, #3d0c0c 0%, #8b1a1a 30%, #a02020 50%, #6b1010 80%, #2a0505 100%);
+}
+.event-page--wedding .event-page__overlay {
+  background: radial-gradient(ellipse at 50% 40%, #ffd70012 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 100%, #1a080840 0%, transparent 50%);
+}
+.event-page--wedding .event-page__telugu { color: #ffd054; }
+.event-page--wedding .event-page__title {
+  background: linear-gradient(180deg, #ffe8a8 0%, #ffd054 45%, #c9a04a 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 16px #ffd05460);
+}
+.event-page--wedding .event-page__details p { color: #ffe0b0; }
+.event-page--wedding .event-page__detail { color: #d4a868; }
+.event-page--wedding .event-page__scroll-hint { color: #ffd054; }
+
 .celebrations-section { background:#eae1d0; position:relative; overflow:hidden; }
 .celebrations-section::before,.celebrations-section::after { content:''; position:absolute; top:0; bottom:0; width:1px; background:linear-gradient(transparent,#c6ac7b 10%,#c6ac7b 90%,transparent); opacity:.5; }.celebrations-section::before { left:12px; }.celebrations-section::after { right:12px; }
 .celebrations-section .section-wrap { padding-top:105px; }

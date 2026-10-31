@@ -116,35 +116,44 @@ function EventIllustration({ style }) {
   </div>
 }
 
-function CeremonyCard({ ceremony, index }) {
-  const [expanded, setExpanded] = useState(false)
+function CeremonyPage({ ceremony, index, t }) {
   const [revealed, setRevealed] = useState(false)
-  const cardRef = useRef(null)
+  const pageRef = useRef(null)
 
   useEffect(() => {
-    const el = cardRef.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.3 })
+    const el = pageRef.current; if (!el) return
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRevealed(true); obs.disconnect() } }, { threshold: 0.35 })
     obs.observe(el); return () => obs.disconnect()
   }, [])
 
-  return <motion.article ref={cardRef} className={`ceremony-card ${index % 2 ? 'right' : 'left'} ${revealed ? 'revealed' : ''}`} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .2 }}>
+  return <section ref={pageRef} className={`event-page event-page--${ceremony.style}`}>
     <EventParticles style={ceremony.style} burst={revealed} />
-    <div className="timeline-dot"><span /></div>
-    <EventIllustration style={ceremony.style} />
-    <div className="ceremony-copy">
-      <motion.span className="ceremony-telugu" initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 0.3, duration: 0.6 }}>{ceremony.telugu}</motion.span>
-      <motion.h3 initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.5, duration: 0.6 }}>{ceremony.name}</motion.h3>
-      <motion.div className="event-facts" initial={{ opacity: 0, y: 12 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.9, duration: 0.6 }}>
-        <p><CalendarDays size={14}/>{ceremony.date}</p>
-        <p><Clock3 size={14}/>{ceremony.time}</p>
-        <p><MapPin size={14}/>{ceremony.venue}</p>
+    <div className="event-page__overlay" />
+    <div className="event-page__content">
+      <motion.span className="event-page__telugu"
+        initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2, duration: 0.7 }}>
+        {ceremony.telugu}
+      </motion.span>
+      <motion.h2 className="event-page__title"
+        initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.5, duration: 0.8, ease: 'easeOut' }}>
+        {ceremony.name}
+      </motion.h2>
+      <motion.div className="event-page__details"
+        initial={{ opacity: 0, y: 15 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1.1, duration: 0.7 }}>
+        <p className="event-page__date"><CalendarDays size={16}/>{ceremony.date}</p>
+        <p className="event-page__time"><Clock3 size={16}/>{ceremony.time}</p>
+        <p className="event-page__venue"><MapPin size={16}/>{ceremony.venue}</p>
       </motion.div>
-      <motion.button className="text-toggle" aria-expanded={expanded} onClick={() => setExpanded(v => !v)} initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 1.3, duration: 0.5 }}>
-        {expanded ? 'Close details' : 'A little more'}<ChevronDown size={15} className={expanded ? 'turned' : ''}/>
-      </motion.button>
-      <AnimatePresence initial={false}>{expanded && <motion.p className="ceremony-detail" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: .35 }}>{ceremony.detail}</motion.p>}</AnimatePresence>
+      <motion.p className="event-page__detail"
+        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 1.6, duration: 0.6 }}>
+        {ceremony.detail}
+      </motion.p>
+      <motion.div className="event-page__scroll-hint"
+        initial={{ opacity: 0 }} animate={revealed ? { opacity: 1 } : {}} transition={{ delay: 2, duration: 0.5 }}>
+        <ArrowDown size={16} />
+      </motion.div>
     </div>
-  </motion.article>
+  </section>
 }
 
 function VenueCard({ title, data, icon }) {
@@ -405,17 +414,12 @@ function App() {
       </div>
     </section>}
 
-    {/* ── CELEBRATIONS ── */}
-    <section className="celebrations-section" id="celebrations">
-      <div className="section-wrap">
-        <SectionHeading eyebrow={t('celebEyebrow')} title={t('celebTitle')} telugu={t('celebTelugu')} animateTelugu />
-        <p className="section-intro">{t('celebIntro')}</p>
-        <div className="timeline">
-          <div className="timeline-rail" />
-          {ceremonies.map((ceremony, index) => <CeremonyCard key={ceremony.id || ceremony.name} ceremony={ceremony} index={index}/>) }
-        </div>
-      </div>
-    </section>
+    {/* ── CELEBRATIONS — full-page scroll-snap ── */}
+    <div className="event-pages" id="celebrations">
+      {ceremonies.map((ceremony, index) => (
+        <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} />
+      ))}
+    </div>
 
     {/* ── MANDAP ── */}
     <section className="mandap-section">
