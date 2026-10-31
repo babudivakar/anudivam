@@ -258,6 +258,11 @@ a { color: inherit; }
 .hero-shade {
   background: radial-gradient(ellipse at 50% 45%, #1a0f0c10 0%, #1a0f0c40 100%),
               linear-gradient(180deg, #29170f30 0%, #33201818 35%, #26160f0a 55%, #1c100930 100%);
+  transition: background .8s ease;
+}
+.entrance-art.is-open ~ .hero-shade {
+  background: radial-gradient(ellipse at 50% 45%, #1a0f0c90 0%, #1a0f0ccc 100%),
+              linear-gradient(180deg, #29170fb0 0%, #33201880 35%, #26160f70 55%, #1c1009a0 100%);
 }
 .hero-topline {
   left: 5%; right: 5%; top: calc(22px + env(safe-area-inset-top));
