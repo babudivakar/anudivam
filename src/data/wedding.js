@@ -48,11 +48,11 @@ export const wedding = {
       venue: {
         name: 'Anusha’s family celebration venue',
         address: 'Tap below for the location of Haldi and Mehendi',
-        mapQuery: 'https://maps.app.goo.gl/hQ7qwg4BFNdvSJB77',
+        mapQuery: 'https://www.google.com/maps/place/13%C2%B051%2700.7%22N+77%C2%B031%2704.9%22E/@13.850201,77.5154461,17z',
       },
       ceremonies: [
-        { id: 'bride-haldi', name: 'Haldi', telugu: 'పసుపు వేడుక', date: 'Friday, 20 November 2026', time: '12:00 p.m. to 3:00 p.m.', venue: 'Anusha’s family venue', detail: 'Join Anusha’s family for the Haldi celebration.', style: 'haldi', mapQuery: 'https://maps.app.goo.gl/hQ7qwg4BFNdvSJB77' },
-        { id: 'bride-mehendi', name: 'Mehendi', telugu: 'మెహందీ', date: 'Friday, 20 November 2026', time: '4:00 p.m. to 9:00 p.m.', venue: 'Anusha’s family venue', detail: 'Celebrate Mehendi with Anusha’s family.', style: 'mehendi', mapQuery: 'https://maps.app.goo.gl/hQ7qwg4BFNdvSJB77' },
+        { id: 'bride-haldi', name: 'Haldi', telugu: 'పసుపు వేడుక', date: 'Friday, 20 November 2026', time: '12:00 p.m. to 3:00 p.m.', venue: 'Anusha’s family venue', detail: 'Join Anusha’s family for the Haldi celebration.', style: 'haldi', mapQuery: 'https://www.google.com/maps/place/13%C2%B051%2700.7%22N+77%C2%B031%2704.9%22E/@13.850201,77.5154461,17z' },
+        { id: 'bride-mehendi', name: 'Mehendi', telugu: 'మెహందీ', date: 'Friday, 20 November 2026', time: '4:00 p.m. to 9:00 p.m.', venue: 'Anusha’s family venue', detail: 'Celebrate Mehendi with Anusha’s family.', style: 'mehendi', mapQuery: 'https://www.google.com/maps/place/13%C2%B051%2700.7%22N+77%C2%B031%2704.9%22E/@13.850201,77.5154461,17z' },
       ],
     },
     divakar: {
