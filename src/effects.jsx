@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState, memo } from 'react'
 
-const PETAL_COLORS = ['#ff9a9e','#fecfef','#ffd1dc','#ffb347','#f7dc6f','#e8a87c','#ff6b6b','#fab1a0','#ffeaa7']
+const PETAL_COLORS = ['#ff9a9e','#fecfef','#ffd1dc','#e8a87c','#fab1a0','#f4a4a8','#f8c3cd','#fcc2c2','#eda6b0']
 const GOLD_COLORS = ['#ffd700','#ffed4a','#f6e58d','#f9ca24','#daa520','#e8b923','#fff4c8']
 const CONFETTI_COLORS = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff8e9e','#c084fc','#fb923c','#fbbf24','#e8a87c']
 
 function createPetal(w, h) {
+  const baseColor = PETAL_COLORS[~~(Math.random() * PETAL_COLORS.length)]
   return {
     type: 'petal', x: Math.random() * w, y: -20 - Math.random() * 80,
-    size: 5 + Math.random() * 10, speedY: 0.35 + Math.random() * 0.7,
-    speedX: (Math.random() - 0.5) * 0.3, rotation: Math.random() * Math.PI * 2,
-    rotSpeed: (Math.random() - 0.5) * 0.03, opacity: 0.35 + Math.random() * 0.4,
-    color: PETAL_COLORS[~~(Math.random() * PETAL_COLORS.length)],
-    wobble: Math.random() * Math.PI * 2, wobbleSpd: 0.012 + Math.random() * 0.015,
-    wobbleAmp: 0.4 + Math.random() * 0.6, life: Infinity, maxLife: 1,
-    gravity: 0, decay: 0,
+    size: 6 + Math.random() * 9, speedY: 0.25 + Math.random() * 0.5,
+    speedX: (Math.random() - 0.5) * 0.25, rotation: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.02, opacity: 0.45 + Math.random() * 0.35,
+    color: baseColor, color2: PETAL_COLORS[~~(Math.random() * PETAL_COLORS.length)],
+    wobble: Math.random() * Math.PI * 2, wobbleSpd: 0.008 + Math.random() * 0.012,
+    wobbleAmp: 0.6 + Math.random() * 1.0, life: Infinity, maxLife: 1,
+    gravity: 0, decay: 0, curl: (Math.random() - 0.5) * 0.4,
+    petalShape: Math.random(),
   }
 }
 function createGold(cx, cy) {
@@ -73,10 +75,22 @@ function tick(p) {
 function draw(ctx, p) {
   ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rotation); ctx.globalAlpha = p.opacity
   if (p.type === 'petal') {
-    ctx.fillStyle = p.color; ctx.beginPath()
-    ctx.ellipse(0, 0, p.size * 0.45, p.size, 0, 0, Math.PI * 2); ctx.fill()
-    ctx.globalAlpha = p.opacity * 0.4; ctx.beginPath()
-    ctx.ellipse(p.size * 0.08, -p.size * 0.12, p.size * 0.18, p.size * 0.45, 0.3, 0, Math.PI * 2); ctx.fill()
+    const s = p.size, c = p.curl || 0
+    const grad = ctx.createRadialGradient(0, -s * 0.2, 0, 0, 0, s)
+    grad.addColorStop(0, p.color2 || p.color)
+    grad.addColorStop(0.6, p.color)
+    grad.addColorStop(1, p.color + '44')
+    ctx.fillStyle = grad
+    ctx.beginPath()
+    ctx.moveTo(0, -s)
+    ctx.bezierCurveTo(s * 0.6 + c, -s * 0.7, s * 0.5, -s * 0.1, s * 0.15, s * 0.3)
+    ctx.quadraticCurveTo(0, s * 0.5, -s * 0.15, s * 0.3)
+    ctx.bezierCurveTo(-s * 0.5, -s * 0.1, -s * 0.6 - c, -s * 0.7, 0, -s)
+    ctx.fill()
+    ctx.globalAlpha = p.opacity * 0.15
+    ctx.strokeStyle = p.color
+    ctx.lineWidth = 0.5
+    ctx.beginPath(); ctx.moveTo(0, -s * 0.8); ctx.quadraticCurveTo(c * 0.5, 0, 0, s * 0.25); ctx.stroke()
   } else if (p.type === 'star') {
     ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = p.size * 2
     ctx.beginPath()
