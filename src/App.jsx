@@ -321,7 +321,7 @@ function App() {
   const ceremonies = [...(side?.ceremonies || []), ...wedding.ceremonies].filter(item => item && item.name)
 
   const openDoors = () => {
-    if (opened) return
+    if (opened || isAdmin) return
     setOpened(true)
     setBurstCount(c => c + 1)
     const revealDelay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1800
@@ -340,7 +340,7 @@ function App() {
 
   /* Scroll / wheel / touch-swipe also opens doors */
   useEffect(() => {
-    if (opened) return
+    if (opened || isAdmin) return
     const onWheel = (e) => { e.preventDefault(); openDoors() }
     const onTouch = () => openDoors()
     const onKey = (e) => { if (['ArrowDown','ArrowUp','Space','PageDown'].includes(e.code)) { e.preventDefault(); openDoors() } }
@@ -375,9 +375,10 @@ function App() {
 
   /* Lock scroll until invitation opens */
   useEffect(() => {
+    if (isAdmin) return
     document.body.style.overflow = active ? '' : 'hidden'
     return () => { document.body.style.overflow = '' }
-  }, [active])
+  }, [active, isAdmin])
 
   /* Scroll progress bar */
   const [scrollPct, setScrollPct] = useState(0)
