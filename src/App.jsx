@@ -185,12 +185,27 @@ function CeremonyPage({ ceremony, index, t, isLast }) {
         </motion.div>}
       </div>
     </section>
-    {!isLast && <div className={`curtain-transition ct--${ceremony.style}`}>
-      <div className="curtain curtain--left" />
-      <div className="curtain curtain--right" />
-      <div className="ct-zoom" />
-    </div>}
+    {!isLast && <CurtainTransition style={ceremony.style} />}
   </>
+}
+
+function CurtainTransition({ style }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setOpen(true); obs.disconnect() }
+    }, { threshold: 0.3 })
+    obs.observe(el); return () => obs.disconnect()
+  }, [])
+
+  return <div ref={ref} className={`curtain-transition ct--${style} ${open ? 'ct-open' : ''}`}>
+    <div className="curtain curtain--left" />
+    <div className="curtain curtain--right" />
+    <div className="ct-zoom" />
+  </div>
 }
 
 function VenueCard({ title, data, icon }) {
