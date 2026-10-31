@@ -299,15 +299,19 @@ function App() {
             {from === 'divakar' ? <>
               <span className="reveal-role">The groom</span>
               <h1>{wedding.groom}</h1>
+              <p className="reveal-parents">Son of {wedding.family.groom}</p>
               <span className="reveal-and">✦ &amp; ✦</span>
               <span className="reveal-role">The bride</span>
               <h1>{wedding.bride}</h1>
+              <p className="reveal-parents">Daughter of {wedding.family.bride}</p>
             </> : <>
               <span className="reveal-role">The bride</span>
               <h1>{wedding.bride}</h1>
+              <p className="reveal-parents">Daughter of {wedding.family.bride}</p>
               <span className="reveal-and">✦ &amp; ✦</span>
               <span className="reveal-role">The groom</span>
               <h1>{wedding.groom}</h1>
+              <p className="reveal-parents">Son of {wedding.family.groom}</p>
             </>}
           </motion.div>
 
