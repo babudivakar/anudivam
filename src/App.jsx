@@ -120,13 +120,15 @@ function EventIllustration({ style }) {
 function useAutoScroll() {
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [held, setHeld] = useState(false)
   const rafRef = useRef(0)
   const lastRef = useRef(0)
-  const guardRef = useRef(0)
   const SPEED = 300
 
+  const active = playing && !held
+
   useEffect(() => {
-    if (!playing) { cancelAnimationFrame(rafRef.current); return }
+    if (!active) { cancelAnimationFrame(rafRef.current); return }
     lastRef.current = 0
 
     const tick = (now) => {
@@ -145,29 +147,33 @@ function useAutoScroll() {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [playing])
+  }, [active])
 
   useEffect(() => {
     if (!playing) return
-    const stop = () => {
-      if (Date.now() - guardRef.current < 400) return
-      setPlaying(false)
+    const hold = () => setHeld(true)
+    const release = () => setHeld(false)
+    window.addEventListener('touchstart', hold, { passive: true })
+    window.addEventListener('touchend', release, { passive: true })
+    window.addEventListener('touchcancel', release, { passive: true })
+    return () => {
+      window.removeEventListener('touchstart', hold)
+      window.removeEventListener('touchend', release)
+      window.removeEventListener('touchcancel', release)
     }
-    window.addEventListener('wheel', stop, { passive: true })
-    window.addEventListener('touchmove', stop, { passive: true })
-    return () => { window.removeEventListener('wheel', stop); window.removeEventListener('touchmove', stop) }
   }, [playing])
 
-  const play = () => { guardRef.current = Date.now(); setPlaying(true) }
-  const toggle = () => { guardRef.current = Date.now(); setPlaying(p => !p) }
-  return { playing, progress, play, toggle }
+  const play = () => setPlaying(true)
+  const toggle = () => setPlaying(p => !p)
+  return { playing, progress, play, toggle, held }
 }
 
-function AutoScrollButton({ playing, progress, toggle }) {
-  return <div className={`autoscroll-control is-visible ${playing ? 'is-playing' : ''}`}>
+function AutoScrollButton({ playing, progress, toggle, held }) {
+  const label = !playing ? 'Play' : held ? 'Hold' : 'Pause'
+  return <div className={`autoscroll-control is-visible ${playing ? 'is-playing' : ''} ${held ? 'is-held' : ''}`}>
     <button className="autoscroll-btn" onClick={toggle} aria-label={playing ? 'Pause' : 'Play'}>
       {playing ? <span className="autoscroll-icon pause"><i /><i /></span> : <span className="autoscroll-icon play" />}
-      <span className="autoscroll-label">{playing ? 'Pause' : 'Play'}</span>
+      <span className="autoscroll-label">{label}</span>
     </button>
     {playing && <div className="autoscroll-progress"><div className="autoscroll-bar" style={{ transform: `scaleX(${progress})` }} /></div>}
   </div>
@@ -518,7 +524,7 @@ function App() {
       <div className="closing-footer"><span>{t('madeWithLove')}</span><span>{t('shubhamasthu')}</span></div>
     </footer>
     {/* ── AUTO-SCROLL CONTROL ── */}
-    {active && <AutoScrollButton playing={autoScroll.playing} progress={autoScroll.progress} toggle={autoScroll.toggle} />}
+    {active && <AutoScrollButton playing={autoScroll.playing} progress={autoScroll.progress} toggle={autoScroll.toggle} held={autoScroll.held} />}
     </>}
     {musicNotice && <div className="music-note" role="status"><Music2 size={15}/> Add a licensed instrumental file as <code>musicTrack</code> in the wedding data.</div>}
   </main></MotionConfig>
