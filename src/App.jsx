@@ -283,26 +283,52 @@ function App() {
 
         {/* COUPLE REVEAL — visible after doors open */}
         {revealed && <motion.div key="couple-reveal" className="hero-title hero-revealed"
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8 }}>
-          {side ? <div className="hero-blessings">
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: .5 }}>
+
+          {side ? <motion.div className="hero-blessings"
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: .7 }}>
             <span className="hero-blessings-label">With the blessings of</span>
             <p className="hero-blessings-elders">{side.blessingsOf}</p>
             <p className="hero-blessings-parents">{side.invitedBy}</p>
-          </div> : <span className="hero-overline">Together with our families</span>}
-          <h1>{from === 'divakar' ? <>{wedding.groom} &amp; {wedding.bride}</> : <>{wedding.bride} &amp; {wedding.groom}</>}</h1>
-          <div className="hero-couple-grid">
+          </motion.div> : <motion.span className="hero-overline"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: .7 }}>
+            Together with our families</motion.span>}
+
+          <motion.div className="reveal-names"
+            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6, duration: .8, ease: 'easeOut' }}>
             {from === 'divakar' ? <>
-              <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
-              <i aria-hidden="true">✦</i>
-              <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
+              <span className="reveal-role">The groom</span>
+              <h1>{wedding.groom}</h1>
+              <span className="reveal-and">✦ &amp; ✦</span>
+              <span className="reveal-role">The bride</span>
+              <h1>{wedding.bride}</h1>
             </> : <>
-              <div><span>The bride</span><h2>{wedding.bride}</h2><p>Daughter of {wedding.family.bride}</p></div>
-              <i aria-hidden="true">✦</i>
-              <div><span>The groom</span><h2>{wedding.groom}</h2><p>Son of {wedding.family.groom}</p></div>
+              <span className="reveal-role">The bride</span>
+              <h1>{wedding.bride}</h1>
+              <span className="reveal-and">✦ &amp; ✦</span>
+              <span className="reveal-role">The groom</span>
+              <h1>{wedding.groom}</h1>
             </>}
-          </div>
-          <span className="hero-date">{wedding.weddingDate} · Hindupura</span>
-          <a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"><ArrowDown size={18}/></a>
+          </motion.div>
+
+          <motion.div className="reveal-married"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.4, duration: .7 }}>
+            <span className="reveal-telugu">శుభ వివాహం</span>
+            <span className="reveal-line" />
+            <span className="reveal-text">are getting married</span>
+            <span className="reveal-line" />
+          </motion.div>
+
+          <motion.div className="reveal-details"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2, duration: .7 }}>
+            <span className="reveal-date">{wedding.weddingDate}</span>
+            <span className="reveal-venue">{wedding.venue.name}, Hindupura</span>
+          </motion.div>
+
+          <motion.a className="scroll-down-cue" href="#story" aria-label="Scroll to explore"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.6, duration: .5 }}>
+            <ArrowDown size={18}/>
+          </motion.a>
         </motion.div>}
       </AnimatePresence>
 

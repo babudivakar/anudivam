@@ -344,31 +344,54 @@ a { color: inherit; }
   font-size: 11px; letter-spacing: .14em;
 }
 .hero-welcome .open-invitation { margin-top: 25px; }
-.hero-revealed h1 {
-  font-size: clamp(49px, 8vw, 83px); margin-top: 10px;
+.reveal-names {
+  text-align: center; margin: 10px 0;
+}
+.reveal-role {
+  display: block; color: #c9a04a; font-size: clamp(10px, 1.8vw, 13px);
+  letter-spacing: .22em; text-transform: uppercase;
+  text-shadow: 0 1px 8px #000a; margin-top: 6px;
+}
+.reveal-names h1 {
+  font-size: clamp(46px, 10vw, 80px); margin: 2px 0 0; line-height: .95;
   background: linear-gradient(180deg, #ffe8a8 0%, #ffd054 45%, #c9a04a 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 3px 16px #000a);
 }
-.hero-couple-grid {
-  display: grid; grid-template-columns: 1fr 18px 1fr;
-  align-items: start; gap: 11px; width: min(100%, 620px);
-  margin: 22px auto 0; color: #fff0d1;
+.reveal-and {
+  display: block; color: #dbb868; font-size: clamp(14px, 2.5vw, 20px);
+  margin: 8px 0; letter-spacing: .3em;
+  text-shadow: 0 1px 10px #000a;
 }
-.hero-couple-grid > i { align-self: center; color: #eec990; font-size: 13px; }
-.hero-couple-grid div > span {
-  display: block; font-size: clamp(10px, 1.8vw, 12px); letter-spacing: .18em; text-transform: uppercase;
-  color: #c9a04a; text-shadow: 0 1px 8px #000a;
+.reveal-married {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin: 18px 0 0;
 }
-.hero-couple-grid h2 {
-  margin: 5px 0 4px; font: 600 clamp(26px, 4.5vw, 40px)/1 'Cormorant Garamond', serif;
-  color: #ffd054; text-shadow: 0 2px 12px #000a;
+.reveal-telugu {
+  color: #f0c96a; font: 600 clamp(16px, 2.8vw, 22px)/1 'Noto Serif Telugu', serif;
+  text-shadow: 0 1px 10px #000a;
 }
-.hero-couple-grid p {
-  display: block; margin: 0; color: #e8c46a; font: 400 clamp(12px, 1.8vw, 14px)/1.35 'Cormorant Garamond', serif;
+.reveal-line {
+  display: inline-block; width: clamp(20px, 5vw, 50px); height: 1px;
+  background: linear-gradient(90deg, transparent, #dbb868, transparent);
+}
+.reveal-text {
+  color: #dbb868; font: italic 500 clamp(14px, 2.5vw, 20px)/1 'Cormorant Garamond', serif;
+  letter-spacing: .08em; text-shadow: 0 1px 10px #000a;
+}
+.reveal-details {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  margin: 22px 0 0;
+}
+.reveal-date {
+  color: #ffd054; font: 700 clamp(14px, 2.5vw, 19px)/1 'Cormorant Garamond', serif;
+  letter-spacing: .14em; text-transform: uppercase;
+  text-shadow: 0 1px 10px #000a;
+}
+.reveal-venue {
+  color: #c9a04a; font: 400 clamp(12px, 2vw, 16px)/1.2 'Cormorant Garamond', serif;
   text-shadow: 0 1px 8px #000a;
 }
-.hero-revealed .hero-date { margin-top: 18px; }
 .hero-next { width: fit-content; }
 @media (max-width: 600px) {
   .hero-title { top: max(74px, 10svh); padding: 0 13px; }
@@ -385,10 +408,10 @@ a { color: inherit; }
   .hero-welcome-theme { margin-top: 16px; font-size: 20px; }
   .hero-welcome-date { margin-top: 8px; font-size: 10px; }
   .hero-welcome .open-invitation { margin-top: 21px; }
-  .hero-revealed h1 { font-size: clamp(44px, 11vw, 59px); }
-  .hero-couple-grid { margin-top: 19px; gap: 5px; grid-template-columns: 1fr 12px 1fr; }
-  .hero-couple-grid h2 { font-size: clamp(22px, 6vw, 27px); }
-  .hero-couple-grid p { font-size: 9px; }
+  .reveal-names h1 { font-size: clamp(40px, 12vw, 60px); }
+  .reveal-and { margin: 5px 0; font-size: 14px; }
+  .reveal-married { gap: 8px; margin-top: 14px; }
+  .reveal-details { margin-top: 16px; }
   .hero-topline { font-size: 10px; }
   .hero-sanskrit { font-size: 12px; }
   .door-leaf::after { width: 5px; height: 22px; }
