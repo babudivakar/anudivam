@@ -324,9 +324,14 @@ function App() {
     if (opened) return
     setOpened(true)
     setBurstCount(c => c + 1)
+    const revealDelay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1800
     const timer = window.setTimeout(() => {
       setRevealed(true); setActive(true)
-    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1800)
+      const audio = document.getElementById('wedding-audio')
+      if (audio && wedding.musicTrack) {
+        audio.play().then(() => setMusic(true)).catch(() => {})
+      }
+    }, revealDelay)
     return () => window.clearTimeout(timer)
   }
 
@@ -386,7 +391,7 @@ function App() {
   if (isAdmin) return <AdminLinks />
 
   return <MotionConfig reducedMotion="user"><main className={isNight ? 'night-mode' : 'day-mode'}>
-    {wedding.musicTrack && <audio id="wedding-audio" src={`${import.meta.env.BASE_URL}${wedding.musicTrack.replace(/^\//, '')}`} loop preload="none" />}
+    {wedding.musicTrack && <audio id="wedding-audio" src={`${import.meta.env.BASE_URL}${wedding.musicTrack.replace(/^\//, '')}`} loop preload="auto" />}
 
     {/* ── SCROLL PROGRESS ── */}
     {active && <div className="scroll-progress" style={{ transform: `scaleX(${scrollPct / 100})` }} />}
