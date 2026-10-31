@@ -169,20 +169,26 @@ function useAutoScroll() {
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const rafRef = useRef(0)
-  const speedRef = useRef(2)
+  const lastRef = useRef(0)
+  const guardRef = useRef(0)
+  const SPEED = 90
 
   useEffect(() => {
     if (!playing) { cancelAnimationFrame(rafRef.current); return }
+    lastRef.current = 0
 
-    const tick = () => {
+    const tick = (now) => {
+      if (!lastRef.current) { lastRef.current = now }
+      const dt = Math.min(now - lastRef.current, 50) / 1000
+      lastRef.current = now
+
       const h = document.documentElement.scrollHeight - window.innerHeight
       if (h <= 0) return
       const pct = window.scrollY / h
       setProgress(pct)
-
       if (pct >= 0.995) { setPlaying(false); return }
 
-      window.scrollBy(0, speedRef.current)
+      window.scrollBy(0, SPEED * dt)
       rafRef.current = requestAnimationFrame(tick)
     }
     rafRef.current = requestAnimationFrame(tick)
@@ -191,14 +197,17 @@ function useAutoScroll() {
 
   useEffect(() => {
     if (!playing) return
-    const stop = () => setPlaying(false)
+    const stop = () => {
+      if (Date.now() - guardRef.current < 400) return
+      setPlaying(false)
+    }
     window.addEventListener('wheel', stop, { passive: true })
-    window.addEventListener('touchstart', stop, { passive: true })
-    return () => { window.removeEventListener('wheel', stop); window.removeEventListener('touchstart', stop) }
+    window.addEventListener('touchmove', stop, { passive: true })
+    return () => { window.removeEventListener('wheel', stop); window.removeEventListener('touchmove', stop) }
   }, [playing])
 
-  const play = () => setPlaying(true)
-  const toggle = () => setPlaying(p => !p)
+  const play = () => { guardRef.current = Date.now(); setPlaying(true) }
+  const toggle = () => { guardRef.current = Date.now(); setPlaying(p => !p) }
   return { playing, progress, play, toggle }
 }
 
