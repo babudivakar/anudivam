@@ -319,8 +319,15 @@ function App() {
             </>}
           </motion.div>
 
-          <motion.div className="reveal-details"
+          <motion.div className="reveal-married"
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.4, duration: .8 }}>
+            <span className="reveal-line" />
+            <span className="reveal-telugu"><T k="shubhaVivaham" t={t} /></span>
+            <span className="reveal-line" />
+          </motion.div>
+
+          <motion.div className="reveal-details"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3, duration: .8 }}>
             <span className="reveal-date"><T k="weddingDate" t={t} /></span>
             <span className="reveal-venue">{n.venue}</span>
           </motion.div>
