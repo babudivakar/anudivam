@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles } from 'lucide-react'
 import { wedding } from './data/wedding.js'
@@ -113,6 +113,44 @@ function EventIllustration({ style }) {
   return <div className={`event-art ${style}`} aria-hidden="true">
     <div className="event-art-halo" />
     {style === 'wedding' ? <><span className="event-canopy"/><span className="event-arch"/><span className="event-column one"/><span className="event-column two"/><span className="event-flame"/><LotusMark className="event-lotus"/></> : style === 'reception' ? <><span className="event-moon">✦</span><span className="event-leaf l1"/><span className="event-leaf l2"/><span className="event-leaf l3"/><span className="event-diya"/><LotusMark className="event-lotus"/></> : <>{ritualMark}<LotusMark className="event-lotus"/></>}
+  </div>
+}
+
+function JourneyTraveler({ count }) {
+  const ref = useRef(null)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const traveler = ref.current
+    if (!traveler) return
+    const container = traveler.closest('.event-journey')
+    if (!container) return
+    containerRef.current = container
+
+    const onScroll = () => {
+      const rect = container.getBoundingClientRect()
+      const containerTop = -rect.top
+      const containerHeight = container.scrollHeight - window.innerHeight
+      const progress = Math.max(0, Math.min(1, containerTop / containerHeight))
+
+      const bounce = Math.sin(progress * count * Math.PI * 2) * 8
+      const sway = Math.sin(progress * 20) * 3
+      traveler.style.top = `${progress * 100}%`
+      traveler.style.transform = `translateY(-50%) translateX(${sway}px) rotate(${bounce}deg)`
+      traveler.style.opacity = (containerTop > -100 && containerTop < containerHeight + 100) ? '1' : '0'
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [count])
+
+  return <div className="journey-traveler" ref={ref}>
+    <div className="traveler-doli">
+      <span className="traveler-top">✦</span>
+      <span className="traveler-body">🪷</span>
+      <span className="traveler-trail">✧</span>
+    </div>
   </div>
 }
 
@@ -432,10 +470,17 @@ function App() {
       </div>
     </section>}
 
-    {/* ── CELEBRATIONS — full-page scroll-snap ── */}
-    <div className="event-pages" id="celebrations">
+    {/* ── CELEBRATIONS — journey scroll ── */}
+    <div className="event-journey" id="celebrations">
+      <JourneyTraveler count={ceremonies.length} />
       {ceremonies.map((ceremony, index) => (
-        <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} />
+        <React.Fragment key={ceremony.id || ceremony.name}>
+          {index > 0 && <div className={`journey-transition jt-${ceremonies[index - 1].style}-to-${ceremony.style}`}>
+            <div className="jt-wave jt-wave--1" /><div className="jt-wave jt-wave--2" /><div className="jt-wave jt-wave--3" />
+            <span className="jt-icon">{ceremony.style === 'mehendi' ? '🌿' : ceremony.style === 'reception' ? '✨' : ceremony.style === 'wedding' ? '🪔' : '🌸'}</span>
+          </div>}
+          <CeremonyPage ceremony={ceremony} index={index} t={t} />
+        </React.Fragment>
       ))}
     </div>
 
