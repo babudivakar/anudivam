@@ -24,11 +24,11 @@ const inviterOptions = (side) => {
 
 function makeUrl(name, side, by, showFam, lang) {
   const p = new URLSearchParams()
-  if (name) p.set('guest', name)
-  if (side) p.set('from', side)
-  if (by && by !== 'family') p.set('by', by)
-  if (by && by !== 'family' && showFam === false) p.set('fam', '0')
-  if (lang && lang !== 'en') p.set('lang', lang)
+  if (name) p.set('g', name)
+  if (side) p.set('f', side)
+  if (by && by !== 'family') p.set('b', by)
+  if (by && by !== 'family' && showFam === false) p.set('fm', '0')
+  if (lang && lang !== 'en') p.set('l', lang)
   p.set('v', '2')
   const qs = p.toString()
   return qs ? BASE + '?' + qs : BASE

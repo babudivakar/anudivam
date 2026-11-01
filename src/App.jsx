@@ -301,11 +301,11 @@ function App() {
 
   const params = new URLSearchParams(window.location.search)
   const isAdmin = params.get('mode') === 'admin'
-  const from = params.get('from')
-  const guestName = params.get('guest')?.replace(/\+/g, ' ') || ''
-  const by = params.get('by') || ''
-  const showFam = params.get('fam') !== '0'
-  const lang = params.get('lang') || 'en'
+  const from = params.get('from') || params.get('f')
+  const guestName = (params.get('guest') || params.get('g') || '').replace(/\+/g, ' ')
+  const by = params.get('by') || params.get('b') || ''
+  const showFam = (params.get('fam') ?? params.get('fm')) !== '0'
+  const lang = params.get('lang') || params.get('l') || 'en'
   const t = getT(lang)
   const n = getNames(lang)
   const side = from === 'anusha' || from === 'divakar' ? wedding.sides[from] : null
