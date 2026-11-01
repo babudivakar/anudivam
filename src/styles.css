@@ -969,8 +969,10 @@ a { color: inherit; }
   text-shadow: 0 1px 10px #000a;
 }
 .ganesh-tap {
-  margin: 30px 0 0; color: #ffe8a8;
-  font-size: clamp(13px, 2.2vw, 16px); letter-spacing: .12em; text-transform: uppercase;
+  margin: 30px 0 0; color: #fff;
+  font-size: clamp(15px, 2.8vw, 19px); letter-spacing: .15em; text-transform: uppercase;
+  text-shadow: 0 2px 12px #000c, 0 0 20px #d4a84480;
+  background: #ffffff18; padding: 10px 24px; border: 1px solid #ffe8a860; border-radius: 30px;
   text-shadow: 0 1px 10px #000a;
 }
 
