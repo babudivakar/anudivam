@@ -189,7 +189,7 @@ function AutoScrollButton({ playing, progress, toggle, held }) {
   </div>
 }
 
-function CeremonyPage({ ceremony, index, t, isLast }) {
+function CeremonyPage({ ceremony, index, t, isLast, lang }) {
   const [revealed, setRevealed] = useState(false)
   const pageRef = useRef(null)
   const bgRef = useRef(null)
@@ -239,10 +239,10 @@ function CeremonyPage({ ceremony, index, t, isLast }) {
       </div>
 
       <div className="event-page__content">
-        <motion.span className="event-page__telugu"
+        {lang !== 'en' && ceremony.telugu && <motion.span className="event-page__telugu"
           initial={{ opacity: 0, y: 20 }} animate={revealed ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.6, duration: 0.6 }}>
           {ceremony.telugu}
-        </motion.span>
+        </motion.span>}
         <motion.h2 className="event-page__title"
           initial={{ opacity: 0, scale: 0.85 }} animate={revealed ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.9, duration: 0.7, ease: 'easeOut' }}>
           {ceremony.name}
@@ -506,7 +506,7 @@ function App() {
     <div className="event-journey" id="celebrations">
       <div className="ceremony-reel">
         {ceremonies.map((ceremony, index) => (
-          <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} isLast={index === ceremonies.length - 1} />
+          <CeremonyPage key={ceremony.id || ceremony.name} ceremony={ceremony} index={index} t={t} lang={lang} isLast={index === ceremonies.length - 1} />
         ))}
       </div>
     </div>
@@ -515,7 +515,7 @@ function App() {
     {/* ── TRIVIA ── */}
     <section className="trivia-section">
       <div className="section-wrap">
-        <SectionHeading eyebrow={t('triviaEyebrow')} title={t('triviaTitle')} telugu={t('triviaTelugu')} light animateTelugu />
+        <SectionHeading eyebrow={t('triviaEyebrow')} title={t('triviaTitle')} telugu={lang !== 'en' ? t('triviaTelugu') : null} light animateTelugu />
         <p className="section-intro trivia-intro">{t('triviaIntro')}</p>
         <TriviaQuiz />
       </div>
