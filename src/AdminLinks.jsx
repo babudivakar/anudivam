@@ -91,12 +91,11 @@ export default function AdminLinks() {
     const dNames = parse(dText || divakarText)
     const aFam = anushaBy === 'family' ? true : anushaFam
     const dFam = divakarBy === 'family' ? true : divakarFam
-    const aLang = lang
-    const dLang = lang === 'en' ? 'kn' : lang
-    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend, aFam, aLang) }))
-    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend, aFam, aLang) })
-    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend, dFam, dLang) }))
-    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend, dFam, dLang) })
+    const l = lang
+    if (aNames.length) aNames.forEach(name => result.push({ name, side: 'anusha', by: aBySend, url: makeUrl(name, 'anusha', aBySend, aFam, l) }))
+    else result.push({ name: '', side: 'anusha', by: aBySend, url: makeUrl('', 'anusha', aBySend, aFam, l) })
+    if (dNames.length) dNames.forEach(name => result.push({ name, side: 'divakar', by: dBySend, url: makeUrl(name, 'divakar', dBySend, dFam, l) }))
+    else result.push({ name: '', side: 'divakar', by: dBySend, url: makeUrl('', 'divakar', dBySend, dFam, l) })
     setLinks(result)
   }
 
