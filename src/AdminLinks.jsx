@@ -29,6 +29,7 @@ function makeUrl(name, side, by, showFam, lang) {
   if (by && by !== 'family') p.set('by', by)
   if (by && by !== 'family' && showFam === false) p.set('fam', '0')
   if (lang && lang !== 'en') p.set('lang', lang)
+  p.set('v', '2')
   const qs = p.toString()
   return qs ? BASE + '?' + qs : BASE
 }
