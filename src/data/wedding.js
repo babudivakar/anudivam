@@ -85,4 +85,8 @@ export const wedding = {
     { id: 'reception', name: 'The Reception', telugu: 'ఆత్మీయ విందు', date: 'Saturday, 21 November 2026', time: '7:00 p.m. onwards', venue: 'D.C. Anjaneyulu Convention Center', detail: 'An evening of celebration and dinner in Hindupura.', style: 'reception', mapQuery: 'D.C. Anjaneyulu Convention Center, Appala Kunta Main Road, Kirikera, Hindupura, Andhra Pradesh' },
     { id: 'wedding', name: 'The Wedding', telugu: 'శుభ వివాహం', date: 'Sunday, 22 November 2026', time: 'Muhurtham: 9:00 a.m. to 10:00 a.m.', venue: 'D.C. Anjaneyulu Convention Center', detail: 'Celebrate the auspicious Muhurtham with us.', style: 'wedding', mapQuery: 'D.C. Anjaneyulu Convention Center, Appala Kunta Main Road, Kirikera, Hindupura, Andhra Pradesh' },
   ],
+  liveStream: {
+    reception: { label: 'The Reception', date: 'Saturday, 21 November 2026', url: '' },
+    wedding: { label: 'The Wedding', date: 'Sunday, 22 November 2026', url: '' },
+  },
 }

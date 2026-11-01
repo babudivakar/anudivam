@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
-import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, CalendarDays, ChevronDown, Clock3, MapPin, MessageCircle, Music2, Volume2, VolumeX, Sparkles, Video } from 'lucide-react'
 import { wedding } from './data/wedding.js'
 import { getT, getNames } from './data/i18n.js'
 import { ParticleCanvas, SparkleTrail, SelfDrawingRangoli, FloatingDiyas, AnimatedTelugu, EventParticles, useDayNight } from './effects.jsx'
@@ -511,6 +511,26 @@ function App() {
       </div>
     </div>
 
+
+    {/* ── LIVE STREAM ── */}
+    {wedding.liveStream && <section className="livestream-section">
+      <div className="section-wrap">
+        <SectionHeading eyebrow={t('liveEyebrow')} title={t('liveTitle')} telugu={lang !== 'en' ? t('liveTelugu') : null} light animateTelugu />
+        <p className="section-intro">{t('liveIntro')}</p>
+        <div className="livestream-cards">
+          {Object.entries(wedding.liveStream).map(([key, stream]) => (
+            <motion.div key={key} className="livestream-card" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: .3 }}>
+              <Video size={28} className="livestream-icon" />
+              <h3>{stream.label}</h3>
+              <p className="livestream-date">{stream.date}</p>
+              {stream.url
+                ? <a className="livestream-btn" href={stream.url} target="_blank" rel="noreferrer"><Video size={16} /> {t('liveWatch')}</a>
+                : <span className="livestream-coming-soon">{t('liveComingSoon')}</span>}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>}
 
     {/* ── TRIVIA ── */}
     <section className="trivia-section">

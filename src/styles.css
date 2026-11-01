@@ -1134,6 +1134,42 @@ a { color: inherit; }
 .night-mode .bless-form { background: linear-gradient(135deg, #2a1e18, #201812); border-color: #7a5a30; }
 .night-mode .bless-form input, .night-mode .bless-form textarea { background: #1e1612; border-color: #6b4a28; color: #e8dcc8; }
 
+/* ── Live Stream ── */
+.livestream-section {
+  position: relative; overflow: hidden; color: #f0dfb4;
+  background: radial-gradient(ellipse at 50% 40%, #2a1a3d, #1a1028 50%, #0e0a14);
+  border-top: 1px solid #a58046;
+}
+.livestream-section .section-wrap { padding-top: 90px; padding-bottom: 80px; }
+.livestream-cards {
+  display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  margin-top: 36px; max-width: 640px; margin-inline: auto;
+}
+.livestream-card {
+  flex: 1 1 240px; max-width: 280px;
+  background: linear-gradient(135deg, rgba(165, 128, 70, .12), rgba(165, 128, 70, .04));
+  border: 1px solid rgba(165, 128, 70, .25); border-radius: 16px;
+  padding: 32px 24px; text-align: center;
+  transition: transform .3s, box-shadow .3s;
+}
+.livestream-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(165, 128, 70, .15); }
+.livestream-icon { color: #e8c36e; margin-bottom: 12px; }
+.livestream-card h3 { font-family: var(--font-display); font-size: 1.25rem; color: #f0dfb4; margin-bottom: 6px; }
+.livestream-date { font-size: .85rem; color: #d6c29b; margin-bottom: 18px; }
+.livestream-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 24px; border-radius: 999px;
+  background: linear-gradient(135deg, #c9a84c, #a58046);
+  color: #1a0f08; font-weight: 600; font-size: .9rem;
+  text-decoration: none; transition: opacity .2s;
+}
+.livestream-btn:hover { opacity: .85; }
+.livestream-coming-soon {
+  display: inline-block; padding: 10px 24px; border-radius: 999px;
+  border: 1px dashed rgba(165, 128, 70, .4); color: #d6c29b;
+  font-size: .85rem; font-style: italic;
+}
+
 /* ── Trivia Quiz ── */
 .trivia-section {
   position: relative; overflow: hidden; color: #f0dfb4;
@@ -1649,6 +1685,7 @@ a { color: inherit; }
 /* Push the rest of the content down and above the hero */
 .hero + .floating-nav ~ .event-journey,
 .hero + .floating-nav ~ .blessings-section,
+.hero + .floating-nav ~ .livestream-section,
 .hero + .floating-nav ~ .trivia-section,
 .hero + .floating-nav ~ .closing-section {
   position: relative; z-index: 2;
@@ -1677,7 +1714,7 @@ a { color: inherit; }
 .venue-section, .blessings-section {
   box-shadow: 0 -12px 40px #1a0f0c18;
 }
-.mandap-section, .trivia-section, .closing-section {
+.mandap-section, .livestream-section, .trivia-section, .closing-section {
   box-shadow: 0 -12px 40px #0a060830;
 }
 
